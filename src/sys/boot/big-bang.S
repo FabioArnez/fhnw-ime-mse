@@ -8,64 +8,74 @@
      Volume 3A:
  [2] http://www.ctyme.com/ 
  ----------------*/
-#define SCREEN 0xb8000 
-#define SCREEN_DIM (25*80)
 
+#define SCREEN         0xb8000 
 #define ERR_CDROM_SPEC 0x1111
 #define ERR_SECTOR     0x2222
-
 #define ADR(val) (val-(1<<20)+0x7c00)
 
-//#define DEBUG_16
-#define DEBUG_32 
+/*----------------------------- macro for hexadecimal output */
+#define HEX \
+	mov $SCREEN+2,%edi;                /* upper left +1 */\
+	mov %eax,%edx;	                     /* save in edx */\
+	mov $32,%ecx;	                /* count: 4 nibbles */\
+0:	sub $4,%ecx;	                     /* next nibble */\
+1:	jc 1b;		          /*  all done loop forever */\
+	mov %edx,%eax;	                        /*  restore */\
+	shr %cl,%eax;\
+	and $0xf,%eax;  /*  bits 0..3 digit value 0..9 a..f */\
+	cmp $10,%eax;	                     /*  %ax-10 < 0 */\
+	jc 2f;\
+	add $('a'-10),%eax;              /*  digit 'a'..'f' */\
+	jmp 3f; \
+2:	add $'0',%eax;\
+3:	mov $0x07,%ah;                    /*  char out attr */\
+	mov %ax,(%edi);\
+	add $2,%edi;\
+	jmp 0b		                    /*  next nibble */
 
-.section .big_bang
+
+.section .big_bang                 /* see ios.ld linker script */
 .code16
-/*--------------------------------------------------- entry */
-                                           /* 0x0000:0x7c00 */
-big_bang:	
-	cli                    /* clear interrupts for sure */
-	jmp .start	                    /* relative jmp */ 
+/*---------------------------------------- entry 0x0000:0x7c00 */
+/* real mode */
+big_bang:	                             /* called by bios */
+	cli                       /* clear interrupts for sure */
+	jmp 0f		                       /* relative jmp */ 
+/*------------------------------------- filled by for mkisofs  */
 	. = big_bang+0x08
-.bi_pvd:	.long 0
+.bi_pvd:	.long 0	
 .bi_file:	.long 0
 .bi_length:	.long 0
 .bi_csum:	.long 0
-	
-	. = big_bang+0x40            /* space for mkisofs  */
-.start:	xor %ax,%ax
-	mov %ax,%ds                    /* zero data segment */
-/*-------------------------------------------------- screen 
-    es:di current pos
-*/
-	mov $(SCREEN>>4),%ax
-	mov %ax,%es
-	xor %di,%di
 
-/*---------------------------------- write 'R' to the screen */
-	mov $0x07,%ah	
+	. = big_bang+0x40            
+/*------------------------------------------------------ start */	
+0:	xor %ax,%ax
+	mov %ax,%ds                       /* data segment zero */
+
+/*------------------------------------ write 'R' to the screen */
+	mov $0x07,%ah
 	mov $'R',%al
-	mov %ax,%es:(%di)
-	add $2,%di
 
-/*----------------------------------------- read .CDROM_SPEC */
+/*------------------------------------------- read .CDROM_SPEC */
 	mov $0x4b01,%ax
 	mov $0x80,  %dl
 	mov $ADR(.CDROM_SPEC),%esi
 	int $0x13
 	jnc .copy
 	mov $ERR_CDROM_SPEC,%ax   /* error */
-	jmp hex
+	jmp hex16
 
 .copy:
-/*------------------------------------ copy .bi_file to .DAP */
+/*------------------------------------- copy .bi_file to .DAP */
 	mov $ADR(.bi_file),%esi
 	mov (%esi),%eax
 	mov $ADR(.DAP),%esi
 	mov %eax,8(%esi)
 
 .read_sector:
-/*--------------------------------------------- read sector */
+/*----------------------------------------------- read sector */
 	mov $0x42,%ah
 	mov $ADR(.CDROM_SPEC),%esi
 	mov 2(%si),%dl
@@ -73,9 +83,9 @@ big_bang:
 	int $0x13
 	jnc 0f
 	mov $ERR_SECTOR,%ax
-	jmp hex
+	jmp hex16
 
-/*-------------------------------------------- copy sector */
+/*----------------------------------------------- copy sector */
 0:	mov $ADR(sector),%esi  /* src */
 	mov $ADR(.dst),%edi   
 	mov (%edi),%edi
@@ -102,6 +112,7 @@ big_bang:
 	jg .read_sector	
 	jmp .protected
 
+/*------------------------------------------ data */
 	.align 4
 .CDROM_SPEC:	 /*  [2] Int 13/AH=4Ah */
 	.byte 0	 /* 0: size of packet in bytes 0x13*/
@@ -122,79 +133,17 @@ big_bang:
 	.long 0	           /* 12:       */
 
 .dst:	.long big_bang    
-	
 
-/*----------------------------------------- debug real mode */
-#ifdef DEBUG_16
+
+/*------------------------------------------ debug */
 .code16
-ip:	pop %ax                             /* where we are */
-	push %ax
-	ret
-
-hex:   /* %ax value */
-       /* never leaves */
-	mov $2,%di
-	mov %ax,%dx	                      /* save in dx */
-	mov $16,%cx	                /* count: 4 nibbles */
-0:	sub $4,%cx	                     /* next nibble */
-	jc 3f		                       /*  all done */
-	mov %dx,%ax	                        /*  restore */ 
-	shr %cl,%ax
-	and $0xf,%ax    /*  bits 0..3 digit value 0..9 a..f */
-	cmp $10,%ax	                     /*  %ax-10 < 0 */
-	jc 1f
-	add $('a'-10),%ax                /*  digit 'a'..'f' */
-	jmp 2f
-
-1:	add $'0',%ax	
-
-2:	mov $0x07,%ah                     /*  char out attr */
-	mov %ax,%es:(%di)
-	add $2,%di
-	jmp 0b		                    /*  next nibble */
-		
-3:	jmp 3b	                            /* loop forever */
-#endif
-
-/*------------------------------------ debug protected mode */
-#ifdef DEBUG_32
-.code32
-ip:	pop %eax                             /* where we are */
-	push %eax
-	ret
-
-
-hex:   /* %ax value */
-       /* never leaves */
-	mov $SCREEN+2,%edi /* setup 32 bit screen for debug */
-	mov %eax,%edx	                      /* save in dx */
-	mov $32,%ecx	                /* count: 4 nibbles */
-0:	sub $4,%ecx	                     /* next nibble */
-	jc 3f		                       /*  all done */
-	mov %edx,%eax	                        /*  restore */ 
-	shr %cl,%eax
-	and $0xf,%eax    /*  bits 0..3 digit value 0..9 a..f */
-	cmp $10,%eax	                     /*  %ax-10 < 0 */
-	jc 1f
-	add $('a'-10),%eax                /*  digit 'a'..'f' */
-	jmp 2f
-
-1:	add $'0',%eax	
-
-2:	mov $0x07,%ah                     /*  char out attr */
-	mov %ax,(%edi)
-	add $2,%edi
-	jmp 0b		                    /*  next nibble */
-		
-3:	jmp 3b	                            /* loop forever */
-#endif
+hex16:	HEX  /* see macro HEX */
 
 /*------------------------------------ enter protected mode */
                                     /* [1] Fig 2.6 CR0 bits */
 #define PE_BIT (1<<0)
 #define CS 0x08
 #define DS 0x10
-.code16
 .protected:
 	cli	                                /* for sure */
 	xorw	%ax, %ax
@@ -204,8 +153,10 @@ hex:   /* %ax value */
 	orl  $PE_BIT, %eax
 	movl %eax, %cr0
 	DATA32 ljmp $CS,$0f
+
+/*-------------------------------- we are in protected mode */
 .code32	 
-0:	mov $DS,%ax                 /* we are in 32 bit mode */
+0:	mov $DS,%ax
 	mov %ax,%ds
 	mov %ax,%es
 	mov %ax,%fs
@@ -214,21 +165,21 @@ hex:   /* %ax value */
 		
 
 /*---------------------------------- write 'P' to the screen */
-	mov $SCREEN,%edi
 	mov $0x7,%ah
 	mov $'P',%al
-	mov %ax,(%edi)
-	
+	mov %ax,SCREEN
+		
 /*---------------------setup stack see iso.ld linker script */
 	mov $stack,%esp
 	call start 
 	mov last,%eax
-	jmp hex
+	jmp hex32
+
+hex32:	HEX  /* see macro HEX */
 	
 /*--------------------------------- global descriptor table */
 /* [1] Fig.4.1 */
 /* flat memory */
-
 #define CS_TYPE  (0x9a<<8)|(0xcf<<16) 
 #define DS_TYPE  (0x92<<8)|(0xcf<<16)
 	.align 8	/* GDT descriptors  8 byte boundary */
@@ -246,6 +197,5 @@ gdt:	.word 3*8-1
 /*--------------------------------------------------- data */
 	.align 4
 sector:	.fill 0x800
-
 last:
 	.word 0xabcd

@@ -5,11 +5,12 @@ $Id$
 see big-bang
 ---------------------------*/
 #include "sys/screen.h"
-/*
-void start() __attribute__((section(".start"),noreturn));
-*/
+
+void start() __attribute__((noreturn));
+
 extern int main();
-extern unsigned stack;
+
+extern unsigned stack;		   /* see linker script iso.ld */
 extern unsigned load_end_addr[];
 extern unsigned bss_end_addr[];
 

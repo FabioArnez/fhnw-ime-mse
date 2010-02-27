@@ -8,7 +8,6 @@ $Id$
 SECTIONS
 {
  . = (1<<20); 
-/*  . = 0x7c00; */ 	           /* start of boot code */
  .text :
  {
   *(.big_bang)

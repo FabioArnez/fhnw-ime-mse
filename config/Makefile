@@ -14,18 +14,13 @@ SRC_HOME=../src
 PACKAGES=sys sys/boot io       # subdirs of src 
 VPATH=${SRC_HOME}              # where to look for source files
 CPPFLAGS=-I${SRC_HOME} 
-CFLAGS=-O3 -std=gnu99     # compiler options
-                          # c99 dont enable asm
+CFLAGS=-O3 -std=gnu99          # compiler options
+CC=gcc
+                               # c99 dont enable asm
 #CC=gcc-4 you can use it with cygwin
-                          #where to store the image file
-IMAGE_HOME=../../iso
-#--------------------- pattern for link
-#%:	%.o
-#	ld $^ -Map $@.map --script ../config/grub.ld -o$@ && \
-#	objcopy --output-target binary $@ ${IMAGE_HOME}/$@ && \
-#	make -C ../../ grub.iso
 
 #--------------------- pattern for link
+#creates an image file suitable for cdrom booting
 %:	%.o
 	ld $^ -Map $@.map --script ../config/iso.ld -o$@ && \
 	objcopy --output-target binary $@ iso/boot.img && \
@@ -44,7 +39,7 @@ clock-demo:	sys/start.o sys/screen.o \
 	clock-demo.o
 
 sys/boot/big-bang:	sys/boot/big-bang.o
-hello-world:	hello-world.o sys/boot/big-bang.o 
+hello-world:	hello-world.o  sys/boot/big-bang.o
 ascii-test:	sys/boot/big-bang.o sys/start.o sys/screen.o io/ascii.o ascii-test.o 
 
 pit-demo:	sys/start.o sys/screen.o sys/pit.o io/ascii.o io/kbd.o pit-demo.o
@@ -60,6 +55,7 @@ scancode-demo:	sys/start.o sys/screen.o io/ascii.o scancode-demo.o
 
 #------------------------------------------------ the modules
 sys/boot/big-bang.o:	sys/boot/big-bang.S
+sys/boot/deb0.o:	sys/boot/deb0.S
 io/ascii.o:	io/ascii.c io/ascii.h
 sys/deb.o:	sys/deb.c sys/deb.h io/ascii.h sys/screen.h
 sys/trap.o:	sys/trap.c sys/trap.h
