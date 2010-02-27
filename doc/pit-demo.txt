@@ -1,0 +1,160 @@
+pit-demo.c Version 33
+----------------------
+getStatus(unsigned counter)
+---------------------------
+
+-O0
+getCount:
+	pushl	%ebp
+	movl	%esp, %ebp
+	subl	$24, %esp
+	movl	8(%ebp), %eax
+	sall	$6, %eax
+	movzbl	%al, %eax
+	movl	$67, 4(%esp)
+	movl	%eax, (%esp)
+	call	sys_outb
+	movl	8(%ebp), %eax
+	addl	$64, %eax
+	movzwl	%ax, %eax
+	movl	%eax, (%esp)
+	call	sys_inb
+	movzbl	%al, %eax
+	movl	%eax, -4(%ebp)
+	movl	8(%ebp), %eax
+	addl	$64, %eax
+	movzwl	%ax, %eax
+	movl	%eax, (%esp)
+	call	sys_inb
+	movzbl	%al, %eax
+	sall	$8, %eax
+	orl	-4(%ebp), %eax
+	leave
+	ret
+	.size	getCount, .-getCount
+	.type	sys_inb, @function
+sys_inb:
+	pushl	%ebp
+	movl	%esp, %ebp
+	subl	$20, %esp
+	movl	8(%ebp), %eax
+	movw	%ax, -20(%ebp)
+	movzwl	-20(%ebp), %edx
+#APP
+# 12 "../src/sys/io.h" 1
+	#------------- inb
+	inb %dx
+#NO_APP
+	movb	%al, -1(%ebp)
+	movzbl	-1(%ebp), %eax
+	leave
+	ret
+
+-O3
+
+main:
+	leal	4(%esp), %ecx
+	andl	$-16, %esp
+	pushl	-4(%ecx)
+	movl	$52, %eax    # (2<<1)|(3<<4)|
+	                     # 11 0100 0x34=52
+	pushl	%ebp
+	movl	%esp, %ebp
+	pushl	%ebx
+	pushl	%ecx
+	subl	$16, %esp
+#APP
+# 27 "../src/sys/io.h" 1
+	#------------- outb
+	outb $67             #outb(config,0x43)   
+#NO_APP
+	movl	$-1, %eax 
+#APP
+# 27 "../src/sys/io.h" 1
+	#------------- outb
+	outb $64             #outb(0xff,0x40) LSB
+# 27 "../src/sys/io.h" 1
+	#------------- outb
+	outb $64             #outb(0xff,0x40)  
+# 12 "../src/sys/io.h" 1
+	#------------- inb
+	inb $64              #read only once 
+#NO_APP
+	movzbl	%al, %eax
+	movl	%eax, %ebx
+	sall	$8, %ebx
+	orl	%eax, %ebx
+	.p2align 4,,7
+	.p2align 3
+.L2:
+	xorl	%eax, %eax
+#APP
+# 27 "../src/sys/io.h" 1
+	#------------- outb
+	outb $67
+#NO_APP
+	movl	Screen, %eax
+	movl	%ebx, 8(%esp)
+	movl	$.LC0, 4(%esp)
+	movl	%eax, (%esp)
+	call	ascii_printf
+	call	kbd_get
+	jmp	.L2
+
+
+-O3 after correction of sys_inb Version 34
+
+main:
+	leal	4(%esp), %ecx
+	andl	$-16, %esp
+	pushl	-4(%ecx)
+	movl	$52, %eax
+	pushl	%ebp
+	movl	%esp, %ebp
+	pushl	%ebx
+	pushl	%ecx
+	subl	$16, %esp
+#APP
+# 28 "../src/sys/io.h" 1
+	#------------- outb
+	outb $67
+#NO_APP
+	movl	$-1, %eax
+#APP
+# 28 "../src/sys/io.h" 1
+	#------------- outb
+	outb $64
+# 28 "../src/sys/io.h" 1
+	#------------- outb
+	outb $64
+#NO_APP
+	xorl	%ebx, %ebx
+	.p2align 4,,7
+	.p2align 3
+.L2:
+	movl	%ebx, %eax
+#APP
+# 28 "../src/sys/io.h" 1
+	#------------- outb
+	outb $67
+# 12 "../src/sys/io.h" 1
+	#------------- inb
+	inb $64
+#NO_APP
+	movl	%eax, %ecx
+#APP
+# 12 "../src/sys/io.h" 1
+	#------------- inb
+	inb $64
+#NO_APP
+	movzbl	%al, %edx
+	movzbl	%cl, %eax
+	sall	$8, %edx
+	orl	%eax, %edx
+	movl	Screen, %eax
+	movl	%edx, 8(%esp)
+	movl	$.LC0, 4(%esp)
+	movl	%eax, (%esp)
+	call	ascii_printf
+	call	kbd_get
+	jmp	.L2

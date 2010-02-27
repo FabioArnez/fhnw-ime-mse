@@ -1,0 +1,34 @@
+/*---------------------
+linker script for boot.iso
+(c) H.Buchmann FHNW 2006
+$Id$
+---------------------*/
+/* OUTPUT_FORMAT(binary)  dont works on cygwin obj files PE format */
+
+SECTIONS
+{
+ . = (1<<20); 
+/*  . = 0x7c00; */ 	           /* start of boot code */
+ .text :
+ {
+  *(.big_bang)
+  *(.text) 
+  *(.rodata*)                /* dont forget this */
+ } = 0x90                  /* fill gap with nops */
+ . = ALIGN(8);   
+ .data :
+ {
+  *(.data)
+ }
+ . = ALIGN(8);   
+ load_end_addr = .;
+_load_end_addr = .;
+ .bss :
+ {
+  *(.bss)
+ }
+ bss_end_addr = .;
+_bss_end_addr = .;
+ . = ALIGN(0x100);
+stack = . + (1<<20);
+}

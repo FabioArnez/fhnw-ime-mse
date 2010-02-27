@@ -1,0 +1,22 @@
+#--------------------
+#Makefile for sos host development
+#(c) H.Buchmann FHNW 2009
+#$Id$
+#Makefike docu see:
+#http://www.gnu.org/software/make/manual/html_node/index.html
+#--------------------
+#we are in work
+SRC_HOME=../../src
+VPATH=${SRC_HOME}       # where to look for source files
+#                                   preprocessor options
+CPPFLAGS=-I${SRC_HOME} 
+#                                       compiler options
+CFLAGS=-std=c99        
+.PHONY: clean
+
+io/ascii:	io/ascii.o
+io/ascii.o:	io/ascii.c io/ascii.h
+
+clean:
+	rm *.o io/*.o
+
