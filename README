@@ -1,0 +1,11 @@
+The home of sos
+
+sos
+ config
+  configuartion stuff
+ src
+  *.c files
+  packages
+  
+ see slides sos.pdf
+ 
