@@ -23,7 +23,7 @@ static void read(unsigned ofs,Bits* b)
 
 static unsigned cnt=10;
 
-static tick(unsigned id)
+static void tick(unsigned id)
 {
  if (cnt==10)
     {

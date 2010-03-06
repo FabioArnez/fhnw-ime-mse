@@ -46,9 +46,9 @@ pit-demo:	sys/start.o sys/screen.o sys/pit.o io/ascii.o io/kbd.o pit-demo.o
 pic-devel:	sys/start.o sys/screen.o sys/pic.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o pic-devel.o
 kbc-demo:	sys/start.o sys/screen.o sys/kbc.o sys/deb.o sys/pit.o io/kbd.o sys/pic.o sys/trap.o sys/trap0.o io/ascii.o kbc-demo.o 
 #kbc-demo:	sys/start.o sys/screen.o sys/deb.o io/ascii.o kbc-demo.o 
-apic-devel:	sys/start.o sys/screen.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o apic-devel.o
-trap-devel:	sys/start.o sys/screen.o sys/trap.o sys/trap0.o io/ascii.o trap-devel.o
-apic-demo:	sys/start.o sys/screen.o io/ascii.o apic-demo.o
+apic-devel:	sys/boot/big-bang.o sys/start.o sys/screen.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o apic-devel.o
+trap-devel:	sys/boot/big-bang.o sys/start.o sys/screen.o sys/trap.o sys/trap0.o io/ascii.o trap-devel.o
+apic-demo:	sys/boot/big-bang.o sys/start.o sys/screen.o io/ascii.o apic-demo.o
 irq-demo:	sys/start.o sys/screen.o io/ascii.o irq-demo.o
 kbd-demo:	sys/start.o sys/screen.o sys/kbc.o io/ascii.o io/kbd.o kbd-demo.o
 scancode-demo:	sys/start.o sys/screen.o io/ascii.o scancode-demo.o 
