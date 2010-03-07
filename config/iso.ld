@@ -7,10 +7,10 @@ $Id$
 
 SECTIONS
 {
- . = (1<<20); 
+ . = (1<<20);                 /* start of image */
  .text :
  {
-  *(.big_bang)
+  *(.big_bang)	        /* must be first section */
   *(.text) 
   *(.rodata*)                /* dont forget this */
  } = 0x90                  /* fill gap with nops */
