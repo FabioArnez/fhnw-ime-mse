@@ -41,7 +41,7 @@ clock-demo:	sys/start.o sys/screen.o \
 sys/boot/big-bang:	sys/boot/big-bang.o
 hello-world:	hello-world.o  sys/boot/big-bang.o
 ascii-test:	sys/boot/big-bang.o sys/start.o sys/screen.o io/ascii.o ascii-test.o 
-
+out-test:	sys/boot/big-bang.o sys/start.o io/out.o out-test.o
 pit-demo:	sys/start.o sys/screen.o sys/pit.o io/ascii.o io/kbd.o pit-demo.o
 pic-devel:	sys/start.o sys/screen.o sys/pic.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o pic-devel.o
 kbc-demo:	sys/start.o sys/screen.o sys/kbc.o sys/deb.o sys/pit.o io/kbd.o sys/pic.o sys/trap.o sys/trap0.o io/ascii.o kbc-demo.o 
@@ -56,6 +56,7 @@ scancode-demo:	sys/start.o sys/screen.o io/ascii.o scancode-demo.o
 #------------------------------------------------ the modules
 sys/boot/big-bang.o:	sys/boot/big-bang.S
 sys/boot/deb0.o:	sys/boot/deb0.S
+io/out.o:	io/out.c io/out.h
 io/ascii.o:	io/ascii.c io/ascii.h
 sys/deb.o:	sys/deb.c sys/deb.h io/ascii.h sys/screen.h
 sys/trap.o:	sys/trap.c sys/trap.h
@@ -65,6 +66,7 @@ sys/screen.o:	sys/screen.c sys/screen.h io/ascii.h
 sys/start.o:	sys/start.c sys/screen.h
 sys/kbc.o:      sys/kbc.c sys/kbc.h sys/screen.h sys/trap.h sys/pic.h io/ascii.h 
 
+out-test.o:	out-test.c io/out.h
 scancode-demo.o:	scancode-demo.c io/ascii.h sys/io.h
 hello-world.o:	hello-world.c 
 ascii-test.o:	ascii-test.c io/ascii.h sys/screen.h
