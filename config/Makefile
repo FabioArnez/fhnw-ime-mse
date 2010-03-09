@@ -9,13 +9,14 @@
 #--------------------
 #we are in work: *** all accesses made relative to work ***
 
+TC=/home/buchmann/devel/tools/target/host/gcc-4.5/
 #------------------------------------------------ configuration
 SRC_HOME=../src
 PACKAGES=sys sys/boot io       # subdirs of src 
 VPATH=${SRC_HOME}              # where to look for source files
 CPPFLAGS=-I${SRC_HOME} 
 CFLAGS=-O3 -std=gnu99          # compiler options
-CC=gcc
+CC=${TC}/bin/gcc
                                # c99 dont enable asm
 #CC=gcc-4 you can use it with cygwin
 
@@ -31,8 +32,11 @@ CC=gcc
 		-boot-info-table \
 		-o boot.iso iso
 
+#the system modules
+SYSTEM=sys/boot/big-bang.o sys/start.o sys/screen.o
+
 #------------------------------------------------ the images
-clock-demo:	sys/start.o sys/screen.o \
+clock-demo:	${SYSTEM} \
 	sys/pit.o sys/pic.o \
 	sys/trap.o sys/trap0.o \
 	io/kbd.o io/ascii.o \
@@ -40,18 +44,18 @@ clock-demo:	sys/start.o sys/screen.o \
 
 sys/boot/big-bang:	sys/boot/big-bang.o
 hello-world:	hello-world.o  sys/boot/big-bang.o
-ascii-test:	sys/boot/big-bang.o sys/start.o sys/screen.o io/ascii.o ascii-test.o 
+ascii-test:	${SYSTEM} io/ascii.o ascii-test.o 
 out-test:	sys/boot/big-bang.o sys/start.o io/out.o out-test.o
-pit-demo:	sys/start.o sys/screen.o sys/pit.o io/ascii.o io/kbd.o pit-demo.o
-pic-devel:	sys/start.o sys/screen.o sys/pic.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o pic-devel.o
-kbc-demo:	sys/start.o sys/screen.o sys/kbc.o sys/deb.o sys/pit.o io/kbd.o sys/pic.o sys/trap.o sys/trap0.o io/ascii.o kbc-demo.o 
+pit-demo:	${SYSTEM} sys/pit.o io/ascii.o io/kbd.o pit-demo.o
+pic-devel:	${SYSTEM} sys/pic.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o pic-devel.o
+kbc-demo:	${SYSTEM} sys/kbc.o sys/deb.o sys/pit.o io/kbd.o sys/pic.o sys/trap.o sys/trap0.o io/ascii.o kbc-demo.o 
 #kbc-demo:	sys/start.o sys/screen.o sys/deb.o io/ascii.o kbc-demo.o 
-apic-devel:	sys/boot/big-bang.o sys/start.o sys/screen.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o apic-devel.o
-trap-devel:	sys/boot/big-bang.o sys/start.o sys/screen.o sys/trap.o sys/trap0.o io/ascii.o trap-devel.o
-apic-demo:	sys/boot/big-bang.o sys/start.o sys/screen.o io/ascii.o apic-demo.o
-irq-demo:	sys/start.o sys/screen.o io/ascii.o irq-demo.o
-kbd-demo:	sys/start.o sys/screen.o sys/kbc.o io/ascii.o io/kbd.o kbd-demo.o
-scancode-demo:	sys/start.o sys/screen.o io/ascii.o scancode-demo.o 
+apic-devel:	${SYSTEM} sys/trap.o sys/trap0.o io/ascii.o io/kbd.o apic-devel.o
+trap-devel:	${SYSTEM} sys/trap.o sys/trap0.o io/ascii.o trap-devel.o
+apic-demo:	${SYSTEM} sys/screen.o io/ascii.o apic-demo.o
+irq-demo:	${SYSTEM} io/ascii.o irq-demo.o
+kbd-demo:	${SYSTEM} sys/kbc.o io/ascii.o io/kbd.o kbd-demo.o
+scancode-demo:	${SYSTEM} io/ascii.o scancode-demo.o 
 
 #------------------------------------------------ the modules
 sys/boot/big-bang.o:	sys/boot/big-bang.S
@@ -85,10 +89,3 @@ clock-demo.o: clock-demo.c sys/screen.h io/ascii.h \
 .PHONY: clean
 clean:
 	rm -f *.o $(foreach p,${PACKAGES},${p}/*.o)
-
-.PHONY: rules
-rules:  io/ascii.c sys/trap.c sys/pic.c sys/screen.c sys/start.c \
-        scancode-demo.c hello-world.c ascii-test.c kbd-demo.c irq-demo.c\
-	apic-demo.c trap-devel.c apic-devel.c kbc-demo.c pic-devel.c \
-	pit-demo.c clock-demo.c
-	${CC} -M ${CPPFLAGS} $^
