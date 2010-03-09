@@ -6,10 +6,24 @@
 .text
 .macro ISR  ID
 ISR\ID:
-	pusha
+	# pusha dont works in 64 bit mode
+	push %eax #save registers
+	push %ecx
+	push %edx
+	push %ebx
+	push %ebp
+	push %esi
+	push %edi
 	movl $0x\ID,%ecx
 	call _call_trap
-	popa
+	# popa dont works in 64 bit mode
+	pop %edi  #restore registers
+	pop %esi
+	pop %ebp
+	pop %ebx
+	pop %edx
+	pop %ecx
+	pop %eax
 	iret
 .endm 
 
