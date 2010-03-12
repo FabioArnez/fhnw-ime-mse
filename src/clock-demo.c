@@ -9,7 +9,7 @@
 #include "io/ascii.h"                             /* for ascii output */
 #include "sys/pit.h"               /* the programmable interval timer */
 #include "sys/pic.h"     /* for the programmable interrupt controller */
-#include "sys/io.h"                                        /* for sti */
+#include "sys/sys.h"                                       /* for sti */
 #include "io/kbd.h"                                   /* the keyboard */
 
 #define FREQ_HZ (1193180)                                /* per count */

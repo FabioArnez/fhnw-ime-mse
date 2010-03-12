@@ -8,7 +8,7 @@
 #include "sys/screen.h"                       /* for output on screen */  
 #include "io/ascii.h"                             /* for ascii output */
 #include "sys/pic.h"     /* for the programmable interrupt controller */
-#include "sys/io.h"                                        /* for sti */
+#include "sys/sys.h"                                       /* for sti */
 #include "io/kbd.h"                                   /* the keyboard */
 
 static void trap(unsigned id)

@@ -1,7 +1,6 @@
-#ifndef SYS_IO_H
-#define SYS_IO_H
+#pragma once
 /*-------------------
- basic input/output
+ sys 
  (c) H.Buchmann FHNW 2009
  $Id$
 ---------------------*/
@@ -75,5 +74,3 @@ static inline void sys_sti()
   : /* input  */
  );
 }
-
-#endif

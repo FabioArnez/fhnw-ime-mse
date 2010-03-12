@@ -63,30 +63,30 @@ sys/boot/big-bang.o:	sys/boot/big-bang.S
 sys/boot/deb0.o:	sys/boot/deb0.S
 io/out.o:	io/out.c io/out.h
 io/ascii.o:	io/ascii.c io/ascii.h
-sys/apic.o:	sys/apic.c sys/apic.h sys/screen.h sys/io.h io/ascii.h
+sys/apic.o:	sys/apic.c sys/apic.h sys/screen.h sys/sys.h io/ascii.h
 sys/deb.o:	sys/deb.c sys/deb.h io/ascii.h sys/screen.h
 sys/trap.o:	sys/trap.c sys/trap.h
-sys/pic.o:	sys/pic.c sys/pic.h sys/trap.h sys/screen.h sys/io.h io/ascii.h
+sys/pic.o:	sys/pic.c sys/pic.h sys/trap.h sys/screen.h sys/sys.h io/ascii.h
 sys/trap0.o:	sys/trap0.S sys/trap.c sys/trap.h
 sys/screen.o:	sys/screen.c sys/screen.h io/ascii.h
 sys/start.o:	sys/start.c sys/screen.h
 sys/kbc.o:      sys/kbc.c sys/kbc.h sys/screen.h sys/trap.h sys/pic.h io/ascii.h 
 
 out-test.o:	out-test.c io/out.h
-scancode-demo.o:	scancode-demo.c io/ascii.h sys/io.h
+scancode-demo.o:	scancode-demo.c io/ascii.h sys/sys.h
 hello-world.o:	hello-world.c 
 ascii-test.o:	ascii-test.c io/ascii.h sys/screen.h
 kbd-demo.o:	kbd-demo.c io/ascii.h io/kbd.h sys/screen.h
 irq-demo.o:	irq-demo.c io/ascii.h sys/screen.h
-apic-demo.o:	apic-demo.c sys/io.h io/ascii.h sys/screen.h
+apic-demo.o:	apic-demo.c sys/sys.h io/ascii.h sys/screen.h
 trap-devel.o:	trap-devel.c io/ascii.h sys/trap.h sys/screen.h
-apic-devel.o:	apic-devel.c io/ascii.h sys/trap.h sys/screen.h io/kbd.h sys/io.h
-kbc-demo.o:	kbc-demo.c io/ascii.h sys/screen.h sys/io.h sys/kbc.h sys/deb.h
-pic-devel.o:	pic-devel.c io/ascii.h io/kbd.h sys/screen.h sys/trap.h sys/io.h
-pit-demo.o:	pit-demo.c io/ascii.h io/kbd.h sys/screen.h sys/pit.h sys/io.h 
+apic-devel.o:	apic-devel.c io/ascii.h sys/trap.h sys/screen.h io/kbd.h sys/sys.h
+kbc-demo.o:	kbc-demo.c io/ascii.h sys/screen.h sys/sys.h sys/kbc.h sys/deb.h
+pic-devel.o:	pic-devel.c io/ascii.h io/kbd.h sys/screen.h sys/trap.h sys/sys.h
+pit-demo.o:	pit-demo.c io/ascii.h io/kbd.h sys/screen.h sys/pit.h sys/sys.h 
 clock-demo.o: clock-demo.c sys/screen.h io/ascii.h \
   io/ascii.h sys/pit.h sys/pic.h sys/trap.h \
-  sys/io.h io/kbd.h sys/io.h
+  sys/sys.h io/kbd.h
   
 .PHONY: clean
 clean:

@@ -7,7 +7,7 @@
 --------------------*/
 #include "io/ascii.h"
 #include "sys/screen.h"
-#include "sys/io.h"  /* for inb/outb */
+#include "sys/sys.h"  /* for inb/outb */
 
 int main()
 {

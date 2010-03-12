@@ -4,7 +4,7 @@
 //$Id$
 //--------------------------
 #include "io/kbd.h"
-#include "sys/io.h"
+#include "sys/sys.h"
 
 #define WAIT_READ  1
 

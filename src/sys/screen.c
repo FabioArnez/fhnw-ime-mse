@@ -5,7 +5,7 @@
  www.osdever.net/FreeVGA/vga/
 --------------------------*/
 #include "sys/screen.h"
-#include "sys/io.h"
+#include "sys/sys.h"
 
 /* TODO intensive testing scroll eol etc. */
 /* TODO cursor control */

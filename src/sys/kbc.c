@@ -5,7 +5,7 @@
  TODO not yet in final form 
 -------------------*/
 #include "sys/kbc.h"
-#include "sys/io.h"
+#include "sys/sys.h"
 #include "sys/pic.h"
 #include "sys/screen.h"
 #include "io/ascii.h"

@@ -8,7 +8,7 @@
 #include "sys/pic.h"
 #include "sys/screen.h"
 #include "io/ascii.h"
-#include "sys/io.h"
+#include "sys/sys.h"
 
 #define PIC_INT_BASE 0x30
 #define PIC_CMD 0x0    /* OWC2 OWC3 */

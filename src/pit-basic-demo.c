@@ -6,7 +6,7 @@
 -------------------------*/
 #include "sys/screen.h"
 #include "io/ascii.h"
-#include "sys/io.h"
+#include "sys/sys.h"
 #include "io/kbd.h"
 /* port 0x40-0x43 timer0
    port 0x50-0x53 timer1

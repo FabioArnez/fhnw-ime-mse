@@ -7,7 +7,7 @@
      Software Developer's Manual 3A Chapter 8
  ------------------------------*/
 #include "sys/apic.h"
-#include "sys/io.h"
+#include "sys/sys.h"
 #include "io/ascii.h"
 #include "sys/screen.h"
 

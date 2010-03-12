@@ -6,7 +6,7 @@
  see pit-demo.c Version 36
 ----------------------*/
 #include "sys/pit.h"
-#include "sys/io.h"
+#include "sys/sys.h"
 
 /* port 0x40-0x43 timer0
    port 0x50-0x53 timer1

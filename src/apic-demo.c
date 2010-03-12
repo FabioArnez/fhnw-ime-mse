@@ -5,7 +5,7 @@
 --------------------*/
 #include "sys/screen.h"
 #include "io/ascii.h"
-#include "sys/io.h"
+#include "sys/sys.h"
 
 int main()
 {
