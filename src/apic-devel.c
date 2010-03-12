@@ -51,8 +51,11 @@ int main()
  MSR msr=sys_read_msr(0x1b);
  unsigned flags=sys_getFlags();
  APIC_BASE=(Entry*)(msr&~((1<<12)-1));
- APIC_BASE[0x38][0]=0x10000000;
- APIC_BASE[0x32][0]|=0x20; 
+ APIC_BASE[0x0f][0]|=(1<<8); /* enable */
+ APIC_BASE[0x38][0]=0x80000000;
+ APIC_BASE[0x32][0]=(0x20 |
+              /*      (4<<8)| */
+                   (1<<17)); 
  while(1)
  {
   ascii_printf(Screen,"         EFLAGS=%x\n"

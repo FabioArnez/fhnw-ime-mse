@@ -5,10 +5,15 @@
 --------------------*/
 #include "sys/screen.h"
 #include "io/ascii.h"
+#include "sys/io.h"
+
 int main()
 {
  unsigned data=0x12345678;
  unsigned* APIC_VERSION=(unsigned*)0xfee00030;
- ascii_printf(Screen,"VERSION=%x\n",*APIC_VERSION);
+ volatile MSR msr=sys_read_msr(0x1b);
+ ascii_printf(Screen,"VERSION=%x\n"
+                     "msr    =%x%x\n"
+              ,*APIC_VERSION,(unsigned)(msr>>32),(unsigned)msr);
  return 0;
 } 

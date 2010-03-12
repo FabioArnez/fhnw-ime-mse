@@ -38,13 +38,17 @@ static inline void sys_outb(unsigned char v,
 typedef long long unsigned MSR;
 __attribute__((fastcall)) static inline MSR sys_read_msr(unsigned id)
 {
+ unsigned lo;
+ unsigned hi;
  asm volatile
  (
   "#------------------ sys_read_msr\n\t"
   "rdmsr\n"
-  :   /* output */
-  :[id]"c" (id)   /* input */
+  :[lo] "=a" (lo)   /* output */
+  ,[hi] "=d" (hi)
+  :[id]"c" (id)     /* input */
  );
+ return (MSR)lo|(MSR)hi<<32;
 }
 
 static inline unsigned sys_getFlags()

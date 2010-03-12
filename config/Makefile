@@ -50,9 +50,10 @@ pit-demo:	${SYSTEM} sys/pit.o io/ascii.o io/kbd.o pit-demo.o
 pic-devel:	${SYSTEM} sys/pic.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o pic-devel.o
 kbc-demo:	${SYSTEM} sys/kbc.o sys/deb.o sys/pit.o io/kbd.o sys/pic.o sys/trap.o sys/trap0.o io/ascii.o kbc-demo.o 
 #kbc-demo:	sys/start.o sys/screen.o sys/deb.o io/ascii.o kbc-demo.o 
+apic-test:	${SYSTEM} apic-test.o sys/apic.o io/ascii.o 
 apic-devel:	${SYSTEM} sys/trap.o sys/trap0.o io/ascii.o io/kbd.o apic-devel.o
 trap-devel:	${SYSTEM} sys/trap.o sys/trap0.o io/ascii.o trap-devel.o
-apic-demo:	${SYSTEM} sys/screen.o io/ascii.o apic-demo.o
+apic-demo:	${SYSTEM}  io/ascii.o apic-demo.o
 irq-demo:	${SYSTEM} io/ascii.o irq-demo.o
 kbd-demo:	${SYSTEM} sys/kbc.o io/ascii.o io/kbd.o kbd-demo.o
 scancode-demo:	${SYSTEM} io/ascii.o scancode-demo.o 
@@ -62,6 +63,7 @@ sys/boot/big-bang.o:	sys/boot/big-bang.S
 sys/boot/deb0.o:	sys/boot/deb0.S
 io/out.o:	io/out.c io/out.h
 io/ascii.o:	io/ascii.c io/ascii.h
+sys/apic.o:	sys/apic.c sys/apic.h sys/screen.h sys/io.h io/ascii.h
 sys/deb.o:	sys/deb.c sys/deb.h io/ascii.h sys/screen.h
 sys/trap.o:	sys/trap.c sys/trap.h
 sys/pic.o:	sys/pic.c sys/pic.h sys/trap.h sys/screen.h sys/io.h io/ascii.h
@@ -76,7 +78,7 @@ hello-world.o:	hello-world.c
 ascii-test.o:	ascii-test.c io/ascii.h sys/screen.h
 kbd-demo.o:	kbd-demo.c io/ascii.h io/kbd.h sys/screen.h
 irq-demo.o:	irq-demo.c io/ascii.h sys/screen.h
-apic-demo.o:	apic-demo.c io/ascii.h sys/screen.h
+apic-demo.o:	apic-demo.c sys/io.h io/ascii.h sys/screen.h
 trap-devel.o:	trap-devel.c io/ascii.h sys/trap.h sys/screen.h
 apic-devel.o:	apic-devel.c io/ascii.h sys/trap.h sys/screen.h io/kbd.h sys/io.h
 kbc-demo.o:	kbc-demo.c io/ascii.h sys/screen.h sys/io.h sys/kbc.h sys/deb.h
