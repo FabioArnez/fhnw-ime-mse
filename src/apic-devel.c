@@ -8,54 +8,32 @@
 #include "sys/sys.h"
 #include "io/kbd.h"
 #include "sys/trap.h"
+#include "sys/pic.h"
 
 typedef unsigned Entry[4];
-typedef unsigned Bits[8];
 
 volatile Entry* APIC_BASE=0;
 
-Bits IRR;
-
-static void read(unsigned ofs,Bits* b)
+void tick()
 {
- for(unsigned i=0;i<8;++i) (*b)[i]=APIC_BASE[ofs][0];
-}
-
-static unsigned cnt=10;
-
-static void tick(unsigned id)
-{
- if (cnt==10)
-    {
-     ascii_put(Screen,'x');
-     cnt=0;
-    }
- ++cnt;
-}
-
-static void show(Bits* b)
-{
- for(unsigned i=0;i<8;++i)
- {
-  ascii_unsigned_hex(Screen,(*b)[i]);
-  ascii_put(Screen,' ');
- } 
- ascii_newln(Screen);
+ ascii_printf(Screen,"tick\n");
+ APIC_BASE[0xb][0]=0;
 }
 
 int main()
 {
- trap_init(); 
- trap_install(8,tick);
- sys_sti();
+ pic_init(); 
+ 
+ trap_install(0x20,tick);
  MSR msr=sys_read_msr(0x1b);
  unsigned flags=sys_getFlags();
  APIC_BASE=(Entry*)(msr&~((1<<12)-1));
  APIC_BASE[0x0f][0]|=(1<<8); /* enable */
  APIC_BASE[0x38][0]=0x80000000;
  APIC_BASE[0x32][0]=(0x20 |
-              /*      (4<<8)| */
                    (1<<17)); 
+
+ sys_sti();
  while(1)
  {
   ascii_printf(Screen,"         EFLAGS=%x\n"
@@ -94,24 +72,5 @@ int main()
       APIC_BASE[0x38][0]=0x10000000;
      }
  }
-#if 0
- read(0x20,IRR);
- show(IRR);
- 
- while(1)
- {
-  Bits irr;
-  read(0x20,irr);
-  for(unsigned i=0;i<8;++i)
-  {
-   if (1) //irr[i]!=IRR[i])
-      {
-       show(irr);
-       break;
-      }   
-  }
-  for(unsigned i=0;i<8;++i) IRR[i]=irr[i];
- }
-#endif
  return 0;
 } 

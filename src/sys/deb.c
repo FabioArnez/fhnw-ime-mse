@@ -4,17 +4,19 @@
  $Id$
 ----------------------*/
 #include "sys/deb.h"
-#include "sys/screen.h"
-#include "io/ascii.h"
+#include "sys/sys.h"
 
-void deb_test(char* s)
-{
-}
+static volatile unsigned short* Video=
+ (volatile unsigned short*)(0xb8000);
 
-void deb_xxx()
+static const char Signal[]="Signal0";
+
+void deb_signal0()
 {
- ascii_string(Screen,"------- deb_xxx\n");
- while(1)
+ sys_cli();
+ for(unsigned i=0;Signal[i];++i)
  {
+  Video[i]=Signal[i]|(0xc0<<8);
  }
+ while(1){}
 }

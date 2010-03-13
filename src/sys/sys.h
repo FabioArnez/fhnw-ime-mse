@@ -74,3 +74,14 @@ static inline void sys_sti()
   : /* input  */
  );
 }
+
+static inline void sys_cli()
+{
+ asm volatile
+ (
+  "#------------------cli\n\t"
+  "cli\n\t"
+  : /* output */
+  : /* input  */
+ );
+}

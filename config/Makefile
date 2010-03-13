@@ -44,50 +44,83 @@ clock-demo:	${SYSTEM} \
 
 sys/boot/big-bang:	sys/boot/big-bang.o
 hello-world:	hello-world.o  sys/boot/big-bang.o
-ascii-test:	${SYSTEM} io/ascii.o ascii-test.o 
 out-test:	sys/boot/big-bang.o sys/start.o io/out.o out-test.o
+screen-test:	${SYSTEM} screen-test.o
+ascii-test:	${SYSTEM} io/ascii.o ascii-test.o 
 pit-demo:	${SYSTEM} sys/pit.o io/ascii.o io/kbd.o pit-demo.o
 pic-devel:	${SYSTEM} sys/pic.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o pic-devel.o
-kbc-demo:	${SYSTEM} sys/kbc.o sys/deb.o sys/pit.o io/kbd.o sys/pic.o sys/trap.o sys/trap0.o io/ascii.o kbc-demo.o 
-#kbc-demo:	sys/start.o sys/screen.o sys/deb.o io/ascii.o kbc-demo.o 
-apic-test:	${SYSTEM} apic-test.o sys/apic.o io/ascii.o 
-apic-devel:	${SYSTEM} sys/trap.o sys/trap0.o io/ascii.o io/kbd.o apic-devel.o
+trap-demo:	${SYSTEM} sys/pic.o sys/deb.o sys/trap.o sys/trap0.o io/ascii.o trap-demo.o 
+apic-test:	${SYSTEM} apic-test.o
+apic-devel:	${SYSTEM} sys/pic.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o apic-devel.o
 trap-devel:	${SYSTEM} sys/trap.o sys/trap0.o io/ascii.o trap-devel.o
-apic-demo:	${SYSTEM}  io/ascii.o apic-demo.o
+apic-demo:	${SYSTEM} io/ascii.o apic-demo.o
 irq-demo:	${SYSTEM} io/ascii.o irq-demo.o
-kbd-demo:	${SYSTEM} sys/kbc.o io/ascii.o io/kbd.o kbd-demo.o
+kbd-demo:	${SYSTEM} io/ascii.o io/kbd.o kbd-demo.o
 scancode-demo:	${SYSTEM} io/ascii.o scancode-demo.o 
 
 #------------------------------------------------ the modules
-sys/boot/big-bang.o:	sys/boot/big-bang.S
-sys/boot/deb0.o:	sys/boot/deb0.S
-io/out.o:	io/out.c io/out.h
-io/ascii.o:	io/ascii.c io/ascii.h
-sys/apic.o:	sys/apic.c sys/apic.h sys/screen.h sys/sys.h io/ascii.h
-sys/deb.o:	sys/deb.c sys/deb.h io/ascii.h sys/screen.h
-sys/trap.o:	sys/trap.c sys/trap.h
-sys/pic.o:	sys/pic.c sys/pic.h sys/trap.h sys/screen.h sys/sys.h io/ascii.h
-sys/trap0.o:	sys/trap0.S sys/trap.c sys/trap.h
-sys/screen.o:	sys/screen.c sys/screen.h io/ascii.h
-sys/start.o:	sys/start.c sys/screen.h
-sys/kbc.o:      sys/kbc.c sys/kbc.h sys/screen.h sys/trap.h sys/pic.h io/ascii.h 
-
-out-test.o:	out-test.c io/out.h
-scancode-demo.o:	scancode-demo.c io/ascii.h sys/sys.h
-hello-world.o:	hello-world.c 
-ascii-test.o:	ascii-test.c io/ascii.h sys/screen.h
-kbd-demo.o:	kbd-demo.c io/ascii.h io/kbd.h sys/screen.h
-irq-demo.o:	irq-demo.c io/ascii.h sys/screen.h
-apic-demo.o:	apic-demo.c sys/sys.h io/ascii.h sys/screen.h
-trap-devel.o:	trap-devel.c io/ascii.h sys/trap.h sys/screen.h
-apic-devel.o:	apic-devel.c io/ascii.h sys/trap.h sys/screen.h io/kbd.h sys/sys.h
-kbc-demo.o:	kbc-demo.c io/ascii.h sys/screen.h sys/sys.h sys/kbc.h sys/deb.h
-pic-devel.o:	pic-devel.c io/ascii.h io/kbd.h sys/screen.h sys/trap.h sys/sys.h
-pit-demo.o:	pit-demo.c io/ascii.h io/kbd.h sys/screen.h sys/pit.h sys/sys.h 
+apic-demo.o: apic-demo.c sys/screen.h io/ascii.h \
+  io/ascii.h sys/sys.h
+apic-devel.o: apic-devel.c sys/screen.h io/ascii.h \
+  io/ascii.h sys/sys.h io/kbd.h sys/trap.h \
+  sys/pic.h sys/trap.h
+apic-test.o: apic-test.c sys/apic.h sys/trap.h \
+  sys/sys.h
+ascii-test.o: ascii-test.c io/ascii.h sys/screen.h \
+  io/ascii.h
+calling-an-image.o: calling-an-image.c
 clock-demo.o: clock-demo.c sys/screen.h io/ascii.h \
   io/ascii.h sys/pit.h sys/pic.h sys/trap.h \
   sys/sys.h io/kbd.h
-  
+hello-world.o: hello-world.c
+irq-demo.o: irq-demo.c io/ascii.h sys/screen.h \
+  io/ascii.h
+kbc-demo.o: kbc-demo.c sys/screen.h io/ascii.h \
+  io/ascii.h sys/pic.h sys/trap.h sys/sys.h
+kbd-demo.o: kbd-demo.c io/kbd.h io/ascii.h \
+  sys/screen.h io/ascii.h
+mp-config.o: mp-config.c
+out-test.o: out-test.c io/out.h
+pic-devel.o: pic-devel.c sys/screen.h io/ascii.h \
+  io/ascii.h sys/sys.h sys/trap.h io/kbd.h \
+  sys/pic.h sys/trap.h
+pit-basic-demo.o: pit-basic-demo.c sys/screen.h \
+  io/ascii.h io/ascii.h sys/sys.h io/kbd.h
+pit-demo.o: pit-demo.c sys/screen.h io/ascii.h \
+  io/ascii.h sys/sys.h io/kbd.h sys/pit.h
+scancode-demo.o: scancode-demo.c io/ascii.h \
+  sys/screen.h io/ascii.h sys/sys.h
+screen-test.o: screen-test.c sys/screen.h io/ascii.h
+trap-demo.o: trap-demo.c sys/screen.h io/ascii.h \
+  io/ascii.h sys/pic.h sys/trap.h sys/sys.h \
+  sys/deb.h
+trap-devel.o: trap-devel.c sys/screen.h io/ascii.h \
+  io/ascii.h sys/trap.h
+sys/apic.o: sys/apic.c sys/apic.h sys/pic.h \
+  sys/trap.h sys/sys.h io/ascii.h \
+  sys/screen.h
+sys/deb.o: sys/deb.c sys/deb.h sys/sys.h
+sys/kbc.o: sys/kbc.c sys/kbc.h sys/sys.h \
+  sys/pic.h sys/trap.h sys/screen.h \
+  io/ascii.h
+sys/pic.o: sys/pic.c sys/pic.h sys/trap.h \
+  sys/screen.h io/ascii.h sys/sys.h
+sys/pit.o: sys/pit.c sys/pit.h sys/sys.h
+sys/screen.o: sys/screen.c sys/screen.h io/ascii.h \
+  sys/sys.h
+sys/start.o: sys/start.c sys/screen.h io/ascii.h
+sys/trap.o: sys/trap.c sys/trap.h sys/screen.h \
+  io/ascii.h sys/trap0.h
+sys/trap0.o: sys/trap0.S
+sys/boot/big-bang.o: sys/boot/big-bang.S
+io/ascii.o: io/ascii.c io/ascii.h
+kbd.o: io/kbd.c io/kbd.h sys/sys.h
+out.o: io/out.c io/out.h
 .PHONY: clean
 clean:
 	rm -f *.o $(foreach p,${PACKAGES},${p}/*.o)
+
+rules:
+	gcc ${CPPFLAGS} -MM \
+	../src/*.{c,S} $(foreach p,${PACKAGES},../src/${p}/*.{c,S})
+ 

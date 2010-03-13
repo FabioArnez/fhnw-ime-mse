@@ -13,14 +13,16 @@ int start()                    /* will be called from big-bang */
  unsigned char ch='A';
  while(1)
  { 
+  unsigned short attr=0;
   volatile unsigned short* v=video;
   for(unsigned r=0;r<HEIGHT;r++)
   {
    for(unsigned c=0;c<WIDTH;c++)
    {
-    *v++=0x0700|ch;  
+    *v++=attr|ch;  
     if (ch=='Z') ch='A';
        else      ++ch;
+    attr+=0x100;   
    }
   }
  }

@@ -18,7 +18,7 @@
 extern void pic_init();
 
 extern void pic_install(unsigned id, /* 0<=id<PIC_TRAP_NBR */
-                        Trap t);        /* will be enabled */
+                        Trap t);       /* will be disabled */
 
 extern void pic_enable(unsigned id); /* 0<=id<PIC_TRAP_NBR */
 extern void pic_disable(unsigned id);/* 0<=id<PIC_TRAP_NBR */

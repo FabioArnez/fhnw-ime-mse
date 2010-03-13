@@ -6,6 +6,8 @@
 #include "sys/trap.h"
 #include "sys/screen.h"
 #include "io/ascii.h"
+#include "sys/trap0.h"
+
 /* TODO make better more robust init system */
 
 #define SIZE (256)

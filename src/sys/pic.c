@@ -73,6 +73,7 @@ static void init_chip()
 void pic_init()
 {
  if (initialized) return;
+ initialized=1;
  trap_init();
  unsigned id0=PIC_INT_BASE;
  for(unsigned i=0;i<PIC_TRAP_NBR;++i)
@@ -81,9 +82,6 @@ void pic_init()
   trap_install(id0++,pic_trap);
  }
  init_chip();
-#if 0
- initialized=1;
-#endif
 }
 
 void pic_enable(unsigned id)
@@ -107,6 +105,5 @@ void pic_install(unsigned id,Trap t)
  if (id>=PIC_TRAP_NBR) return;
  pic_disable(id);
  traps[id]=t;
- pic_enable(id);
 }
 

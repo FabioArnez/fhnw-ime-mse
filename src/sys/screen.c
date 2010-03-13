@@ -20,16 +20,16 @@ typedef struct
                                      /* the video ram */
 static volatile Char* video=(volatile Char*)0xb8000; 
 
-static const unsigned COL=80;            /* of screen */  
-static const unsigned ROW=25;            /* of screen */
+static const unsigned COL=80;                     /* of screen */  
+static const unsigned ROW=25;                     /* of screen */
 static const unsigned TAB= 8;
                                               /* screen status */
 static unsigned row=0;                           /* 0<=row<ROW */
 static unsigned col=0;                           /* 0<=col<COL */
-static volatile Char* pos;     /* cursor position current line */
+static volatile Char* pos=0;   /* cursor position current line */
 
-static volatile Char* lin;             /* begin of current line */
-static unsigned tab=0;
+static volatile Char* lin=0;          /* begin of current line */
+static unsigned tabN     =0;           /* next Tab 0<tabN<=TAB */
 
 static void scroll() //row==ROW
 {
@@ -52,40 +52,34 @@ static void cursor()
  pos->ch='_';
 }
 
-static void put(char ch) 
-{
-/* 0<=col<COL 0<=row<ROW pos-tab<TAB*/
- pos->ch=ch;
- ++pos;
- ++col;
- if (col==COL)
-    {
-     tab=0;
-     col=0;
-     ++row;
-     lin=pos;
-     if (row==ROW) scroll();
-     return;
-    }
- if (col==tab) tab+=TAB;
- cursor();
-}
-
 static void newln()
 {
- lin+=COL;
- tab=0;
+ tabN=TAB;
  col=0;
+ lin+=COL;
  ++row;
  if (row==ROW) scroll();
  pos=lin;
  cursor();
 }
 
+static void put(char ch) 
+{
+/* 0<=col<COL 0<=row<ROW 0<tabN<=TAB*/
+ pos->ch=ch;
+ ++pos;
+ ++col;
+ --tabN;
+ if (tabN==0) tabN=TAB;
+ if (col<COL) cursor();
+    else      newln();
+}
+
+
 static void tabulator()
 {
- tab+=TAB;
- while(pos<tab) put(' ');
+ unsigned t=tabN;
+ while(t>0){--t;put(' ');}
 }
 
 static Out out={put,newln,tabulator};
@@ -106,6 +100,7 @@ void screen_init()
    ++v;
   }
  }
+ tabN=TAB;
  pos=video;
  lin=video;
  cursor();
