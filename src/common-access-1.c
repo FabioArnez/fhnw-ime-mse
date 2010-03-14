@@ -1,7 +1,7 @@
 /*----------------------
  common-access 
  (c) H.Buchmann FHNW 2009
- $Id: kbc-demo.c 199 2010-03-12 11:22:58Z hans.buchmann $
+ $Id$
 ------------------------*/
 #include "sys/screen.h"                       /* for output on screen */  
 #include "io/ascii.h"                             /* for ascii output */

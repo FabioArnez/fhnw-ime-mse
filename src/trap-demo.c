@@ -1,7 +1,7 @@
 /*----------------------
  trap-demo 
  (c) H.Buchmann FHNW 2009
- $Id: kbc-demo.c 199 2010-03-12 11:22:58Z hans.buchmann $
+ $Id$
  TODO easy to use api 
  TODO LED control
 ------------------------*/
