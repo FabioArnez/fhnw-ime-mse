@@ -8,7 +8,7 @@
 #include "sys/pic.h"     /* for the programmable interrupt controller */
 #include "sys/sys.h"                                       /* for sti */
 
-static volatile unsigned count=0;
+static unsigned count=0;
 
 static void trap(unsigned id)
 {
@@ -31,7 +31,6 @@ int main()
  while(1)                              /* the normal thread main loop */
  {
   unsigned v=count;
-//  sys_wait(1);
   ++v;
   if (v!=(count+1)) ascii_put(Screen,'x');
   count=v;

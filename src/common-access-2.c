@@ -31,7 +31,6 @@ int main()
  while(1)                              /* the normal thread main loop */
  {
   unsigned v=count;
-//  sys_wait(1);
   ++v;
   if (v!=(count+1)) ascii_put(Screen,'x');
   count=v;

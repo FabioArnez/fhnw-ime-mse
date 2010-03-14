@@ -30,9 +30,9 @@ static void trap(unsigned id)
 static void init()                            /* the interrupt system */
 {
  pic_init();
- pic_install(1,trap);
- pic_enable(1);
- sys_sti();
+ pic_install(PIC_KBD,trap);
+ pic_enable(PIC_KBD);
+ sys_sti();                                /* enable interrupt system */
 }
 
 int main()
@@ -44,4 +44,3 @@ int main()
  }
  return 0;
 }
-

@@ -174,7 +174,8 @@ hex16:	HEX  /* see macro HEX */
 	call start 
 	mov last,%eax
 	jmp hex32
-
+	
+	.global hex32
 hex32:	HEX  /* see macro HEX */
 	
 /*--------------------------------- global descriptor table */

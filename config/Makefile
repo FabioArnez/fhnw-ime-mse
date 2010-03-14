@@ -51,6 +51,7 @@ pit-demo:	${SYSTEM} sys/pit.o io/ascii.o io/kbd.o pit-demo.o
 pic-devel:	${SYSTEM} sys/pic.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o pic-devel.o
 trap-demo:	${SYSTEM} sys/pic.o sys/deb.o sys/trap.o sys/trap0.o io/ascii.o trap-demo.o 
 common-access:	${SYSTEM} sys/pic.o sys/deb.o sys/trap.o sys/trap0.o io/ascii.o common-access.o 
+common-access-2:${SYSTEM} sys/pic.o sys/deb.o sys/trap.o sys/trap0.o io/ascii.o common-access-2.o 
 apic-test:	${SYSTEM} apic-test.o
 apic-devel:	${SYSTEM} sys/pic.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o apic-devel.o
 trap-devel:	${SYSTEM} sys/trap.o sys/trap0.o io/ascii.o trap-devel.o
@@ -58,7 +59,7 @@ apic-demo:	${SYSTEM} io/ascii.o apic-demo.o
 irq-demo:	${SYSTEM} io/ascii.o irq-demo.o
 kbd-demo:	${SYSTEM} io/ascii.o io/kbd.o kbd-demo.o
 scancode-demo:	${SYSTEM} io/ascii.o scancode-demo.o 
-
+cpu-trap:	${SYSTEM} cpu-trap.o sys/trap.o sys/trap0.o io/ascii.o
 #------------------------------------------------ the modules
 apic-demo.o: apic-demo.c sys/screen.h io/ascii.h \
   io/ascii.h sys/sys.h
@@ -98,6 +99,10 @@ trap-demo.o: trap-demo.c sys/screen.h io/ascii.h \
 common-access.o: common-access.c sys/screen.h io/ascii.h \
   io/ascii.h sys/pic.h sys/trap.h sys/sys.h \
   sys/deb.h
+common-access-2.o: common-access-2.c sys/screen.h io/ascii.h \
+  io/ascii.h sys/pic.h sys/trap.h sys/sys.h \
+  sys/deb.h
+
 trap-devel.o: trap-devel.c sys/screen.h io/ascii.h \
   io/ascii.h sys/trap.h
 sys/apic.o: sys/apic.c sys/apic.h sys/pic.h \
@@ -120,6 +125,10 @@ sys/boot/big-bang.o: sys/boot/big-bang.S
 io/ascii.o: io/ascii.c io/ascii.h
 kbd.o: io/kbd.c io/kbd.h sys/sys.h
 out.o: io/out.c io/out.h
+cpu-trap.o: ../src/cpu-trap.c ../src/sys/trap.h
+
+
+
 .PHONY: clean
 clean:
 	rm -f *.o $(foreach p,${PACKAGES},${p}/*.o)
