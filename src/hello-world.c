@@ -23,8 +23,8 @@ int start()                    /* will be called from big-bang */
     if (ch=='Z') ch='A';
        else      ++ch;
     attr+=0x100;   
-   }
-  }
- }
+   }         /* for c<WIDTH */
+  }          /* for r<HEIGHT */
+ }/* while */
 }
 

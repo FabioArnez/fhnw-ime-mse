@@ -50,6 +50,7 @@ ascii-test:	${SYSTEM} io/ascii.o ascii-test.o
 pit-demo:	${SYSTEM} sys/pit.o io/ascii.o io/kbd.o pit-demo.o
 pic-devel:	${SYSTEM} sys/pic.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o pic-devel.o
 trap-demo:	${SYSTEM} sys/pic.o sys/deb.o sys/trap.o sys/trap0.o io/ascii.o trap-demo.o 
+common-access:	${SYSTEM} sys/pic.o sys/deb.o sys/trap.o sys/trap0.o io/ascii.o common-access.o 
 apic-test:	${SYSTEM} apic-test.o
 apic-devel:	${SYSTEM} sys/pic.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o apic-devel.o
 trap-devel:	${SYSTEM} sys/trap.o sys/trap0.o io/ascii.o trap-devel.o
@@ -92,6 +93,9 @@ scancode-demo.o: scancode-demo.c io/ascii.h \
   sys/screen.h io/ascii.h sys/sys.h
 screen-test.o: screen-test.c sys/screen.h io/ascii.h
 trap-demo.o: trap-demo.c sys/screen.h io/ascii.h \
+  io/ascii.h sys/pic.h sys/trap.h sys/sys.h \
+  sys/deb.h
+common-access.o: common-access.c sys/screen.h io/ascii.h \
   io/ascii.h sys/pic.h sys/trap.h sys/sys.h \
   sys/deb.h
 trap-devel.o: trap-devel.c sys/screen.h io/ascii.h \

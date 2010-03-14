@@ -85,3 +85,17 @@ static inline void sys_cli()
   : /* input  */
  );
 }
+
+__attribute__((fastcall)) static inline void sys_wait(unsigned cnt)
+{
+ if (cnt==0) return;
+ /* cnt>0 */
+ asm volatile
+ (
+  "#------------------sys_wait\n\t"
+  "0:	sub $1,%[cnt]\n"
+  "	jne 0b\n"
+  :[cnt] "+r" (cnt)
+  :/* input  */
+ );
+}
