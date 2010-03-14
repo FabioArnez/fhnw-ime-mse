@@ -60,6 +60,7 @@ irq-demo:	${SYSTEM} io/ascii.o irq-demo.o
 kbd-demo:	${SYSTEM} io/ascii.o io/kbd.o kbd-demo.o
 scancode-demo:	${SYSTEM} io/ascii.o scancode-demo.o 
 cpu-trap:	${SYSTEM} cpu-trap.o sys/trap.o sys/trap0.o io/ascii.o
+vga-demo:	${SYSTEM} vga-demo.o 
 #------------------------------------------------ the modules
 apic-demo.o: apic-demo.c sys/screen.h io/ascii.h \
   io/ascii.h sys/sys.h
@@ -125,8 +126,8 @@ sys/boot/big-bang.o: sys/boot/big-bang.S
 io/ascii.o: io/ascii.c io/ascii.h
 kbd.o: io/kbd.c io/kbd.h sys/sys.h
 out.o: io/out.c io/out.h
-cpu-trap.o: ../src/cpu-trap.c ../src/sys/trap.h
-
+cpu-trap.o: cpu-trap.c sys/trap.h
+vga-demo.o: vga-demo.c sys/sys.h
 
 
 .PHONY: clean

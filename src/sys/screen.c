@@ -2,7 +2,7 @@
  screen the basic output
  (c) H.Buchmann FHNW 2009
  $Id$
- www.osdever.net/FreeVGA/vga/
+ www.osdever.net/FreeVGA/vga/crtcreg.htm
 --------------------------*/
 #include "sys/screen.h"
 #include "sys/sys.h"
