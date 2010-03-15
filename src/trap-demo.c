@@ -13,7 +13,7 @@
 
 static char ch='0';                  /* will be printed to the screen */
 
-static void trap(unsigned id)
+static void trap(unsigned id)               /* called by the hardware */
 {
  while(1)
  {
