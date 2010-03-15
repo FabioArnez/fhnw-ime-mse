@@ -9,15 +9,18 @@
 #include "sys/apic.h"
 #include "sys/pic.h"
 #include "sys/sys.h"
+#include "sys/trap.h"
 #include "io/ascii.h"
 #include "sys/screen.h"
 
+#define TRAP_ENTRY 0x20
 typedef unsigned Entry[4];  /* 16 bytes */
 
 /* the apic register */
 static volatile Entry* apic=0;  /* will be set in apic_init */
                                            /* see table 8.1 */
                                  /* TODO explain addressing */
+
 void apic_init()
 {
  if (apic) return;                   /* already initialized */
@@ -27,20 +30,30 @@ void apic_init()
  apic=(volatile Entry*)((unsigned)(base&~MASK));
 }
 
+static Tick onTick=0;
 
-void apic_timer()
+static void tick(unsigned id)
 {
-// *apic[0x0f]|=(1<<8);
- *apic[0x38] =0x80000000;
- *apic[0x32] =(0x20|       /* vector */
-            (0<<16)|       /* unmask */
-  	     (1<<17));     /* periodic */
- 
- ascii_printf(Screen,"---------- l1\n");
- sys_sti();
- ascii_printf(Screen,"---------- l2\n");
- while(1)
- {
-  ascii_printf(Screen,"%x %x\n",*apic[0x39],*apic[0x32]);
- }
+ if (onTick) onTick();
+ *apic[0xb]=0; /* end of interrupt */
+}
+
+void apic_timer(unsigned count,Tick t)
+{
+ onTick=t;
+ trap_install(TRAP_ENTRY,tick);
+ *apic[0x38] =count;
+ *apic[0x32] =(TRAP_ENTRY|       /* vector */
+                  (0<<16)|       /* unmask */
+  	          (1<<17));     /* periodic */
+}
+
+void apic_timer_enable()
+{
+ *apic[0x0f]|=(1<<8);
+}
+
+void apic_timer_disable()
+{
+ #warning TODO not yet done
 }

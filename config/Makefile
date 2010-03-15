@@ -52,7 +52,7 @@ pic-devel:	${SYSTEM} sys/pic.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o pic-de
 trap-demo:	${SYSTEM} sys/pic.o sys/deb.o sys/trap.o sys/trap0.o io/ascii.o trap-demo.o 
 common-access:	${SYSTEM} sys/pic.o sys/deb.o sys/trap.o sys/trap0.o io/ascii.o common-access.o 
 common-access-2:${SYSTEM} sys/pic.o sys/deb.o sys/trap.o sys/trap0.o io/ascii.o common-access-2.o 
-apic-test:	${SYSTEM} apic-test.o
+apic-test:	${SYSTEM} apic-test.o io/ascii.o sys/apic.o sys/pic.o sys/trap.o sys/trap0.o
 apic-devel:	${SYSTEM} sys/pic.o sys/trap.o sys/trap0.o io/ascii.o io/kbd.o apic-devel.o
 trap-devel:	${SYSTEM} sys/trap.o sys/trap0.o io/ascii.o trap-devel.o
 apic-demo:	${SYSTEM} io/ascii.o apic-demo.o
@@ -67,8 +67,6 @@ apic-demo.o: apic-demo.c sys/screen.h io/ascii.h \
 apic-devel.o: apic-devel.c sys/screen.h io/ascii.h \
   io/ascii.h sys/sys.h io/kbd.h sys/trap.h \
   sys/pic.h sys/trap.h
-apic-test.o: apic-test.c sys/apic.h sys/trap.h \
-  sys/sys.h
 ascii-test.o: ascii-test.c io/ascii.h sys/screen.h \
   io/ascii.h
 calling-an-image.o: calling-an-image.c
@@ -128,7 +126,8 @@ kbd.o: io/kbd.c io/kbd.h sys/sys.h
 out.o: io/out.c io/out.h
 cpu-trap.o: cpu-trap.c sys/trap.h
 vga-demo.o: vga-demo.c sys/sys.h
-
+apic-test.o: apic-test.c sys/sys.h sys/apic.h sys/trap.h \
+  sys/screen.h io/ascii.h io/ascii.h
 
 .PHONY: clean
 clean:
