@@ -84,6 +84,11 @@ void ascii_printf(Out* out,const char* fmt,...)
       ascii_put(out,va_arg(lst,unsigned));
      break;
      
+     case 'p':/* pointer */
+      ascii_put(out,'0');ascii_put(out,'x');
+      ascii_unsigned_hex(out,va_arg(lst,unsigned));
+     break;
+     
      case '%':out->put('%');break;
     }
     status=0; 

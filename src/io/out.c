@@ -34,6 +34,6 @@ void out_char(char ch)
 
 void out_string(const char* s)
 {
- /* TODO */
+ for(unsigned i=0;s[i];++i) out_char(s[i]);
 }
 
