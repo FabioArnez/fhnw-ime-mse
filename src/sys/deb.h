@@ -5,3 +5,4 @@
  $Id$
 ----------------------*/
 extern void deb_signal0(); /* writes signal at and loops forever */
+extern void deb_reset() __attribute__((noreturn)); 

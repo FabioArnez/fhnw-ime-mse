@@ -36,10 +36,14 @@ hex.o:		hex.S
 first-c:	sys/bigBang.o first-c.o
 first-c.o:	first-c.c
 
-#--------------------------- signal test
+#--------------------------- test
 sys/bigBang:	sys/bigBang.o sys/deb.o
+uart-test:	uart-test.o io/uart.o sys/start.o sys/bigBang.o
+uart-test.o:	uart-test.c io/uart.h
 
 #--------------------------- system
 sys/bigBang.o:	sys/bigBang.S
 sys/deb.o:	sys/deb.c sys/deb.h
 sys/start.o:	sys/start.c
+io/uart.o:	io/uart.c
+

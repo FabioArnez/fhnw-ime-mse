@@ -22,6 +22,8 @@ SECTIONS
  . = ALIGN(8);   
  load_end_addr = .;            /* see sys/start.c */
 _load_end_addr = .;
+ bss_start_addr = .;
+_bss_start_addr = .; 
  .bss :
  {
   *(.bss)
