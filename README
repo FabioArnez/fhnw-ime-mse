@@ -1,11 +1,20 @@
 The home of sos
 
-sos
- config
-  configuartion stuff
- src
-  *.c files
-  packages
-  
- see slides sos.pdf
- 
+src 
+  *.c/h files
+
+host:   fully featured POSIX  
+  config: Makefiles etc.
+  src
+  work
+
+arm:   minimal arm integratorcp virtual machines
+  config
+  src
+  work
+
+intel: minimal BIOS based virtual machine
+  config
+  src
+  work
+
