@@ -1,7 +1,7 @@
 /*--------------------
  deb(ug)
  (c) H.Buchmann FHNW 2011
- $Id: deb.h 200 2010-03-13 17:20:44Z hans.buchmann $
+ $Id$
  see [IntegratorCM] [UART]
 ----------------------*/
 #include "sys/deb.h"

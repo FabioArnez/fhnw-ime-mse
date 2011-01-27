@@ -6,7 +6,7 @@
 //demonstrates  .accessing hardware
 //              .numeric labels 
 //              .conditional execution speciality of ARM 
-//$Id: first.S 232 2011-01-17 11:19:58Z hans.buchmann $
+//$Id$
 //--------------------------
 	ldr r0,UART0
 	mov r1,#'0'

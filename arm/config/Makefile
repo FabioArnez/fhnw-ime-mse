@@ -1,7 +1,7 @@
 #-----------------
 #Makefile
 #(c) H.Buchmann FHNW 2010
-#$Id: Makefile 239 2011-01-17 14:47:22Z hans.buchmann $
+#$Id$
 #we are in work
 #-----------------
 STACK_SIZE_WORD=32
