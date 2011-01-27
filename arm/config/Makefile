@@ -25,8 +25,8 @@ first:		first.o
 first.o:	first.S
 
 #--------------------------- uart
-uart:		uart.o
-uart.o: 	uart.S
+uart-0:		uart-0.o
+uart-0.o: 	uart-0.S
 
 #--------------------------- hexadecimal output
 hex:		hex.o
@@ -42,3 +42,4 @@ sys/bigBang:	sys/bigBang.o sys/deb.o
 #--------------------------- system
 sys/bigBang.o:	sys/bigBang.S
 sys/deb.o:	sys/deb.c sys/deb.h
+sys/start.o:	sys/start.c

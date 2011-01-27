@@ -27,15 +27,15 @@ static void deb_out_string(const char*const s)
 
 volatile unsigned* CM_CTRL=0x1000000c;
 
-static void reset() __attribute__((noreturn));
 
-static void reset()
+void deb_reset()
 {
- *CM_CTRL|=(1<<3); /* reset */
+ *CM_CTRL|=(1<<3);                /* reset */
+ while(1){}            /* for the compiler */
 }
 
 void deb_signal0()
 {
  deb_out_string("Signal0\n");
- reset();
+ deb_reset();
 }
