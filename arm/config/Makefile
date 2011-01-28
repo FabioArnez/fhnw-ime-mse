@@ -40,10 +40,12 @@ first-c.o:	first-c.c
 sys/bigBang:	sys/bigBang.o sys/deb.o
 uart-test:	uart-test.o io/uart.o sys/start.o sys/bigBang.o
 uart-test.o:	uart-test.c io/uart.h
+stdio-test:	stdio-test.o io/uart.o io/ascii.o stdio.o stdout.o sys/start.o sys/bigBang.o
 
 #--------------------------- system
 sys/bigBang.o:	sys/bigBang.S
 sys/deb.o:	sys/deb.c sys/deb.h
 sys/start.o:	sys/start.c
 io/uart.o:	io/uart.c
-
+stdout.o:	stdout.c stdout.h io/ascii.h io/uart.h
+stdio.o:	stdio.c stdio.h stdout.h
