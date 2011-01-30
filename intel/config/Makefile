@@ -4,11 +4,18 @@
 #$Id$
 #TODO setup for 64 bit check with grub
 #-----------------------
+#------------------------------------------ 
+# SETUP
+#------------------------------------------
 CC=gcc -m32
 CFLAGS="-std=c99"
 VPATH=../src
-#------------- link pattern
-# settings 32 bit architecture
+
+#------------------------------ link pattern
+# .settings 32 bit architecture
+#     objcopy: creating binary image
+# genisoimage: creating cd iso image appropriate for grub
+
 %:	%.o;\
  ld  -o${@} \
      --build-id=none \
@@ -23,5 +30,14 @@ VPATH=../src
 	    -boot-info-table \
 	-o ../sos.iso ../iso	
 
+#------------------------------------------ 
+# THE RULES
+#------------------------------------------
+
+#------------------------------- very first
 first:		first.o
 first.o:	first.S
+
+#-------------------------------
+hex:		hex.o
+hex.o:		hex.S

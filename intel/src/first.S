@@ -12,10 +12,12 @@
 #define MAGIC      0x1badb002
 #define FLAGS      (1<<0)|(1<<16)
 #define CHECKSUM  -(MAGIC+FLAGS)
+
 #define VIDEO_RAM  0xb8000
 #define ROW 25                    /* the number of rows */
 #define COL 80                    /* the number of cols */
 
+/*------------------------------------ multiboot header */
 .section .header	           /* see linker script */
 MBH:	                            /* multiboot header */
 	.long MAGIC
