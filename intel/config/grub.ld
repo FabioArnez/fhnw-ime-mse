@@ -32,6 +32,8 @@ _load_start   = .;
  }
  load_end = .;
 _load_end = .;
+ bss_start = .;
+_bss_start = .; 
  .bss :
  {
   *(.bss)

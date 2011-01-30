@@ -4,7 +4,6 @@
  $Id$
 ----------------------*/
 #include "sys/deb.h"
-#include "sys/sys.h"
 
 static volatile unsigned short* Video=
  (volatile unsigned short*)(0xb8000);
@@ -13,7 +12,7 @@ static const char Signal[]="Signal0";
 
 void deb_signal0()
 {
- sys_cli();
+// sys_cli();
  for(unsigned i=0;Signal[i];++i)
  {
   Video[i]=Signal[i]|(0xc0<<8);

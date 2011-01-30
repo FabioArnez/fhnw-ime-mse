@@ -26,12 +26,12 @@ SECTIONS
   *(.data)
  }
 
-  bss_start_addr=.;
+  bss_start=.;
  .bss ALIGN (4) : 
  {
   *(.bss)
  }
-  bss_end_addr=.;
+  bss_end=.;
 
  .stack ALIGN (4) :
  { 

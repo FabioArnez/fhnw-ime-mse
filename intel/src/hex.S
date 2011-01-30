@@ -7,16 +7,15 @@
  $Id$
  --------------------------------------*/
 
-/*------------------------------------------- constants */
+/*----------------------------------------------- constants */
 #define MAGIC      0x1badb002
 #define FLAGS      (1<<0)|(1<<16)
 #define CHECKSUM  -(MAGIC+FLAGS)
 #define VIDEO_RAM  0xb8000
 
-/*------------------------------------ multiboot header */
-.section .header	           /* see linker script */
-MBH:	                            /* multiboot header */
-	.long MAGIC
+/*---------------------------------------- multiboot header */
+.section .header	               /* see linker script */
+MBH:	.long MAGIC
 	.long FLAGS
 	.long CHECKSUM
 	.long MBH

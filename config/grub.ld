@@ -41,6 +41,8 @@ entry_addr = .;
  }
  load_end_addr = .;
 _load_end_addr = .;
+ bss_start_addr = .;
+_bss_start_addr = .; 
  .bss :
  {
   *(.bss)

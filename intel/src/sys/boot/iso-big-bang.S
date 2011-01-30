@@ -1,5 +1,5 @@
 /*----------------
- big-bang a
+ iso-big-bang 
  (c) H.Buchmann FHNW 2010
  $Id$
  literature:
@@ -35,7 +35,7 @@
 	jmp 0b		                    /*  next nibble */
 
 
-.section .big_bang                 /* see ios.ld linker script */
+.section .big_bang                /* see iso.ld linker script */
 .code16
 /*---------------------------------------- entry 0x0000:0x7c00 */
 /* real mode */

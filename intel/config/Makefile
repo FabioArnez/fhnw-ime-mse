@@ -3,13 +3,16 @@
 #(c) H.Buchmann FHNW 2011
 #$Id$
 #TODO setup for 64 bit check with grub
+#     make system without grub use sys/boot/iso-big-bang.S
 #-----------------------
 #------------------------------------------ 
 # SETUP
 #------------------------------------------
 CC=gcc -m32
 CFLAGS="-std=c99"
-VPATH=../src
+VPATH=../src:../../src
+
+CPPFLAGS=-I../src -I../../src
 
 #------------------------------ link pattern
 # .settings 32 bit architecture
@@ -17,18 +20,18 @@ VPATH=../src
 # genisoimage: creating cd iso image appropriate for grub
 
 %:	%.o;\
- ld  -o${@} \
-     --build-id=none \
-     -m elf_i386 \
-     --script=../config/grub.ld \
-     -Map ${@}.map ${^} && \
- objcopy --output-target=binary ${@} ../iso/${@} && \
- genisoimage -R \
-            -b stage2_eltorito \
-	    -no-emul-boot \
-	    -boot-load-size 4 \
-	    -boot-info-table \
-	-o ../sos.iso ../iso	
+ld  -o${@} \
+    --build-id=none \
+    -m elf_i386 \
+    --script=../config/grub.ld \
+    -Map ${@}.map ${^} && \
+objcopy --output-target=binary ${@} ../iso/${@} && \
+genisoimage -R \
+           -b stage2_eltorito \
+	   -no-emul-boot \
+	   -boot-load-size 4 \
+	   -boot-info-table \
+       -o ../sos.iso ../iso	
 
 #------------------------------------------ 
 # THE RULES
@@ -38,6 +41,15 @@ VPATH=../src
 first:		first.o
 first.o:	first.S
 
-#-------------------------------
 hex:		hex.o
 hex.o:		hex.S
+
+
+#------------------------------- big-bang-test
+sys/boot/grub-big-bang:	sys/boot/grub-big-bang.o sys/start.o sys/deb.o
+
+
+#------------------------------- the modules
+sys/boot/grub-big-bang.o:	sys/boot/grub-big-bang.S
+sys/deb.o:	sys/deb.c sys/deb.h
+sys/start.o:	sys/start.c

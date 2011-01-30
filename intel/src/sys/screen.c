@@ -106,6 +106,5 @@ void screen_init()
  cursor();
 }
 
-
 Out* Screen=&out;
 
