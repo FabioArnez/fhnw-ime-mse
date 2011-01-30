@@ -9,7 +9,9 @@
 # SETUP
 #------------------------------------------
 CC=gcc -m32
-CFLAGS="-std=c99"
+CFLAGS=-std=gnu99 #for asm volatile
+CFLAGS+=-fno-stack-protector
+
 VPATH=../src:../../src
 
 CPPFLAGS=-I../src -I../../src
@@ -45,11 +47,16 @@ hex:		hex.o
 hex.o:		hex.S
 
 
-#------------------------------- big-bang-test
+#------------------------------- applications
 sys/boot/grub-big-bang:	sys/boot/grub-big-bang.o sys/start.o sys/deb.o
+stdio-test:	stdio-test.o sys/boot/grub-big-bang.o \
+	io/ascii.o io/screen.o sys/start.o stdio.o stdout.o 
 
 
 #------------------------------- the modules
 sys/boot/grub-big-bang.o:	sys/boot/grub-big-bang.S
 sys/deb.o:	sys/deb.c sys/deb.h
 sys/start.o:	sys/start.c
+io/screen.o:	io/screen.c io/screen.h sys/sys.h
+stdout.o:	stdout.c stdout.h io/screen.h io/ascii.h sys/sys.h 
+

@@ -3,6 +3,7 @@
  sys 
  (c) H.Buchmann FHNW 2009
  $Id$
+ for understanding asm volatile use -std=gnu99
 ---------------------*/
 /*all inline volatile keyword important */
 static inline unsigned char sys_inb(unsigned short port)

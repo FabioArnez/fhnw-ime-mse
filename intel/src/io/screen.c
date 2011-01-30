@@ -4,7 +4,7 @@
  $Id$
  www.osdever.net/FreeVGA/vga/crtcreg.htm
 --------------------------*/
-#include "sys/screen.h"
+#include "io/screen.h"
 #include "sys/sys.h"
 
 /* TODO intensive testing scroll eol etc. */
