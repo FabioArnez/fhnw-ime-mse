@@ -4,7 +4,7 @@
 #$Id$
 #accessible from work
 #------------------------
-QEMU=../../../virtual-machines/qemu
+QEMU=../../../qemu
 ${QEMU}/bin/qemu-system-arm -kernel ${1} -nographic
 stty echo
 

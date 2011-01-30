@@ -1,11 +1,11 @@
---------------------------
+/*--------------------------
 first
  testing and configuring qemu
  setting up the Makefile 
  see [IntegratorCM]
 (c) H.Buchmann FHNW 2011 
 $Id$
---------------------------
+--------------------------*/
 /* at reset */
 	ldr r0,CM_CTRL         /*addressing relative to pc */
 	ldr r1,[r0]
