@@ -34,7 +34,6 @@ genisoimage -R \
 	   -boot-load-size 4 \
 	   -boot-info-table \
        -o ../sos.iso ../iso	
-
 #------------------------------------------ 
 # THE RULES
 #------------------------------------------
@@ -59,4 +58,3 @@ sys/deb.o:	sys/deb.c sys/deb.h
 sys/start.o:	sys/start.c
 io/screen.o:	io/screen.c io/screen.h sys/sys.h
 stdout.o:	stdout.c stdout.h io/screen.h io/ascii.h sys/sys.h 
-
