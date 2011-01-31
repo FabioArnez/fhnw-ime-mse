@@ -1,10 +1,10 @@
-#-----------------------
+#------------------------------------------ 
 #Makefile
 #(c) H.Buchmann FHNW 2011
 #$Id$
 #TODO setup for 64 bit check with grub
 #     make system without grub use sys/boot/iso-big-bang.S
-#-----------------------
+#     look for a more elegant solution for making the rules
 #------------------------------------------ 
 # SETUP
 #------------------------------------------
@@ -13,14 +13,12 @@ CFLAGS=-std=gnu99 #for asm volatile
 CFLAGS+=-fno-stack-protector
 
 VPATH=../src:../../src
+export CPPFLAGS=-I../src -I../../src
 
-CPPFLAGS=-I../src -I../../src
-
-#------------------------------ link pattern
+#------------------------------------------ link pattern
 # .settings 32 bit architecture
 #     objcopy: creating binary image
 # genisoimage: creating cd iso image appropriate for grub
-
 %:	%.o;\
 ld  -o${@} \
     --build-id=none \
@@ -34,27 +32,34 @@ genisoimage -R \
 	   -boot-load-size 4 \
 	   -boot-info-table \
        -o ../sos.iso ../iso	
-#------------------------------------------ 
-# THE RULES
-#------------------------------------------
 
+#------------------------------------------ the source files
+SRC=first.S \
+hex.S \
+io/screen.c \
+sys/start.c \
+sys/boot/grub-big-bang.S \
+sys/deb.c \
+stdio-test.c\
+io/ascii.c \
+stdout.c
+
+#------------------------------------------ THE APPLICATIONS
 #------------------------------- very first
 first:		first.o
-first.o:	first.S
-
 hex:		hex.o
-hex.o:		hex.S
-
 
 #------------------------------- applications
 sys/boot/grub-big-bang:	sys/boot/grub-big-bang.o sys/start.o sys/deb.o
 stdio-test:	stdio-test.o sys/boot/grub-big-bang.o \
-	io/ascii.o io/screen.o sys/start.o stdio.o stdout.o 
+     	io/ascii.o io/screen.o sys/start.o stdio.o stdout.o 
 
 
-#------------------------------- the modules
-sys/boot/grub-big-bang.o:	sys/boot/grub-big-bang.S
-sys/deb.o:	sys/deb.c sys/deb.h
-sys/start.o:	sys/start.c
-io/screen.o:	io/screen.c io/screen.h sys/sys.h
-stdout.o:	stdout.c stdout.h io/screen.h io/ascii.h sys/sys.h 
+#------------------------------- the rules made with make rules
+include make.rules
+
+#------------------------------------------ making the rules
+#
+.PHONY rules:
+rules:	${SRC}
+	sh ../../tool/make-rules.sh ${SRC}
