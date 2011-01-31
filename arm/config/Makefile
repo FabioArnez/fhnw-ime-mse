@@ -1,9 +1,8 @@
-#-----------------
+#------------------------------------------ 
 #Makefile
 #(c) H.Buchmann FHNW 2010
 #$Id$
 #we are in work
-#-----------------
 #------------------------------------------ 
 # SETUP
 #------------------------------------------
@@ -13,14 +12,14 @@ PREFIX=arm-fhnw-eabi
 CC=../tc/bin/${PREFIX}-gcc
 CXX=../tc/bin/${PREFIX}-g++
 CFLAGS=-std=c99
-export CPPFLAGS=-DSTACK_SIZE_WORD=${STACK_SIZE_WORD} \
- -I../src -I../../src
+export CPPFLAGS=-DSTACK_SIZE_WORD=${STACK_SIZE_WORD} -I../src -I../../src
 
 LDFLAGS=-nostdlib -Wl,--script=../config/ram.ld -Wl,-Map -Wl,${@}.map
        # |        |----- the linker script
        # |-------------- no standard libs 
 
 #------------------------------------------ the source files
+#add your sources here 
 SRC=first.S \
 hex.S \
 io/ascii.c \
@@ -28,7 +27,10 @@ sys/start.c \
 sys/boot/big-bang.S \
 sys/deb.c \
 io/ascii.c \
-io/uart.c
+io/uart.c \
+stdio-test.c \
+stdout.c \
+stdio.c
 
 
 #------------------------------------------ THE APPLICATIONS
@@ -47,10 +49,15 @@ stdio-test:	stdio-test.o sys/boot/big-bang.o \
 
 
 #------------------------------- the rules made with make rules
-#include make.rules
+include make.rules
 
 #------------------------------------------ making the rules
 #
 .PHONY rules:
 rules:	${SRC}
 	sh ../../tool/make-rules.sh ${SRC}
+
+.PHONY clean:
+clean:
+	rm -rf $(addsuffix *,$(basename ${SRC})) 
+	

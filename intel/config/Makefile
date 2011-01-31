@@ -42,7 +42,10 @@ sys/boot/grub-big-bang.S \
 sys/deb.c \
 stdio-test.c\
 io/ascii.c \
-stdout.c
+stdout.c \
+stdio.c \
+intel-assembler.S \
+cpu-demo.o
 
 #------------------------------------------ THE APPLICATIONS
 #------------------------------- very first
@@ -63,3 +66,7 @@ include make.rules
 .PHONY rules:
 rules:	${SRC}
 	sh ../../tool/make-rules.sh ${SRC}
+
+.PHONY clean:
+clean:
+	rm -rf $(addsuffix *,$(basename ${SRC})) 
