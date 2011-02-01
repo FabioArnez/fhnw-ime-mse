@@ -1,11 +1,12 @@
 /*--------------------
- intel-assembler.S 
+ cpu-demo-ops.S 
  (c) H.Bchmann FHNW 2010
  $Id$
  --------------------*/
 
 /*assembler format:
-  xxx src,dst
+  mnem src,dst  mnem: mnemonic 
+                data flow left to right
 */
 
 /*

@@ -4,22 +4,7 @@
  $Id$
  ----------------------------*/
 #include<stdio.h>
- #define DONE_IN_ASSEMBLER
-
-/* see assembler.S */
-extern unsigned op(unsigned x,unsigned y);
-extern void copy(unsigned* dst,unsigned* src);
-
-#ifndef DONE_IN_ASSEMBLER
-unsigned op(unsigned x,unsigned y)
-{
- return x+y;
-}
-void copy(unsigned* dst,unsigned* src)
-{
- *dst=*src;
-}
-#endif
+#include "cpu-demo-ops.h" /* somtimes made in assembler */
 
 unsigned src=5;
 unsigned dst=6;

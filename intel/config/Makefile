@@ -11,10 +11,11 @@
 CC=gcc -m32
 CFLAGS=-std=gnu99 #for asm volatile
 CFLAGS+=-fno-stack-protector
+VPATH=.:../src:../../src
 
-VPATH=../src:../../src
+%.o:	%.S;$(CC) ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
+
 export CPPFLAGS=-I../src -I../../src
-
 #------------------------------------------ link pattern
 # .settings 32 bit architecture
 #     objcopy: creating binary image
@@ -32,6 +33,7 @@ genisoimage -R \
 	   -boot-load-size 4 \
 	   -boot-info-table \
        -o ../sos.iso ../iso	
+cpu-demo-ops.o: cpu-demo-ops.S
 
 #------------------------------------------ the source files
 SRC=first.S \
@@ -44,9 +46,8 @@ stdio-test.c\
 io/ascii.c \
 stdout.c \
 stdio.c \
-intel-assembler.S \
-cpu-demo.o
-
+cpu-demo.c \
+cpu-demo-ops.S
 #------------------------------------------ THE APPLICATIONS
 #------------------------------- very first
 first:		first.o
@@ -56,13 +57,12 @@ hex:		hex.o
 sys/boot/grub-big-bang:	sys/boot/grub-big-bang.o sys/start.o sys/deb.o
 stdio-test:	stdio-test.o sys/boot/grub-big-bang.o \
      	io/ascii.o io/screen.o sys/start.o stdio.o stdout.o 
-
+cpu-demo: cpu-demo.o cpu-demo-ops.o sys/boot/grub-big-bang.o \
+	io/ascii.o io/screen.o sys/start.o stdio.o stdout.o
 
 #------------------------------- the rules made with make rules
 include make.rules
-
-#------------------------------------------ making the rules
-#
+#-------------------------------------- admin
 .PHONY rules:
 rules:	${SRC}
 	sh ../../tool/make-rules.sh ${SRC}

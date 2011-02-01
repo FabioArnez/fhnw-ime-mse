@@ -51,8 +51,7 @@ stdio-test:	stdio-test.o sys/boot/big-bang.o \
 #------------------------------- the rules made with make rules
 include make.rules
 
-#------------------------------------------ making the rules
-#
+#-------------------------------------- admin
 .PHONY rules:
 rules:	${SRC}
 	sh ../../tool/make-rules.sh ${SRC}

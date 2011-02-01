@@ -1,4 +1,5 @@
 The home of sos
+---------------
 
 src 
   *.c/h files
@@ -9,12 +10,23 @@ host:   fully featured POSIX
   work
 
 arm:   minimal arm integratorcp virtual machines
-  config
+  config	
   src
+  tool:     arm specific tools
   work
 
 intel: minimal BIOS based virtual machine
   config
   src
+  iso:      contents of boot CD-ROM used by virtualbox
+  sos.iso:  the boot CD-ROM 
+  tool:     intel specific tools
   work
 
+
+posix: fully equipped posix system
+  config 
+  src 
+  work
+  
+tool: scripts

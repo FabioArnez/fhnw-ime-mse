@@ -4,6 +4,7 @@ start
 $Id$
 see big-bang
 ---------------------------*/
+#include "stdout.h"
 extern int main();
 
 extern unsigned bss_start[];            /* see linker script */
@@ -23,5 +24,6 @@ void _start()                             /* called from bigBang */
 /* ---------------------- init bss */
  for(unsigned* v=bss_start;v!=bss_end;v++)*v=0;
 /* ---------------------- initialize */
+ stdout_init();
  main();                                            /* call main */
 }
