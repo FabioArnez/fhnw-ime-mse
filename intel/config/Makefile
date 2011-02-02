@@ -13,6 +13,7 @@ CFLAGS=-std=gnu99 #for asm volatile
 CFLAGS+=-fno-stack-protector
 VPATH=.:../src:../../src
 
+#------------------------------------------ assembler pattern
 %.o:	%.S;$(CC) ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
 
 export CPPFLAGS=-I../src -I../../src

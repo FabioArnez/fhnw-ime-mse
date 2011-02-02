@@ -12,6 +12,10 @@ PREFIX=arm-fhnw-eabi
 CC=../tc/bin/${PREFIX}-gcc
 CXX=../tc/bin/${PREFIX}-g++
 CFLAGS=-std=c99
+
+#------------------------------------------ assembler pattern
+%.o:	%.S;$(CC) ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
+
 export CPPFLAGS=-DSTACK_SIZE_WORD=${STACK_SIZE_WORD} -I../src -I../../src
 
 LDFLAGS=-nostdlib -Wl,--script=../config/ram.ld -Wl,-Map -Wl,${@}.map
@@ -30,7 +34,10 @@ io/ascii.c \
 io/uart.c \
 stdio-test.c \
 stdout.c \
-stdio.c
+stdio.c \
+cpu-demo.c \
+cpu-demo-ops.S
+
 
 
 #------------------------------------------ THE APPLICATIONS
@@ -46,7 +53,8 @@ hex:		hex.o
 sys/boot/big-bang:	sys/boot/big-bang.o sys/start.o sys/deb.o
 stdio-test:	stdio-test.o sys/boot/big-bang.o \
      	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o 
-
+cpu-demo: cpu-demo.o cpu-demo-ops.o sys/boot/big-bang.o \
+	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 
 #------------------------------- the rules made with make rules
 include make.rules
