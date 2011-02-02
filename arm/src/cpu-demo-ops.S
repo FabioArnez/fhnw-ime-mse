@@ -27,6 +27,17 @@ op:	add r0,r0,r1
   dst:r0  
   src:r1
   register r2 used as scratch
+
+         unsigned 
+	 +---------+
+  r0---->|         |
+         +---------+
+
+         unsigned 
+	 +---------+
+  r1---->|         |
+         +---------+
+  	 
 -----------------------------------*/  
 .global copy
 copy:	ldr r2,[r1]            /* r2<-[r1] */  
