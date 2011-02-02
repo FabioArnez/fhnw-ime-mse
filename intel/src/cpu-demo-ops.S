@@ -30,8 +30,8 @@ op:
 
 /*
 TODO 
-  multiplication division 	
-  void op(unsigned x,unsigned y,unsigned* res);
+  - multiplication division 	
+  - void op(unsigned x,unsigned y,unsigned* res);
 */
 
 /*

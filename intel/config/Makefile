@@ -48,7 +48,9 @@ io/ascii.c \
 stdout.c \
 stdio.c \
 cpu-demo.c \
-cpu-demo-ops.S
+cpu-demo-ops.S \
+hello-world.c
+
 #------------------------------------------ THE APPLICATIONS
 #------------------------------- very first
 first:		first.o
@@ -60,7 +62,8 @@ stdio-test:	stdio-test.o sys/boot/grub-big-bang.o \
      	io/ascii.o io/screen.o sys/start.o stdio.o stdout.o 
 cpu-demo: cpu-demo.o cpu-demo-ops.o sys/boot/grub-big-bang.o \
 	io/ascii.o io/screen.o sys/start.o stdio.o stdout.o
-
+hello-world:	hello-world.o sys/boot/grub-big-bang.o io/ascii.o \
+	io/screen.o sys/start.o stdio.o stdout.o
 #------------------------------- the rules made with make rules
 include make.rules
 #-------------------------------------- admin
