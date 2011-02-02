@@ -11,6 +11,12 @@
   mnem z,x,y    z<-x mnem y		
 */
 
+/*
+TODO 
+  - multiplication division 	
+  - void op(unsigned x,unsigned y,unsigned* res);
+*/
+
 /*--------------------------------- 
   unsigned op(unsigned x,unsigned y)
   x:r0

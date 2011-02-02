@@ -36,7 +36,8 @@ stdio-test.c \
 stdout.c \
 stdio.c \
 cpu-demo.c \
-cpu-demo-ops.S
+cpu-demo-ops.S \
+hello-world.c
 
 
 
@@ -55,7 +56,8 @@ stdio-test:	stdio-test.o sys/boot/big-bang.o \
      	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o 
 cpu-demo: cpu-demo.o cpu-demo-ops.o sys/boot/big-bang.o \
 	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
-
+hello-world: hello-world.o sys/boot/big-bang.o \
+     	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 #------------------------------- the rules made with make rules
 include make.rules
 
