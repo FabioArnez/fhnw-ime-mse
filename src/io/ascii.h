@@ -1,11 +1,12 @@
-#ifndef ASCII_H
-#define ASCII_H
+#pragma once
 /*-----------------------
  ascii.h output
  (c) H.Buchmann FHNW 2009
+ demonstrates call back
+              
  $Id$
 ------------------------*/
-typedef struct
+typedef struct /* the basic call backs */
 {
  void (*put)(char ch); /* one char out */
  void (*newln)();           /* newline */
@@ -24,4 +25,4 @@ void ascii_unsigned_hex(Out* out,unsigned v);
 
 /*TODO more type and safer */
 void ascii_printf(Out* out,const char* fmt,...);
-#endif
+

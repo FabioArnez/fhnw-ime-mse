@@ -6,7 +6,7 @@
 #where to look for the sources
 VPATH=../src:../../src
 #where to include
-CPPFLAGS=-I../src -I../../src
+export CPPFLAGS=-I../src -I../../src
 
 #TODO VPATH and CPPFLAGS contains the same information 
 #     with different format only
@@ -16,12 +16,21 @@ CPPFLAGS=-I../src -I../../src
 #how to compile
 CFLAGS=-std=c99
 
+SRC=stdio-test.c \
+stdio.c \
+io/ascii.c 
+
 #----------------------------- applications
 stdio-test:	stdio-test.o stdio.o stdout.o io/ascii.o
-
 stdio-test.o:	stdio-test.c stdio.h stdout.h
 
-#----------------------------- minimalistic 
-stdio.o:	stdio.c stdio.h
-stdout.o:	stdout.c stdout.h io/ascii.h
-io/ascii.o:	io/ascii.c io/ascii.h
+include make.rules
+
+#-------------------------------------- admin
+.PHONY rules:
+rules:	${SRC}
+	sh ../../tool/make-rules.sh ${SRC}
+
+.PHONY clean:
+clean:
+	rm -rf $(addsuffix *,$(basename ${SRC})) 

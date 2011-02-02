@@ -5,48 +5,66 @@
   TODO more specifiers 
   $Id$
   ------------------------------*/
+#include <stdarg.h>    /* from compiler include *not* posix */
 #include "stdio.h" 
 #include "io/ascii.h"
 #include "stdout.h"
 
+/* TODO why the DONT_WORK section dont work */ 
+
+/* #define DONT_WORK */
+
 void printf(const char* fmt,...)  
 {
+#ifdef DONT_WORK
+ va_list lst; 
+ va_start(lst,fmt); 
+ ascii_printf(stdout,fmt,lst); /* delegates to ascii_printf */
+ va_end(lst); 
+#else
  va_list lst;
- va_start(lst,fmt);
- unsigned i=0; /* index in fmt */ 
- unsigned status=0;
- for(;;)
+ va_start(lst,fmt);                     /* see man va_start */
+ unsigned i=0;
+ unsigned status=0; 
+ while(1)
  {
   char ch=fmt[i++];
   if (ch=='\0') break;
   switch(status)
   {
-   case 0: /* normal char */
+   case 0:
     if (ch=='%'){status=1;break;}
     ascii_put(stdout,ch);
-   break;
-   case 1: /* what kind of output */
+   break; 
+   
+   case 1:
     switch(ch)
     {
-     case 'd': /* decimal */
+     case 's':
+      ascii_string(stdout,va_arg(lst,char*));
+     break;
+     case 'd':
       ascii_unsigned_dec(stdout,va_arg(lst,unsigned));
      break;
-     case 'x': /* hex */
+     case 'x':
+      ascii_put(stdout,'0');ascii_put(stdout,'x');
       ascii_unsigned_hex(stdout,va_arg(lst,unsigned));
      break;
-     case 's':
-      ascii_string(stdout,va_arg(lst,char*)); 
+     case 'c':/* character */
+      ascii_put(stdout,va_arg(lst,unsigned));
      break;
-     case '%':
-      ascii_put(stdout,'%');
+     
+     case 'p':/* pointer */
+      ascii_put(stdout,'0');ascii_put(stdout,'x');
+      ascii_unsigned_hex(stdout,va_arg(lst,unsigned));
      break;
-     default:
-      ascii_put(stdout,'?');
-     break;
+     
+     case '%':stdout->put('%');break;
     }
-   status=0;
+    status=0; 
    break;
   }
  }
- va_end(lst); 
+ va_end(lst);
+#endif
 }

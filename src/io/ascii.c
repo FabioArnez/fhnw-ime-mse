@@ -6,8 +6,6 @@
 #include "io/ascii.h"
 #include <stdarg.h>    /* from compiler include *not* posix */
 
-/* #define ASCII_TEST */
-
 void ascii_put(Out* out,char ch)
 {
  switch(ch)
@@ -95,33 +93,6 @@ void ascii_printf(Out* out,const char* fmt,...)
    break;
   }
  }
+ va_end(lst);
 }
 
-#ifdef ASCII_TEST
-/*------------------------------------ module test */
-#include <stdio.h>
-static void put(char ch)
-{
- fputc(ch,stdout);
-}
-
-static void newln()
-{
- fputc('\n',stdout);
-}
-
-static void tab()
-{
- fputc('\t',stdout);
-}
-
-Out out={put,newln,tab};
- 
-int main(int argc,char** args)
-{
- ascii_string(&out,"hello\njj\tj\n");
- ascii_unsigned_hex(&out,010);
- ascii_printf(&out,"iiii\n%s%d%%","jjj",9);
- ascii_newln(&out);
-}
-#endif

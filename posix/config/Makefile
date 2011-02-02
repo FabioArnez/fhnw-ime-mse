@@ -9,7 +9,9 @@ VPATH=../src:../../src
 export CPPFLAGS:=-iquote../src -iquote../../src
 
 SRC=cpu-demo.c \
-cpu-demo-ops.c
+cpu-demo-ops.c \
+stdio-test.c
+
 
 cpu-demo: cpu-demo.o cpu-demo-ops.o
 
