@@ -37,6 +37,7 @@ genisoimage -R \
 cpu-demo-ops.o: cpu-demo-ops.S
 
 #------------------------------------------ the source files
+#add here your source files typically c rsp. S files
 SRC=first.S \
 hex.S \
 io/screen.c \
@@ -49,7 +50,6 @@ stdout.c \
 stdio.c \
 cpu-demo.c \
 cpu-demo-ops.S \
-hello-world.c
 
 #------------------------------------------ THE APPLICATIONS
 #------------------------------- very first
@@ -57,13 +57,12 @@ first:		first.o
 hex:		hex.o
 
 #------------------------------- applications
+#add a a rule for your application
 sys/boot/grub-big-bang:	sys/boot/grub-big-bang.o sys/start.o sys/deb.o
 stdio-test:	stdio-test.o sys/boot/grub-big-bang.o \
      	io/ascii.o io/screen.o sys/start.o stdio.o stdout.o 
 cpu-demo: cpu-demo.o cpu-demo-ops.o sys/boot/grub-big-bang.o \
 	io/ascii.o io/screen.o sys/start.o stdio.o stdout.o
-hello-world:	hello-world.o sys/boot/grub-big-bang.o io/ascii.o \
-	io/screen.o sys/start.o stdio.o stdout.o
 #------------------------------- the rules made with make rules
 include make.rules
 #-------------------------------------- admin
