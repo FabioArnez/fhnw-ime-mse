@@ -50,7 +50,7 @@ void ascii_unsigned_hex(Out* out,unsigned v)
 /*TODO more elaborate printf */
 void ascii_printf(Out* out,const char* fmt,...)
 {
- va_list lst;
+ va_list lst; 
  va_start(lst,fmt);                  /* see man va_start */
  unsigned i=0;
  unsigned status=0; 

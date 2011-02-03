@@ -3,6 +3,7 @@
   (c) H.Buchmann FHNW 2011
   demonstrates -variable parameters
   TODO more specifiers 
+  see manual page va_list 
   $Id$
   ------------------------------*/
 #include <stdarg.h>    /* from compiler include *not* posix */

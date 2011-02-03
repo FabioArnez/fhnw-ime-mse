@@ -7,6 +7,5 @@
 #include "stdio.h"
 int main()
 {
- stdout_init();
  printf("Hello %s %d 0x%x\n","sss",8,0x123);
 } 
