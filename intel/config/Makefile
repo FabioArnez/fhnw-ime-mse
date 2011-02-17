@@ -37,17 +37,9 @@ genisoimage -R \
 
 #------------------------------------------ source files
 #add here your source files typically c rsp. S files
-SRC=hello-world.c\
- stdio.c\
- stdout.c\
- io/ascii.c\
- io/screen.c \
- sys/boot/grub-big-bang.S \
- sys/start.c
+SRC
 
 #------------------------------------------ applications
-hello-world:	hello-world.o stdio.o stdout.o io/ascii.o io/screen.o \
-	sys/boot/grub-big-bang.o sys/start.o
 
 #------------------------------------------ rules
 include make.rules       # made by make rules
