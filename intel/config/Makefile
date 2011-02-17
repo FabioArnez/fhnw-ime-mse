@@ -6,17 +6,17 @@
 #     make system without grub use sys/boot/iso-big-bang.S
 #     look for a more elegant solution for making the rules
 #------------------------------------------ 
-# SETUP
-#------------------------------------------
-CC=gcc -m32
-CFLAGS=-std=gnu99 #for asm volatile
-CFLAGS+=-fno-stack-protector
-VPATH=.:../src:../../src
+
+#------------------------------------------ setup
+CC=gcc -m32                    #we are using 32 bit
+CFLAGS=-std=gnu99              #for asm volatile
+CFLAGS+=-fno-stack-protector   #easy stack handling
+VPATH=.:../src:../../src       #where to look for the source files
 
 #------------------------------------------ assembler pattern
 %.o:	%.S;$(CC) ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
 
-export CPPFLAGS=-I../src -I../../src
+export CPPFLAGS=-I../src -I../../src 
 #------------------------------------------ link pattern
 # .settings 32 bit architecture
 #     objcopy: creating binary image
@@ -34,38 +34,25 @@ genisoimage -R \
 	   -boot-load-size 4 \
 	   -boot-info-table \
        -o ../sos.iso ../iso	
-cpu-demo-ops.o: cpu-demo-ops.S
 
-#------------------------------------------ the source files
+#------------------------------------------ source files
 #add here your source files typically c rsp. S files
-SRC=first.S \
-hex.S \
-io/screen.c \
-sys/start.c \
-sys/boot/grub-big-bang.S \
-sys/deb.c \
-stdio-test.c\
-io/ascii.c \
-stdout.c \
-stdio.c \
-cpu-demo.c \
-cpu-demo-ops.S \
+SRC=hello-world.c\
+ stdio.c\
+ stdout.c\
+ io/ascii.c\
+ io/screen.c \
+ sys/boot/grub-big-bang.S \
+ sys/start.c
 
-#------------------------------------------ THE APPLICATIONS
-#------------------------------- very first
-first:		first.o
-hex:		hex.o
+#------------------------------------------ applications
+hello-world:	hello-world.o stdio.o stdout.o io/ascii.o io/screen.o \
+	sys/boot/grub-big-bang.o sys/start.o
 
-#------------------------------- applications
-#add a a rule for your application
-sys/boot/grub-big-bang:	sys/boot/grub-big-bang.o sys/start.o sys/deb.o
-stdio-test:	stdio-test.o sys/boot/grub-big-bang.o \
-     	io/ascii.o io/screen.o sys/start.o stdio.o stdout.o 
-cpu-demo: cpu-demo.o cpu-demo-ops.o sys/boot/grub-big-bang.o \
-	io/ascii.o io/screen.o sys/start.o stdio.o stdout.o
-#------------------------------- the rules made with make rules
-include make.rules
-#-------------------------------------- admin
+#------------------------------------------ rules
+include make.rules       # made by make rules
+
+#------------------------------------------ admin
 .PHONY rules:
 rules:	${SRC}
 	sh ../../tool/make-rules.sh ${SRC}
