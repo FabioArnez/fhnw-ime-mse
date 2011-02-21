@@ -5,6 +5,7 @@
 #TODO setup for 64 bit check with grub
 #     make system without grub use sys/boot/iso-big-bang.S
 #     look for a more elegant solution for making the rules
+#     handle empty file make.rules
 #------------------------------------------ 
 
 #------------------------------------------ setup
@@ -37,11 +38,12 @@ genisoimage -R \
 
 #------------------------------------------ source files
 #add here your source files typically c rsp. S files
-SRC
+SRC=
 
 #------------------------------------------ applications
 
 #------------------------------------------ rules
+#at first time using make empty make.rules
 include make.rules       # made by make rules
 
 #------------------------------------------ admin
