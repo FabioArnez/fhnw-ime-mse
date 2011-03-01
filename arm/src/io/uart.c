@@ -5,7 +5,7 @@
  see [IntegratorCM] [UART]
  -----------------------*/
 
-volatile struct 
+static volatile struct 
 {
  unsigned DR;                         /*Data register */ 
  unsigned SR;                       /* Receive status */

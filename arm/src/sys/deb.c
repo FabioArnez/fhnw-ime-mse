@@ -6,7 +6,7 @@
 ----------------------*/
 #include "sys/deb.h"
 
-volatile struct 
+static volatile struct 
 {
  unsigned DR;                         /*Data register */ 
  unsigned SR;                       /* Receive status */

@@ -11,7 +11,7 @@ VPATH=../src:../../src
 PREFIX=arm-fhnw-eabi
 CC=../tc/bin/${PREFIX}-gcc
 CXX=../tc/bin/${PREFIX}-g++
-CFLAGS=-std=c99
+CFLAGS=-std=gnu99
 
 #------------------------------------------ assembler pattern
 %.o:	%.S;$(CC) ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
@@ -38,9 +38,9 @@ stdio.c \
 cpu-demo.c \
 cpu-demo-ops.S \
 hello-world.c \
-accessing-hardware.c
-
-
+accessing-hardware.c \
+undef-trap-demo.c \
+sys/sys.c
 
 #------------------------------------------ THE APPLICATIONS
 
@@ -61,6 +61,9 @@ hello-world: hello-world.o sys/boot/big-bang.o \
      	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 accessing-hardware:	accessing-hardware.o sys/boot/big-bang.o \
 	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
+undef-trap-demo:	undef-trap-demo.o sys/sys.o sys/deb.o\
+	sys/boot/big-bang.o io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
+
 #------------------------------- the rules made with make rules
 include make.rules
 
