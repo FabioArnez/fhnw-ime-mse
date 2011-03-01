@@ -26,13 +26,12 @@ SECTIONS
   *(.data)
  }
 
-  bss_start=.;
+  bss_start= . ;
  .bss ALIGN (4) : 
  {
   *(.bss)
  }
-  bss_end=.;
-
+  bss_end= . ;
  .stack ALIGN (4) :
  { 
   *(.stack)
