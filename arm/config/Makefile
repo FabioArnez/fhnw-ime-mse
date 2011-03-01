@@ -37,7 +37,8 @@ stdout.c \
 stdio.c \
 cpu-demo.c \
 cpu-demo-ops.S \
-hello-world.c
+hello-world.c \
+accessing-hardware.c
 
 
 
@@ -58,6 +59,8 @@ cpu-demo: cpu-demo.o cpu-demo-ops.o sys/boot/big-bang.o \
 	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 hello-world: hello-world.o sys/boot/big-bang.o \
      	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
+accessing-hardware:	accessing-hardware.o sys/boot/big-bang.o \
+	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 #------------------------------- the rules made with make rules
 include make.rules
 
