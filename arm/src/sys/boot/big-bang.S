@@ -8,19 +8,24 @@
   [1] literature/ARM-Architecture-Reference-Manual.pdf
   TODO: make a demo for .onSWI
         make an informative message for the unimplemented exceptions
+	set the different stacks properly
+	do the basic exception handling sys/sys.{h,c}
 ------------------------*/
 .section .boot  /* see [1] A2.6 */
 /* one word per entry
   ldr pc,=address_of_handler
 */
 	ldr pc,=.onReset           /* 0x00 A2.6.2 */
-	ldr pc,=.onUndef           /* 0x04 A2.6.3 */
+	ldr pc,  onUndef            /* 0x04 A2.6.3 */
 	ldr pc,=.onSWI             /* 0x08 A2.6.4 */
 	ldr pc,=.onPrefetchAbort   /* 0x0c A2.6.5 */
 	ldr pc,=.onData            /* 0x10 A2.6.6 */
 	ldr pc,=.onReserved        /* 0x14  should never be called */
 	ldr pc,=.onIRQ             /* 0x18 A2.6.8 */
 	ldr pc,=.onFIQ             /* 0x1c A2.6.9 */
+
+.global onUndef
+onUndef: .word .onReserved	
 
 /*------------------------------------------ text */
 .text	
@@ -29,8 +34,9 @@
 	bl _start      /* call _start a C routine */ 
 	b .do_reset
 
+
 /* the unimplemented traps */
-.onUndef:
+
 .onSWI:
 .onPrefetchAbort:
 .onData:
