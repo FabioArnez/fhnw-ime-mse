@@ -5,11 +5,23 @@
                .outline of an image
   see ram.ld linker script	       
   $Id$
+  [1] literature/ARM-Architecture-Reference-Manual.pdf
+  TODO: make a demo for .onSWI
+        make an informative message for the unimplemented exceptions
 ------------------------*/
-.section .boot
-	ldr pc,=.onReset
-	ldr pc,=.onUndef
-	
+.section .boot  /* see [1] A2.6 */
+/* one word per entry
+  ldr pc,=address_of_handler
+*/
+	ldr pc,=.onReset           /* 0x00 A2.6.2 */
+	ldr pc,=.onUndef           /* 0x04 A2.6.3 */
+	ldr pc,=.onSWI             /* 0x08 A2.6.4 */
+	ldr pc,=.onPrefetchAbort   /* 0x0c A2.6.5 */
+	ldr pc,=.onData            /* 0x10 A2.6.6 */
+	ldr pc,=.onReserved        /* 0x14  should never be called */
+	ldr pc,=.onIRQ             /* 0x18 A2.6.8 */
+	ldr pc,=.onFIQ             /* 0x1c A2.6.9 */
+
 /*------------------------------------------ text */
 .text	
 .onReset:
@@ -17,8 +29,16 @@
 	bl _start      /* call _start a C routine */ 
 	b .do_reset
 
+/* the unimplemented traps */
 .onUndef:
-	b deb_signal0	
+.onSWI:
+.onPrefetchAbort:
+.onData:
+.onReserved:
+.onIRQ:
+.onFIQ:
+	b deb_signal0
+	
 /*----------------------------------------- do_reset */
 .do_reset:	
 	ldr r0,=0x1000000c
