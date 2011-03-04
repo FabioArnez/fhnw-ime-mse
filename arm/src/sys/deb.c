@@ -39,3 +39,8 @@ void deb_signal0()
  deb_out_string("Signal0\n");
  deb_reset();
 }
+void deb_signal1()
+{
+ deb_out_string("Signal1\n");
+ deb_reset();
+}
