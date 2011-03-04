@@ -24,6 +24,7 @@ CM_CTRL: .word 0x1000000c //for resetting
 /* r0 number to be printed
    PIC: position independent code
 */
+.global hex
 hex:	ldr r1,UART0 
 	mov r2,#8 //nibble cnt
   0:	mov r0,r0,ROR #28
