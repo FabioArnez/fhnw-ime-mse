@@ -26,8 +26,21 @@ volatile struct /* [1] 4.9.2 */
        unsigned BGload;
 }* TIMER0 = 0x13000000;
 
+void myOnIRQ() __attribute__((interrupt("IRQ")));
+
+void myOnIRQ()
+{
+ TIMER0->intClr=1;
+ printf("----tick--------\n");
+}
+
+typedef void (OnIRQ)();
+
+extern OnIRQ* onIRQ; /* defined in big-bang.S */
+
 void main()
 {
+ onIRQ=myOnIRQ; 
  TIMER0->load=1<<25;
  TIMER0->control=(0<<0)| /* wrapping mode */
                  (1<<1)| /* 32 bit counter */
@@ -39,6 +52,6 @@ void main()
  PRIMIRQ->ENSET=(1<<5);
  while(1)
  {
-  printf("%x %x\n",TIMER0->value,PRIMIRQ->RSTAT);
+/*  printf("%x %x\n",TIMER0->value,PRIMIRQ->RSTAT); */
  }
 } 
