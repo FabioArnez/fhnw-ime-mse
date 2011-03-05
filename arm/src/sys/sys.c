@@ -15,3 +15,28 @@ void sys_undef()
   :
  );
 }
+
+unsigned sys_getCPSR()
+{
+ unsigned v;
+ asm volatile /* see [2] Extended-Asm.html#Extended-Asm */
+ (
+  "@--------------- sys_getCPSR\n"
+  "\tmrs %[v],cpsr"            /* see [1] A3.10.2 128 */
+  :[v] "=r" (v)/* out */
+  :            /* in */
+ );
+ return v;
+}
+ 
+void sys_setCPSR(unsigned v)
+{
+  asm volatile /* see [2] Extended-Asm.html#Extended-Asm */
+ (
+  "@--------------- sys_setCPSR\n"
+  "\tmsr cpsr,%[v]"            /* see [1] A3.10.2 128 */
+  :              /* out */
+  :[v] "r" (v)   /* in */
+ );
+}
+
