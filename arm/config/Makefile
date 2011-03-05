@@ -47,6 +47,7 @@ hello-world.c \
 accessing-hardware.c \
 undef-trap-demo.c \
 uart-trap-demo.c \
+timer-trap-demo.c \
 sys/sys.c
 
 #------------------------------------------ THE APPLICATIONS
@@ -71,6 +72,8 @@ accessing-hardware:	accessing-hardware.o sys/boot/big-bang.o \
 undef-trap-demo:	undef-trap-demo.o sys/sys.o hex.o sys/deb.o\
 	sys/boot/big-bang.o io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 uart-trap-demo: 	uart-trap-demo.o hex.o sys/sys.o sys/deb.o\
+	sys/boot/big-bang.o io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
+timer-trap-demo:	timer-trap-demo.o hex.o sys/sys.o sys/deb.o\
 	sys/boot/big-bang.o io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 #------------------------------- the rules made with make rules
 include make.rules
