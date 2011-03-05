@@ -35,8 +35,8 @@ void sys_setCPSR(unsigned v)
  (
   "@--------------- sys_setCPSR\n"
   "\tmsr cpsr,%[v]"            /* see [1] A3.10.2 128 */
-  :              /* out */
-  :[v] "r" (v)   /* in */
+  :            /* out */
+  :[v] "r" (v)  /* in */
  );
 }
 
