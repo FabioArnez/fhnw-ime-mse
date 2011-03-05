@@ -76,3 +76,10 @@ int putchar(int c)
  ascii_put(stdout,(char)c);
  return 0;
 }
+
+int puts(const char* s)
+{
+ ascii_string(stdout,s);
+ stdout->newln();
+ return 0;
+}

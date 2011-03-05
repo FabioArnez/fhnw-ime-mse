@@ -10,3 +10,4 @@
 extern int printf(const char* fmt,...);
   
 extern int putchar(int c);
+extern int puts(const char* s);
