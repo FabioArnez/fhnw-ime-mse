@@ -27,21 +27,43 @@
 .global onUndef
 onUndef: .word .onReserved	
 
+.global onIRQ
+onIRQ: 	.word .onReserved
+
 /*------------------------------------------ text */
 .text	
 .onReset:
-	ldr sp,=.stack_top
+	bl .setStack
+	bl .setIRQStack
 	bl _start      /* call _start a C routine */ 
 	b .do_reset
 
+.setStack:
+	ldr sp,=.stack_top
+	mov pc,lr
+	
+.setIRQStack:
+	mrs r0,cpsr
+	ldr r1,=0x1f        /* Mode mask [1]A2.5 */
+	ldr r2,=0x12                 /* IRQ Mode */
+	bic r0,r1
+        orr r0,r0,r2
 
+	msr cpsr_c,r0
+	ldr sp,=.irq_stack_top
+	mov pc,lr
+
+.onIRQ:
+	mov r0,sp
+	bl hex
+	b deb_signal1
+	
 /* the unimplemented traps */
 
 .onSWI:
 .onPrefetchAbort:
 .onData:
 .onReserved:
-.onIRQ:
 .onFIQ:
 	b deb_signal0
 	
@@ -53,5 +75,7 @@ onUndef: .word .onReserved
 	
 /*----------------------------------------- stack */
 .section .stack	
+	.space 4*IRQ_STACK_SIZE_WORD
+.irq_stack_top:
 	.space 4*STACK_SIZE_WORD
 .stack_top:
