@@ -6,17 +6,23 @@
 #------------------------------------------ 
 # SETUP
 #------------------------------------------
-STACK_SIZE_WORD=32
+
 VPATH=../src:../../src
 PREFIX=arm-fhnw-eabi
 CC=../tc/bin/${PREFIX}-gcc
 CXX=../tc/bin/${PREFIX}-g++
 CFLAGS=-std=gnu99 -O2
 
+#------------------------------------------ see sys/boot/big-bang.S
+STACK_SIZE_WORD=32
+IRQ_STACK_SIZE_WORD=32
+
 #------------------------------------------ assembler pattern
 %.o:	%.S;$(CC) ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
 
-export CPPFLAGS=-DSTACK_SIZE_WORD=${STACK_SIZE_WORD} -I../src -I../../src
+export CPPFLAGS=-I../src -I../../src
+CPPFLAGS+=-DSTACK_SIZE_WORD=${STACK_SIZE_WORD}
+CPPFLAGS+=-DIRQ_STACK_SIZE_WORD=${IRQ_STACK_SIZE_WORD}
 
 LDFLAGS=-nostdlib -Wl,--script=../config/ram.ld -Wl,-Map -Wl,${@}.map
        # |        |----- the linker script
@@ -40,6 +46,7 @@ cpu-demo-ops.S \
 hello-world.c \
 accessing-hardware.c \
 undef-trap-demo.c \
+uart-trap-demo.c \
 sys/sys.c
 
 #------------------------------------------ THE APPLICATIONS
@@ -63,7 +70,8 @@ accessing-hardware:	accessing-hardware.o sys/boot/big-bang.o \
 	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 undef-trap-demo:	undef-trap-demo.o sys/sys.o hex.o sys/deb.o\
 	sys/boot/big-bang.o io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
-
+uart-trap-demo: 	uart-trap-demo.o hex.o sys/sys.o sys/deb.o\
+	sys/boot/big-bang.o io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 #------------------------------- the rules made with make rules
 include make.rules
 

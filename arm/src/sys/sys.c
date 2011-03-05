@@ -34,7 +34,7 @@ void sys_setCPSR(unsigned v)
   asm volatile /* see [2] Extended-Asm.html#Extended-Asm */
  (
   "@--------------- sys_setCPSR\n"
-  "\tmsr cpsr,%[v]"            /* see [1] A3.10.2 128 */
+  "\tmsr cpsr,%[v]"               /* see [1] A3.10.2 128 */
   :            /* out */
   :[v] "r" (v)  /* in */
  );

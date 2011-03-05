@@ -21,7 +21,7 @@
 	ldr pc,=.onPrefetchAbort   /* 0x0c A2.6.5 */
 	ldr pc,=.onData            /* 0x10 A2.6.6 */
 	ldr pc,=.onReserved        /* 0x14  should never be called */
-	ldr pc,=.onIRQ             /* 0x18 A2.6.8 */
+	ldr pc,= onIRQ             /* 0x18 A2.6.8 */
 	ldr pc,=.onFIQ             /* 0x1c A2.6.9 */
 
 .global onUndef
