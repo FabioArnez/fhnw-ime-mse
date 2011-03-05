@@ -15,7 +15,7 @@ static volatile struct
 
 void uart_out(char ch)
 {
- while(UART->FR&(1<<3)){} /* wait until busys cleared */
+ while(UART->FR&(1<<3)){} /* wait until busy cleared */
  UART->DR=ch;
 }
 
