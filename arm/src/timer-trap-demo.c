@@ -52,6 +52,7 @@ void main()
  PRIMIRQ->ENSET=(1<<5);
  while(1)
  {
+/* uncommenting -> common access troubles */
 /*  printf("%x %x\n",TIMER0->value,PRIMIRQ->RSTAT); */
  }
 } 
