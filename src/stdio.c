@@ -15,7 +15,7 @@
 
 /* #define DONT_WORK */
 
-void printf(const char* fmt,...)  
+int printf(const char* fmt,...)  
 {
 #ifdef DONT_WORK
  va_list lst; 
@@ -68,4 +68,11 @@ void printf(const char* fmt,...)
  }
  va_end(lst);
 #endif
+ return 0;
+}
+
+int putchar(int c)
+{
+ ascii_put(stdout,(char)c);
+ return 0;
 }

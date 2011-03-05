@@ -7,5 +7,6 @@
   $Id$
   ------------------------------*/
 #include <stdarg.h>
-extern void printf(const char* fmt,...);
+extern int printf(const char* fmt,...);
   
+extern int putchar(int c);
