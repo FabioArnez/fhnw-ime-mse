@@ -32,8 +32,8 @@ byte in60()
 
 void main()
 {
- /* selftest */
- out64(0xaa);
- in60());
+ /* reset */
+ out64(0xfe);
+ in60();
 }
   
