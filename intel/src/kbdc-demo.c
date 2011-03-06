@@ -33,7 +33,10 @@ byte in60()
 void main()
 {
  /* reset */
- out64(0xfe);
- in60();
+ out60(0xed);
+ out60(0x07);
+ while(1)
+ {
+ }
 }
   
