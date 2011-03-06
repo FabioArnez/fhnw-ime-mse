@@ -32,11 +32,11 @@ byte in60()
 
 void main()
 {
- /* reset */
- out60(0xed);
- out60(0x07);
- while(1)
- {
- }
+ out60(0xed); /* led */
+ printf("a=%x\n",in60());
+ out60(0xff);
+ printf("a=%x\n",in60());
+ printf("a=%x\n",in60());
+ 
 }
   
