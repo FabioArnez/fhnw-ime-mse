@@ -10,10 +10,14 @@ All numbers in hex
 1000 0000  |-------------
            |Core Module control registers 
 1000 0040  |-------------
-           | Core Module interrupt controller. 
-
+           |Core Module interrupt controller
+1300 0000  |-------------
+           |Counter/timers 
+1400 0000  |-------------
+           |Primary interrupt controller registers 
+1500 0000  |-------------
+           |Real time clock 
 1600 0000  |-------------
            |UART0  see literature/DDI0183-PrimeCell-UART.pdf        
-
 1700 0000  |-------------
            |UART1  see literature/DDI0183-PrimeCell-UART.pdf

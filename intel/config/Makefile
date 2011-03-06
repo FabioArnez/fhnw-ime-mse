@@ -38,10 +38,20 @@ genisoimage -R \
 
 #------------------------------------------ source files
 #add here your source files typically c rsp. S files
-SRC=
+SRC=vga-demo.c \
+sys/boot/grub-big-bang.S \
+sys/start.c \
+stdout.c \
+stdio.c \
+io/screen.c \
+kbdc-demo.c 
 
 #------------------------------------------ applications
-
+vga-demo:	vga-demo.o io/screen.o sys/start.o stdout.o sys/boot/grub-big-bang.o
+kbdc-demo:	kbdc-demo.o \
+	stdout.o stdio.o \
+	io/screen.o io/ascii.o \
+	sys/start.o sys/boot/grub-big-bang.o
 #------------------------------------------ rules
 #at first time using make empty make.rules
 include make.rules       # made by make rules
