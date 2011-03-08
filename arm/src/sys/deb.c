@@ -25,8 +25,8 @@ static void deb_out_string(const char*const s)
  for(unsigned i=0;s[i];++i)deb_out(s[i]);
 }
 
-volatile unsigned* CM_CTRL=0x1000000c;
-
+static volatile unsigned* CM_CTRL=(unsigned*)0x1000000c;
+ /* only known in this file */
 
 void deb_reset()
 {

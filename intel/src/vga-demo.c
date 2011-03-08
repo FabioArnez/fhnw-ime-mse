@@ -27,7 +27,7 @@ int main()
 {
  /* set cursor */
  set (0,0x0a);
- set(31,0x0b);
+ set(1,0x0b);
  while(1)
  {
  }

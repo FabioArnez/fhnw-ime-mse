@@ -63,11 +63,11 @@ hex:		hex.o
 sys/boot/big-bang:	sys/boot/big-bang.o sys/start.o sys/deb.o
 stdio-test:	stdio-test.o sys/boot/big-bang.o \
      	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o 
-cpu-demo: cpu-demo.o cpu-demo-ops.o sys/boot/big-bang.o \
+cpu-demo: cpu-demo.o cpu-demo-ops.o hex.o sys/deb.o sys/boot/big-bang.o \
 	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 hello-world: hello-world.o sys/boot/big-bang.o \
      	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
-accessing-hardware:	accessing-hardware.o sys/boot/big-bang.o \
+accessing-hardware:	accessing-hardware.o sys/deb.o hex.o sys/boot/big-bang.o \
 	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 undef-trap-demo:	undef-trap-demo.o sys/sys.o hex.o sys/deb.o\
 	sys/boot/big-bang.o io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
