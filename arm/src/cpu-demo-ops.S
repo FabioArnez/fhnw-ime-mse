@@ -2,7 +2,7 @@
   cpu-demo-ops
   (c) H.Buchmann FHNW 2011
   $Id$
-  see [ARMABI]
+  see [ARMABI] literature/IHI0042D_aapcs-2.pdf
 ------------------------*/
 
 /*assembler format:
