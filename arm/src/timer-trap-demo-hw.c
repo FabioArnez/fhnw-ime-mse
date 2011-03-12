@@ -21,7 +21,6 @@ static unsigned cnt=0;
 
 void onTick()
 {
- TIMER0->intClr=0; /* simply write */
  printf("tick %d\n",cnt++);
 }
 
@@ -36,9 +35,5 @@ void main()
 		 (1<<7); /* enable */
  while(cnt<20)           /* for terminating */
  {
-  if (TIMER0->MIS)
-     {
-      onTick();
-     }
  }
 } 
