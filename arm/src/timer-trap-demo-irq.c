@@ -35,9 +35,6 @@ void onTick()
 
 void main()
 {
- sys_setCPSR(
-             sys_getCPSR()&~(1<<7) /* clear I Register */
-            );
  PRIMIRQ->ENSET=(1<<5); /* bit TIMERINT0 see [1] 3.6 */
  TIMER0->load=(1<<23)+100;
  TIMER0->control=(0<<0)| /* wrapping mode */
