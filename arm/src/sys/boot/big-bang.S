@@ -16,7 +16,7 @@
   ldr pc,=address_of_handler
 */
 	ldr pc,=.onReset           /* 0x00 A2.6.2 */
-	ldr pc,  onUndef            /* 0x04 A2.6.3 */
+	ldr pc,  onUndef           /* 0x04 A2.6.3 */
 	ldr pc,=.onSWI             /* 0x08 A2.6.4 */
 	ldr pc,=.onPrefetchAbort   /* 0x0c A2.6.5 */
 	ldr pc,=.onData            /* 0x10 A2.6.6 */
