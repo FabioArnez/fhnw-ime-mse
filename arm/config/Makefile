@@ -46,6 +46,12 @@ cpu-demo-ops.S \
 hello-world.c \
 accessing-hardware.c \
 undef-trap-demo.c \
+sys/boot/big-bang-exceptions.S \
+sys/boot/big-bang-call-undef.S \
+sys/boot/big-bang-call-c.S \
+undef-trap-demo-exceptions.c \
+undef-trap-demo-call-undef.c \
+undef-trap-demo-call-c.c \
 uart-trap-demo.c \
 timer-trap-demo.c \
 sys/sys.c
@@ -69,12 +75,22 @@ hello-world: hello-world.o sys/boot/big-bang.o \
      	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 accessing-hardware:	accessing-hardware.o sys/deb.o hex.o sys/boot/big-bang.o \
 	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
-undef-trap-demo:	undef-trap-demo.o sys/sys.o hex.o sys/deb.o\
-	sys/boot/big-bang.o io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 uart-trap-demo: 	uart-trap-demo.o hex.o sys/sys.o sys/deb.o\
 	sys/boot/big-bang.o io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 timer-trap-demo:	timer-trap-demo.o hex.o sys/sys.o sys/deb.o\
 	sys/boot/big-bang.o io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
+undef-trap-demo-exceptions:	undef-trap-demo-exceptions.o \
+	sys/sys.o sys/deb.o\
+	sys/boot/big-bang-exceptions.o \
+	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
+undef-trap-demo-call-undef:	undef-trap-demo-call-undef.o \
+	sys/sys.o sys/deb.o\
+	sys/boot/big-bang-call-undef.o \
+	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
+undef-trap-demo-call-c:	undef-trap-demo-call-c.o \
+	sys/sys.o sys/deb.o\
+	sys/boot/big-bang-call-c.o \
+	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 #------------------------------- the rules made with make rules
 include make.rules
 
