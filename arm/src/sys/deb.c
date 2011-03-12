@@ -3,6 +3,7 @@
  (c) H.Buchmann FHNW 2011
  $Id$
  see [IntegratorCM] [UART]
+ compile with at least O2
 ----------------------*/
 #include "sys/deb.h"
 
@@ -36,11 +37,22 @@ void deb_reset()
 
 void deb_signal0()
 {
- deb_out_string("Signal0\n");
+ deb_out_string("\n\nSignal0\n");
  deb_reset();
 }
 void deb_signal1()
 {
- deb_out_string("Signal1\n");
+ deb_out_string("\n\nSignal1\n");
  deb_reset();
+}
+
+void deb_hex(unsigned val)
+{
+ unsigned bit=8*sizeof(val);
+ while(bit>0)
+ {
+  bit-=4;
+  unsigned nibble=0xf&(val>>bit);
+  deb_out((nibble<10)?'0'+nibble:'a'+(nibble-10));
+ }
 }

@@ -9,3 +9,7 @@ extern void deb_signal0() __attribute__((noreturn));
 extern void deb_signal1() __attribute__((noreturn)); 
 
 extern void deb_reset() __attribute__((noreturn)); 
+
+extern void deb_hex(unsigned val); /* position idependent deb_hex */
+                                   /* see hex.S */
+ 
