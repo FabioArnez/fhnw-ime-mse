@@ -49,11 +49,17 @@ undef-trap-demo.c \
 sys/boot/big-bang-exceptions.S \
 sys/boot/big-bang-call-undef.S \
 sys/boot/big-bang-call-c.S \
+sys/boot/big-bang-irq.S \
+sys/boot/big-bang-call-irq.S \
 undef-trap-demo-exceptions.c \
 undef-trap-demo-call-undef.c \
 undef-trap-demo-call-c.c \
 uart-trap-demo.c \
 timer-trap-demo.c \
+timer-trap-demo-hw.c \
+timer-trap-demo-interrupt-controller.c \
+timer-trap-demo-irq.c \
+timer-trap-demo-call-irq.c \
 sys/sys.c
 
 #------------------------------------------ THE APPLICATIONS
@@ -91,6 +97,23 @@ undef-trap-demo-call-c:	undef-trap-demo-call-c.o \
 	sys/sys.o sys/deb.o\
 	sys/boot/big-bang-call-c.o \
 	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
+timer-trap-demo-hw:	timer-trap-demo-hw.o \
+	sys/sys.o sys/deb.o\
+	sys/boot/big-bang-exceptions.o \
+	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
+timer-trap-demo-interrupt-controller:	timer-trap-demo-interrupt-controller.o \
+	sys/sys.o sys/deb.o\
+	sys/boot/big-bang-exceptions.o \
+	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
+timer-trap-demo-irq:	timer-trap-demo-irq.o \
+	sys/sys.o sys/deb.o\
+	sys/boot/big-bang-irq.o \
+	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
+timer-trap-demo-call-irq:	timer-trap-demo-call-irq.o \
+	sys/sys.o sys/deb.o\
+	sys/boot/big-bang-call-irq.o \
+	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
+
 #------------------------------- the rules made with make rules
 include make.rules
 

@@ -1,13 +1,13 @@
-#-------------------
+/*-------------------
 #trap0.S
 #(c) H.Buchmann FHNW 2009
 #$Id$
-#-------------------
+#-------------------*/
 .text
 .macro ISR  ID
 ISR\ID:
-	# pusha dont works in 64 bit mode
-	push %eax #save registers
+	/* pusha dont works in 64 bit mode */
+	push %eax  /*save registers*/
 	push %ecx
 	push %edx
 	push %ebx
@@ -16,8 +16,8 @@ ISR\ID:
 	push %edi
 	movl $0x\ID,%ecx
 	call _call_trap
-	# popa dont works in 64 bit mode
-	pop %edi  #restore registers
+	/* popa dont works in 64 bit mode */
+	pop %edi  /* restore registers */
 	pop %esi
 	pop %ebp
 	pop %ebx
@@ -27,7 +27,7 @@ ISR\ID:
 	iret
 .endm 
 
-#----------------- the handlers
+/*----------------- the handlers */
 ISR 00;ISR 01;ISR 02;ISR 03;ISR 04;ISR 05;ISR 06;ISR 07
 ISR 08;ISR 09;ISR 0a;ISR 0b;ISR 0c;ISR 0d;ISR 0e;ISR 0f
 

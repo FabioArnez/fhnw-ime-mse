@@ -41,10 +41,17 @@ genisoimage -R \
 SRC=vga-demo.c \
 sys/boot/grub-big-bang.S \
 sys/start.c \
+sys/pic.c \
+sys/pit.c \
+sys/trap.c \
+sys/trap0.S \
+sys/deb.c \
 stdout.c \
 stdio.c \
 io/screen.c \
-kbdc-demo.c 
+io/kbd.c \
+kbdc-demo.c \
+clock-demo.c 
 
 #------------------------------------------ applications
 vga-demo:	vga-demo.o io/screen.o sys/start.o stdout.o sys/boot/grub-big-bang.o
@@ -52,6 +59,11 @@ kbdc-demo:	kbdc-demo.o \
 	stdout.o stdio.o \
 	io/screen.o io/ascii.o \
 	sys/start.o sys/boot/grub-big-bang.o
+clock-demo:	clock-demo.o \
+	stdout.o stdio.o \
+	io/screen.o io/ascii.o io/kbd.o \
+	sys/start.o sys/deb.o sys/boot/grub-big-bang.o \
+	sys/pic.o sys/pit.o sys/trap.o sys/trap0.o 
 #------------------------------------------ rules
 #at first time using make empty make.rules
 include make.rules       # made by make rules

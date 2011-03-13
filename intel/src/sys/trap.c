@@ -4,7 +4,7 @@
  $Id$
 -----------------------*/
 #include "sys/trap.h"
-#include "sys/screen.h"
+#include "io/screen.h"
 #include "io/ascii.h"
 #include "sys/trap0.h"
 

@@ -5,7 +5,7 @@
    pic: programmable interrupt controller 
   (c) H.Buchmann FHNW 2009
 --------------------*/
-#include "sys/screen.h"                       /* for output on screen */  
+#include "io/screen.h"                       /* for output on screen */  
 #include "io/ascii.h"                             /* for ascii output */
 #include "sys/pit.h"               /* the programmable interval timer */
 #include "sys/pic.h"     /* for the programmable interrupt controller */
@@ -62,7 +62,7 @@ int main()
 {
  pic_init();
  pic_install(0,tick);
-// pic_enable(1);
+ pic_enable(1);
  pit_configure(0,                   /* the counter */
                FREQ_HZ/20,    /* smaller than 2^16 */
 	       2);                /* mode 2 reload */

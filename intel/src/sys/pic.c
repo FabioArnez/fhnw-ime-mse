@@ -6,7 +6,7 @@
  TODO integrate APIC
 -----------------------*/ 
 #include "sys/pic.h"
-#include "sys/screen.h"
+#include "io/screen.h"
 #include "io/ascii.h"
 #include "sys/sys.h"
 

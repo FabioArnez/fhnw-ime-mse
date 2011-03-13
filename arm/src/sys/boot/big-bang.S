@@ -10,6 +10,7 @@
         make an informative message for the unimplemented exceptions
 	set the different stacks properly
 	do the basic exception handling sys/sys.{h,c}
+	set the exception stacks IRQStack alread set
 ------------------------*/
 .section .boot  /* see [1] A2.6 */
 /* one word per entry

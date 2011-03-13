@@ -46,19 +46,11 @@ extern OnIRQ* onIRQ; /* defined in big-bang.S */
 /* see [4] A2.6.8 
        [5] Function-Attributes.html#Function-Attributes
 */
-void myOnIRQ() __attribute__((interrupt("IRQ")));
-
-void myOnIRQ()
-{
- printf("%c",UART->DR);         /* clears all flags */
-}
-
 void main()
 {
  onIRQ=myOnIRQ;
  sys_setCPSR(sys_getCPSR()&~(1<<7)); /* enable IRQ */
 
- printf("CPSR=%x\n",sys_getCPSR()); 
  UART->IMSC|=(1<<4);     /* RX  enabled */
  PRIMIRQ->ENSET|=(1<<1); /* bit 1 [3] 3.6 UART0 enabled*/
  char ch='0';
