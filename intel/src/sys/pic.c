@@ -9,6 +9,9 @@
 #include "io/screen.h"
 #include "io/ascii.h"
 #include "sys/sys.h"
+#include "sys/deb.h"
+
+#include "stdio.h"
 
 #define PIC_INT_BASE 0x30
 #define PIC_CMD 0x0    /* OWC2 OWC3 */
@@ -22,7 +25,7 @@ static unsigned initialized=0;
 
 static void trap(unsigned id)
 {
- ascii_printf(Screen,"pic interrupt %x: Not Implemented\n",id);
+ ascii_printf(Screen,"pi_c interrupt %x: Not Implemented\n",id);
  while(1)
  {
  }

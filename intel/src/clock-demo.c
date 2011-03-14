@@ -11,6 +11,9 @@
 #include "sys/pic.h"     /* for the programmable interrupt controller */
 #include "sys/sys.h"                                       /* for sti */
 #include "io/kbd.h"                                   /* the keyboard */
+#include "sys/deb.h"
+
+#include "stdio.h"
 
 #define FREQ_HZ (1193180)                                /* per count */
 #define CNT (20)                                      /* for a second */
@@ -62,7 +65,7 @@ int main()
 {
  pic_init();
  pic_install(0,tick);
- pic_enable(1);
+ pic_enable(0);
  pit_configure(0,                   /* the counter */
                FREQ_HZ/20,    /* smaller than 2^16 */
 	       2);                /* mode 2 reload */
