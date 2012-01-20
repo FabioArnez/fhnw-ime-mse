@@ -60,7 +60,8 @@ timer-trap-demo-hw.c \
 timer-trap-demo-interrupt-controller.c \
 timer-trap-demo-irq.c \
 timer-trap-demo-call-irq.c \
-sys/sys.c
+sys/sys.c \
+latency.c
 
 #------------------------------------------ THE APPLICATIONS
 
@@ -113,7 +114,9 @@ timer-trap-demo-call-irq:	timer-trap-demo-call-irq.o \
 	sys/sys.o sys/deb.o\
 	sys/boot/big-bang-call-irq.o \
 	io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
-
+latency:	latency.o\
+	hex.o sys/sys.o sys/deb.o\
+	sys/boot/big-bang.o io/ascii.o io/uart.o sys/start.o stdio.o stdout.o
 #------------------------------- the rules made with make rules
 include make.rules
 
