@@ -7,12 +7,24 @@
 #     look for a more elegant solution for making the rules
 #     handle empty file make.rules
 #------------------------------------------ 
+#we are in work
+# directories
+#
+# sos
+#    src
+#    intel
+#       config
+#       src
+#       work
 
-#------------------------------------------ setup
+#------------------------------------------ <setup>
 CC=gcc -m32                    #we are using 32 bit
 CFLAGS=-std=gnu99              #for asm volatile
 CFLAGS+=-fno-stack-protector   #easy stack handling
-VPATH=.:../src:../../src       #where to look for the source files
+VPATH=../src:../../src         #where to look for the source files
+                               # order
+			       # 1: sos/intel/src
+			       # 2: sos/src
 
 #------------------------------------------ assembler pattern
 %.o:	%.S;$(CC) ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
@@ -36,7 +48,7 @@ genisoimage -R \
 	   -boot-info-table \
        -o ../sos.iso ../iso	
 
-#------------------------------------------ source files
+#------------------------------------------ <source files>
 #add here your source files typically c rsp. S files
 SRC=vga-demo.c \
 sys/boot/grub-big-bang.S \
@@ -53,22 +65,14 @@ io/kbd.c \
 kbdc-demo.c \
 clock-demo.c 
 
-#------------------------------------------ applications
-vga-demo:	vga-demo.o io/screen.o sys/start.o stdout.o sys/boot/grub-big-bang.o
-kbdc-demo:	kbdc-demo.o \
-	stdout.o stdio.o \
-	io/screen.o io/ascii.o \
-	sys/start.o sys/boot/grub-big-bang.o
-clock-demo:	clock-demo.o \
-	stdout.o stdio.o \
-	io/screen.o io/ascii.o io/kbd.o \
-	sys/start.o sys/deb.o sys/boot/grub-big-bang.o \
-	sys/pic.o sys/pit.o sys/trap.o sys/trap0.o 
+#------------------------------------------ <applications>
+hello-world:	hello-world.o stdio.o stdout.o io/ascii.o io/screen.o \
+	sys/boot/grub-big-bang.o sys/start.o
 #------------------------------------------ rules
 #at first time using make empty make.rules
 include make.rules       # made by make rules
 
-#------------------------------------------ admin
+#------------------------------------------ <admin>
 .PHONY rules:
 rules:	${SRC}
 	sh ../../tool/make-rules.sh ${SRC}
