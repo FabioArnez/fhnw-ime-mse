@@ -29,7 +29,9 @@ LDFLAGS=-nostdlib -Wl,--script=../config/ram.ld -Wl,-Map -Wl,${@}.map
 #------------------------------------------ the source files
 #add your sources here 
 SRC=first.S \
-sys/boot/big-bang.S 
+sys/boot/big-bang.S \
+sys/deb.c \
+sys/start.c
 
 #------------------------------------------ THE APPLICATIONS
 
@@ -39,7 +41,7 @@ first:		first.o
 	${OBJCOPY} -O binary first first.img
 
 #--------------------------- big-bang-test
-sys/boot/big-bang:	sys/boot/big-bang.o
+sys/boot/big-bang:	sys/boot/big-bang.o sys/deb.o
 
 #------------------------------- the rules made with make rules
 include make.rules

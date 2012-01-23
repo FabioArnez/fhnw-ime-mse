@@ -7,18 +7,18 @@
 ----------------------*/
 #include "sys/deb.h"
 
-static volatile struct 
+extern volatile struct 
 {
  unsigned DR;                         /*Data register */ 
  unsigned SR;                       /* Receive status */
  unsigned res[4];                         /* reserved */
  unsigned FR;                                 /* Flag */  
-}* UART = 0x16000000;
+} UART0;                                /* see ram.ld */
 
-static void deb_out(char ch)
+void deb_out(char ch)
 {
- while(UART->FR&(1<<3)){} /* wait until busys cleared */
- UART->DR=ch;
+ while(UART0.FR&(1<<3)){} /* wait until busys cleared */
+ UART0.DR=ch;
 }
 
 static void deb_out_string(const char*const s)

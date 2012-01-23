@@ -17,28 +17,30 @@
   ldr pc,=address_of_handler
 */
 	ldr pc,=.onReset           /* 0x00 A2.6.2 */
+	
 /*------------------------------------------ text */
 .text	
 .onReset:
 	bl .setStack
 	bl .setIRQStack
-	mov r0,sp
-	bl .hex
-	bl .signal
+	ldr r0,=.hello
+	bl deb_string
+0:	b 0b				/* forever */	
 
 .setStack:
 	ldr sp,=_stack_top
 	mov pc,lr
 	
 .setIRQStack:
-	mrs r0,cpsr             /* mode bits 0..4*/
-	bic r1,r0,#0x1f             /* mode bits */
-	orr r1,r1,#0x12            /* 10010 IRQ  */ 
+	mrs r0,cpsr                 /* mode bits 0..4*/
+	bic r1,r0,#0x1f                 /* mode bits */
+	orr r1,r1,#0x12                /* 10010 IRQ  */ 
 	msr cpsr_c,r1	
 	ldr sp,=_irq_stack_top
-	msr cpsr_c,r0		 /* prevous mode */
+	msr cpsr_c,r0		     /* prevous mode */
 	mov pc,lr
 
+.hello:	.asciz "Hello World\n";
 
 /*--------------------------------- very basic debug */
 /* see first.S */
@@ -74,7 +76,6 @@
 
 UART0=0x10009000                 /* address of UART0 */			
 
-#if 1
 /*-------------------------------------------- stack */
                                 /* see config/ram.ld */
 .section .stack	
@@ -82,11 +83,11 @@ UART0=0x10009000                 /* address of UART0 */
 _irq_stack_top:
 	.space 4*STACK_SIZE_WORD
 _stack_top:
-#endif
 
 
 
 #if 0
+/----------------------- not used --------------------------*/
 	ldr pc,=.onReset           /* 0x00 A2.6.2 */
 	ldr pc,  onUndef           /* 0x04 A2.6.3 */
 	ldr pc,=.onSWI             /* 0x08 A2.6.4 */

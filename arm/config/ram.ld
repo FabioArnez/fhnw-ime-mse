@@ -9,8 +9,14 @@
 OUTPUT_FORMAT("elf32-littlearm", "elf32-bigarm",
 	      "elf32-littlearm")
 OUTPUT_ARCH(arm)
+  
 SECTIONS
 {
+ /*--------------------------
+   the periphery
+ ----------------------------*/
+
+ UART0 = 0x10009000;
  . = 0;                      /* start of memory */
  .text :
    /* ^----------------- this space is relevant */
