@@ -27,7 +27,7 @@ LDFLAGS=-nostdlib -Wl,--script=../config/ram.ld -Wl,-Map -Wl,${@}.map
 #------------------------------------------ the source files
 #add your sources here 
 SRC=first.S \
-sys/boot/big-bang.S
+sys/boot/big-bang.S 
 
 #------------------------------------------ THE APPLICATIONS
 

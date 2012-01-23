@@ -20,20 +20,43 @@
 /*------------------------------------------ text */
 .text	
 .onReset:
+	ldr r0,=0x9abcdef0 
+	bl .hex
 	bl .signal
 
 /*--------------------------------- very basic debug */
 /* see first.S */
 .signal:
-	ldr r0,=0x10009000       /* address of UART0 */
+	ldr r0,=UART0            /* address of UART0 */
 	ldr r1,='1'                 /* char to print */
 0:	ldr r2,[r0,#0x18]     /* wait until tx ready */
-	ands r2,r2,#(1<<7)               /* tx empty */
-	beq 0b
+	ands r2,r2,#(1<<3)               /* tx empty */
+	bne 0b
 	str r1,[r0]                    /* write char */
 1:	b 1b                              /* forever */
 
+.hex:              /* prints r0 hexadecimal to UART0 */
+	                            /* see src/hex.S */
+	ldr r1,=UART0
+	ldr r2,=8                      /* nibble cnt */
+
+0:	mov r0,r0,ROR #28          /* rotate 28 bits */
+	and r3,r0,#0xf	    /* mask nibble: 0<=r3<16 */
+	cmp r3,#10
+	addlt r3,r3,#'0'                  /* 0<=r3<9 */
+	addge r3,r3,#('a'-10)           /* 10<=r3<16 */
+	                 /* r3<-r3-10+'a'=r1+('a'-10)*/
+	                    /* r3 character to print */
+1:	ldr r4,[r1,#0x18]             /* UART0 flags */
+	ands r4,r4,#(1<<3)                   /* BUSY */
+	bne 1b
+	str r3,[r1]                    /* print char */
 	
+	subs r2,r2,#1                 /* next nibble */
+	bne 0b
+2:	b 2b                         /* loop forever */	
+
+UART0=0x10009000                 /* address of UART0 */			
 
 #if 0
 	ldr pc,=.onReset           /* 0x00 A2.6.2 */

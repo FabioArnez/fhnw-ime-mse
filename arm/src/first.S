@@ -18,8 +18,8 @@ $Id$
 	mov r1,#'0'	            /* char to be printed */
 
 0:	ldr r2,[r0,#0x18]                /* flag register */
-	ands r2,r2,#(1<<7)           /* set cond register */
-	beq 0b
+	ands r2,r2,#(1<<3)                       /* busy  */
+	bne 0b
 	str r1,[r0]
 	b 0b
 	
