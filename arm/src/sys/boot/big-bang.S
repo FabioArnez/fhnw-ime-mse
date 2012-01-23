@@ -17,6 +17,26 @@
   ldr pc,=address_of_handler
 */
 	ldr pc,=.onReset           /* 0x00 A2.6.2 */
+/*------------------------------------------ text */
+.text	
+.onReset:
+	bl .signal
+
+/*--------------------------------- very basic debug */
+/* see first.S */
+.signal:
+	ldr r0,=0x10009000       /* address of UART0 */
+	ldr r1,='1'                 /* char to print */
+0:	ldr r2,[r0,#0x18]     /* wait until tx ready */
+	ands r2,r2,#(1<<7)               /* tx empty */
+	beq 0b
+	str r1,[r0]                    /* write char */
+1:	b 1b                              /* forever */
+
+	
+
+#if 0
+	ldr pc,=.onReset           /* 0x00 A2.6.2 */
 	ldr pc,  onUndef           /* 0x04 A2.6.3 */
 	ldr pc,=.onSWI             /* 0x08 A2.6.4 */
 	ldr pc,=.onPrefetchAbort   /* 0x0c A2.6.5 */
@@ -36,6 +56,7 @@ onIRQ: 	.word .onReserved
 .onReset:
 	bl .setStack
 	bl .setIRQStack
+
 	bl _start      /* call _start a C routine */ 
 	b .do_reset
 
@@ -73,10 +94,12 @@ onIRQ: 	.word .onReserved
 	ldr r0,=0x1000000c
 	orr r1,r1,#(1<<3)
 	str r1,[r0]   /* reset */
-	
-/*----------------------------------------- stack */
+
+
+/*-------------------------------------------- stack */
 .section .stack	
 	.space 4*IRQ_STACK_SIZE_WORD
 .irq_stack_top:
 	.space 4*STACK_SIZE_WORD
 .stack_top:
+#endif
