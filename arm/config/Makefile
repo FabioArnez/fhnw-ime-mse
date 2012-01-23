@@ -9,16 +9,18 @@
 
 VPATH=../src:../../src
 PREFIX=../tc/bin/arm-fhnw-eabi
+#------------------------- the tool names 
 CC=${PREFIX}-gcc
 LD=${PREFIX}-ld
 OBJCOPY=${PREFIX}-objcopy
 CXX=${PREFIX}-g++
 
 CFLAGS=-std=gnu99 -O2
-
-
-
 export CPPFLAGS=-I../src -I../../src
+#the defines
+
+CPPFLAGS+=-DIRQ_STACK_SIZE_WORD=0x20 \
+	-DSTACK_SIZE_WORD=0x100
 
 LDFLAGS=-nostdlib -Wl,--script=../config/ram.ld -Wl,-Map -Wl,${@}.map
        # |        |----- the linker script

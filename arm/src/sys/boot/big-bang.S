@@ -20,9 +20,25 @@
 /*------------------------------------------ text */
 .text	
 .onReset:
-	ldr r0,=0x9abcdef0 
+	bl .setStack
+	bl .setIRQStack
+	mov r0,sp
 	bl .hex
 	bl .signal
+
+.setStack:
+	ldr sp,=_stack_top
+	mov pc,lr
+	
+.setIRQStack:
+	mrs r0,cpsr             /* mode bits 0..4*/
+	bic r1,r0,#0x1f             /* mode bits */
+	orr r1,r1,#0x12            /* 10010 IRQ  */ 
+	msr cpsr_c,r1	
+	ldr sp,=_irq_stack_top
+	msr cpsr_c,r0		 /* prevous mode */
+	mov pc,lr
+
 
 /*--------------------------------- very basic debug */
 /* see first.S */
@@ -58,6 +74,18 @@
 
 UART0=0x10009000                 /* address of UART0 */			
 
+#if 1
+/*-------------------------------------------- stack */
+                                /* see config/ram.ld */
+.section .stack	
+	.space 4*IRQ_STACK_SIZE_WORD
+_irq_stack_top:
+	.space 4*STACK_SIZE_WORD
+_stack_top:
+#endif
+
+
+
 #if 0
 	ldr pc,=.onReset           /* 0x00 A2.6.2 */
 	ldr pc,  onUndef           /* 0x04 A2.6.3 */
@@ -83,20 +111,6 @@ onIRQ: 	.word .onReserved
 	bl _start      /* call _start a C routine */ 
 	b .do_reset
 
-.setStack:
-	ldr sp,=.stack_top
-	mov pc,lr
-	
-.setIRQStack:
-	mrs r0,cpsr
-	ldr r1,=0x1f        /* Mode mask [1]A2.5 */
-	ldr r2,=0x12                 /* IRQ Mode */
-	bic r0,r1
-        orr r0,r0,r2
-
-	msr cpsr_c,r0
-	ldr sp,=.irq_stack_top
-	mov pc,lr
 
 .onIRQ:
 	mov r0,sp
@@ -119,10 +133,4 @@ onIRQ: 	.word .onReserved
 	str r1,[r0]   /* reset */
 
 
-/*-------------------------------------------- stack */
-.section .stack	
-	.space 4*IRQ_STACK_SIZE_WORD
-.irq_stack_top:
-	.space 4*STACK_SIZE_WORD
-.stack_top:
 #endif
