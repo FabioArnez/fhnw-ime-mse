@@ -1,19 +1,27 @@
 /*--------------------------
 first
- testing and configuring qemu
- setting up the Makefile 
- see [IntegratorCM]
-(c) H.Buchmann FHNW 2011 
+ - testing and configuring qemu
+ - setting up the Makefile 
+ - PIC position independent code
+
+ - see [RealViewEmulationBaseboard] 
+   4.23 UART
+ - see [UART_PL011] 
+   3.0 Programmer's Model
+ 
+ - see ../tools/run.sh for qemu  
+(c) H.Buchmann FHNW 2012 
+TODO: why SYS_LED dont works ?
 $Id$
 --------------------------*/
-/* at reset */
-	ldr r0,CM_CTRL         /*addressing relative to pc */
-	ldr r1,[r0]
-	orr r1,r1,#1<<0             /*set bit 0 for LED on */
-	str r1,[r0]                     /*write to address */
-	orr r1,r1,#1<<3          /*set bit 3 for resetting */
-	mov r2,pc       
-	str r1,[r0]                        /*do the reset  */
-	                                  /*r2 pc at reset */
+	ldr r0,UART0   
+	mov r1,#'0'	            /* char to be printed */
+
+0:	ldr r2,[r0,#0x18]                /* flag register */
+	ands r2,r2,#(1<<7)           /* set cond register */
+	beq 0b
+	str r1,[r0]
+	b 0b
 	
-CM_CTRL: .word 0x1000000c
+UART0:	 .word 0x10009000
+
