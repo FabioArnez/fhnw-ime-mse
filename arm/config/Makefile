@@ -31,7 +31,12 @@ LDFLAGS=-nostdlib -Wl,--script=../config/ram.ld -Wl,-Map -Wl,${@}.map
 SRC=first.S \
 sys/boot/big-bang.S \
 sys/deb.c \
-sys/start.c
+sys/start.c \
+hello-world.c \
+stdio.c \
+stdout.c \
+io/ascii.c \
+io/uart.c
 
 #------------------------------------------ THE APPLICATIONS
 
@@ -42,6 +47,8 @@ first:		first.o
 
 #--------------------------- big-bang-test
 sys/boot/big-bang:	sys/boot/big-bang.o sys/deb.o
+hello-world:	hello-world.o sys/boot/big-bang.o sys/start.o sys/deb.o \
+	stdio.o stdout.o io/ascii.o io/uart.o
 
 #------------------------------- the rules made with make rules
 include make.rules

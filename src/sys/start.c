@@ -7,7 +7,7 @@ see big-bang
 #include "stdout.h"
 extern int main();
 
-extern unsigned bss_start[];            /* see linker script */
+extern unsigned bss_start[];                 /* see linker script */
 extern unsigned bss_end[];
 
 /* ------------------------------------dummy functions for cygwin */

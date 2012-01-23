@@ -23,8 +23,7 @@
 .onReset:
 	bl .setStack
 	bl .setIRQStack
-	ldr r0,=.hello
-	bl deb_string
+	bl _start
 0:	b 0b				/* forever */	
 
 .setStack:

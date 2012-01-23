@@ -5,23 +5,23 @@
  see [IntegratorCM] [UART]
  -----------------------*/
 
-static volatile struct 
+extern volatile struct 
 {
  unsigned DR;                         /*Data register */ 
  unsigned SR;                       /* Receive status */
  unsigned res[4];                         /* reserved */
  unsigned FR;                                 /* Flag */  
-}* UART = 0x16000000;
+} UART0;
 
 void uart_out(char ch)
 {
- while(UART->FR&(1<<3)){} /* wait until busy cleared */
- UART->DR=ch;
+ while(UART0.FR&(1<<3)){} /* wait until busy cleared */
+ UART0.DR=ch;
 }
 
 char uart_in()
 {
- while(UART->FR&(1<<4)){} /* wait until rx ready */
- return UART->DR;
+ while(UART0.FR&(1<<4)){} /* wait until rx ready */
+ return UART0.DR;
 }
 
