@@ -36,8 +36,11 @@ hello-world.c \
 stdio.c \
 stdout.c \
 io/ascii.c \
-io/uart.c
+io/uart.c \
+sys-id.c
 
+SYSTEM=sys/boot/big-bang.o sys/start.o sys/deb.o \
+	stdio.o stdout.o io/ascii.o io/uart.o
 #------------------------------------------ THE APPLICATIONS
 
 #--------------------------- very first
@@ -49,6 +52,8 @@ first:		first.o
 sys/boot/big-bang:	sys/boot/big-bang.o sys/deb.o
 hello-world:	hello-world.o sys/boot/big-bang.o sys/start.o sys/deb.o \
 	stdio.o stdout.o io/ascii.o io/uart.o
+
+sys-id: sys-id.o ${SYSTEM}
 
 #------------------------------- the rules made with make rules
 include make.rules

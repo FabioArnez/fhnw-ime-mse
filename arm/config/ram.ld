@@ -15,8 +15,10 @@ SECTIONS
  /*--------------------------
    the periphery
  ----------------------------*/
+ SYS_ID = 0x10000000;
+ UART0  = 0x10009000;
 
- UART0 = 0x10009000;
+
  . = 0;                      /* start of memory */
  .text :
    /* ^----------------- this space is relevant */
