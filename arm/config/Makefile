@@ -37,7 +37,8 @@ stdio.c \
 stdout.c \
 io/ascii.c \
 io/uart.c \
-sys-id.c
+sys-id.c \
+lcd-demo.c
 
 SYSTEM=sys/boot/big-bang.o sys/start.o sys/deb.o \
 	stdio.o stdout.o io/ascii.o io/uart.o
@@ -50,11 +51,14 @@ first:		first.o
 
 #--------------------------- big-bang-test
 sys/boot/big-bang:	sys/boot/big-bang.o sys/deb.o
+
+#--------------------------- the other applications
 hello-world:	hello-world.o sys/boot/big-bang.o sys/start.o sys/deb.o \
 	stdio.o stdout.o io/ascii.o io/uart.o
 
 sys-id: sys-id.o ${SYSTEM}
 
+lcd-demo:	lcd-demo.o ${SYSTEM}
 #------------------------------- the rules made with make rules
 include make.rules
 
