@@ -14,5 +14,5 @@ if [ ! -f ${1} ]
         exit 1
 fi
 
-qemu-system-arm -M realview-eb -kernel ${1} -nographic
+../../../qemu/bin/qemu-system-arm -M realview-eb -kernel ${1} -nographic
 stty echo

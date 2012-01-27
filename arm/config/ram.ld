@@ -15,8 +15,10 @@ SECTIONS
  /*--------------------------
    the periphery
  ----------------------------*/
- SYS_ID = 0x10000000;
+ SYS    = 0x10000000;
+ 
  UART0  = 0x10009000;
+ CLCDC  = 0x10020000; /* Color LCD Controller */    
 
 
  . = 0;                      /* start of memory */

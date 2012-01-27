@@ -1,42 +1,25 @@
-/*--------------------
- sys important sys functions
- (c) H.Buchmann FHNW 2011
+/*-----------------------------
+ reg status and system control registers
+ see [RealViewEmulationBaseboard] 4.3
+ (c) H.Buchmann FHNW 2012
  $Id$
- see [1] literature/ARM-Architecture-Reference-Manual.pdf
-     [2] http://gcc.gnu.org/onlinedocs/gcc-4.5.2/gcc/
-----------------------*/
+ ------------------------------*/ 
+/* test */
+#if 1
 #include "sys/sys.h"
-void sys_undef()
+#include "stdio.h"
+int main()
 {
- asm volatile /* see [2] Extended-Asm.html#Extended-Asm */
- (
-  ".word 0xe7f000f0"           /* see [1] A3.16.5 p 147 */
-  :
-  :
- );
+ printf("MCI        =%x\n"
+        "CONFIGDATA =%x\n"
+	"FLAGS      =%x FLAGSSET =%x\n"
+        "OSCRESET   =%x\n"
+        "PLDCTL     =%x\n"
+        ,&SYS.MCI
+	,SYS.CONFIGDATA
+	,&SYS.FLAGS,&SYS.FLAGSSET
+	,SYS.OSCRESET
+	,SYS.PLDCTL);
+ return 0;
 }
-
-unsigned sys_getCPSR()
-{
- unsigned v;
- asm volatile /* see [2] Extended-Asm.html#Extended-Asm */
- (
-  "@--------------- sys_getCPSR\n"
-  "\tmrs %[v],cpsr"            /* see [1] A3.10.2 128 */
-  :[v] "=r" (v)/* out */
-  :            /* in */
- );
- return v;
-}
- 
-void sys_setCPSR(unsigned v)
-{
-  asm volatile /* see [2] Extended-Asm.html#Extended-Asm */
- (
-  "@--------------- sys_setCPSR\n"
-  "\tmsr cpsr,%[v]"               /* see [1] A3.10.2 128 */
-  :            /* out */
-  :[v] "r" (v)  /* in */
- );
-}
-
+#endif
