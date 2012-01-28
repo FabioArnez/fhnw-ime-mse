@@ -38,7 +38,9 @@ stdio.c \
 stdout.c \
 io/ascii.c \
 io/uart.c \
+io/lcd.c \
 sys-id.c \
+lcd-demo-0.c \
 lcd-demo.c \
 deb-test.c
 
@@ -60,7 +62,8 @@ hello-world:	hello-world.o sys/boot/big-bang.o sys/start.o sys/deb.o \
 
 sys-id: sys-id.o ${SYSTEM}
 deb-test:	deb-test.o ${SYSTEM}
-lcd-demo:	lcd-demo.o ${SYSTEM}
+lcd-demo-0:	lcd-demo-0.o ${SYSTEM}
+lcd-demo:	lcd-demo.o io/lcd.o ${SYSTEM}
 sys/sys:	sys/sys.o ${SYSTEM}
 #------------------------------- the rules made with make rules
 include make.rules
