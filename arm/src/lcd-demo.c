@@ -11,5 +11,10 @@ int main()
  {
   lcd_pixel(x,x,0xffff);
  }
+ unsigned x=0;
+ for(char ch=' ';ch<0x80;++ch)
+ {
+  x+=lcd_char(x,0,0xffff,ch);;
+ }
  return 0;
-}  
+}

@@ -83,7 +83,7 @@ int main()
 {
  printf("-------------------- main ------------------\n");
  init();
- SYS.OSC4=0x2cac;
+ SYS.OSC[4]=0x2cac;
  CLCDC.Timing0= 0x1313A4C4;  
  CLCDC.Timing1= 0x0505F657;
  CLCDC.Timing2= 0x071F1800;

@@ -13,11 +13,7 @@ struct
 VAR(ID             ,0x10000000,RO,-);/*System Identity. See ID Register  SYS_ID on page 4-13. */
 VAR(SW             ,0x10000004,RO,-);/*Bits [7:0] map to S6 (user switches). See Switch Register  SYS_SW on page 4-14.*/ 
 VAR(LED            ,0x10000008,RW,-);/*Bits [7:0] map to user LEDs (located next to S6). See LED Register  SYS_LED on page 4-15.*/ 
-VAR(OSC0           ,0x1000000C,RW,-);/*Settings for the ICS307 programmable oscillator chip Lockable OSC0. See Oscillator registers  SYS_OSCx on page 4-15.*/ 
-VAR(OSC1           ,0x10000010,RW,-);/*Settings for the ICS307 programmable oscillator chip Lockable OSC1.*/ 
-VAR(OSC2           ,0x10000014,RW,-);/*Settings for the ICS307 programmable oscillator chip Lockable OSC2.*/ 
-VAR(OSC3           ,0x10000018,RW,-);/*Settings for the ICS307 programmable oscillator chip Lockable OSC3.*/ 
-VAR(OSC4           ,0x1000001C,RW,-);/*Settings for the ICS307 programmable oscillator chip Lockable OSC4.*/ 
+VAR(OSC[5]         ,0x1000000C,RW,-);/*Settings for the ICS307 programmable oscillator chip Lockable OSC0. See Oscillator registers  SYS_OSCx on page 4-15.*/ 
 VAR(LOCK           ,0x10000020,RW,-);/*Write 0xA05F to unlock. See Lock Register, SYS_LOCK on page 4-16.*/ 
 VAR(_100HZ         ,0x10000024,RO,-);/*100Hz counter. See 100Hz Counter, SYS_100HZ on page 4-17. */
 VAR(CONFIGDATA[2]  ,0x10000028,RW,-);/*This region is reserved for registers that are used to

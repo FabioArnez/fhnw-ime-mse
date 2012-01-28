@@ -10,6 +10,7 @@
 #include <sys/sys.h>
 #include <sys/def-register.h>
 #include <io/lcd.h>
+#include <io/font.h>
 extern volatile struct
 {
 VAR(Timing[4]   ,0x000      ,RW,0x00000000);/* Horizontal Axis Panel Control Register on page 3-5); */
@@ -70,11 +71,12 @@ static const struct
           };
 
 
-static unsigned short pixel[600*400]; 
+static unsigned short pixel[WI*HE]; 
 
 void lcd_init()
 {
- SYS.OSC4    =Init[SVGA_800x600].OSC4;
+ font_init();
+ SYS.OSC[4]    =Init[SVGA_800x600].OSC4;
  for(unsigned i=0;i<4;++i)CLCDC.Timing[i]=Init[SVGA_800x600].Timing[i];
  CLCDC.UPBASE=(unsigned)pixel;
  CLCDC.LPBASE=(unsigned)pixel;
@@ -86,10 +88,36 @@ void lcd_init()
 			    6: 16 bpp 5:6:5 ok both
 			    7: 12 bbp 4:4:4 ok mine qemu-devel
 	                  */
+ for(unsigned i=0;i<WI*HE;++i) pixel[i]=0;
 }
 
 void lcd_pixel(unsigned x,unsigned y, Color c)
 {
  if ((x>WI)||(y>HE)) return;
  pixel[y*WI+x]=c;
+}
+
+unsigned lcd_char(unsigned x,unsigned y,Color c,char ch)
+{
+ Glyph g;
+ font_glyph(ch,&g);
+ unsigned wip=(32*g.wi)/16; /* in pixel */
+ unsigned short* p0=pixel+y*WI+x;          /* upper left */
+ unsigned bit =0;
+ for(unsigned i=0;i<g.wi;++i)
+ {
+  unsigned pix=g.pix[i];
+  unsigned mask=(1<<31); /* MSB */
+  while(mask>0)
+  {
+   p0[bit++]=(pix&mask)?c:0;
+   if (bit==wip)
+      {
+       bit=0;
+       p0+=WI;
+      }
+   mask>>=1;
+  }
+ }
+ return wip; 
 }
