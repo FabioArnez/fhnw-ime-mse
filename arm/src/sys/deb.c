@@ -2,7 +2,7 @@
  deb(ug)
  (c) H.Buchmann FHNW 2011
  $Id$
- see [IntegratorCM] [UART]
+ see [RealViewEmulationBaseboard] [UART]
  compile with at least O2
 ----------------------*/
 #include "sys/deb.h"
@@ -19,6 +19,12 @@ void deb_out(char ch)
 {
  while(UART0.FR&(1<<3)){} /* wait until busys cleared */
  UART0.DR=ch;
+}
+
+char deb_in()
+{
+ while(UART0.FR&(1<<4)){}
+ return UART0.DR;
 }
 
 static void deb_out_string(const char*const s)

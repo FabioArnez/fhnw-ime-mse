@@ -40,6 +40,7 @@ io/ascii.c \
 io/uart.c \
 sys-id.c \
 lcd-demo.c \
+deb-test.c
 
 SYSTEM=sys/boot/big-bang.o sys/start.o sys/deb.o \
 	stdio.o stdout.o io/ascii.o io/uart.o
@@ -58,7 +59,7 @@ hello-world:	hello-world.o sys/boot/big-bang.o sys/start.o sys/deb.o \
 	stdio.o stdout.o io/ascii.o io/uart.o
 
 sys-id: sys-id.o ${SYSTEM}
-
+deb-test:	deb-test.o ${SYSTEM}
 lcd-demo:	lcd-demo.o ${SYSTEM}
 sys/sys:	sys/sys.o ${SYSTEM}
 #------------------------------- the rules made with make rules

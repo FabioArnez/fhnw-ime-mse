@@ -13,4 +13,5 @@ extern void deb_out(char ch);
 extern void deb_string(const char*const msg);
 extern void deb_hex(unsigned val); /* position idependent deb_hex */
                                    /* see hex.S */
- 
+
+extern char deb_in(); /* waits until char read */

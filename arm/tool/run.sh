@@ -18,4 +18,4 @@ QEMU=../../../qemu/bin/
 ${QEMU}qemu-system-arm -M realview-eb -kernel ${1} -serial stdio -sdl -display sdl
 #-chardev pipe,id=console,path=console
 #-nographic
-#stty echo
+stty echo
