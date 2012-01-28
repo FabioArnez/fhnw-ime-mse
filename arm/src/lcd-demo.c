@@ -50,13 +50,38 @@ VAR(PCellID2    ,0xFF8      ,RO,0x05      );/* PrimeCell Identification Register
 VAR(PCellID3    ,0xFFC      ,RO,0xB1      );/* PrimeCell Identification Register 3 on page 3-32); */
 } CLCDC;
 
+#define SIZE (1<<20)
+unsigned char display[SIZE] __attribute__((aligned(8)));
+
+static void init()
+{
+ printf("---------init-------\n");
+ for(unsigned i=0;i<SIZE;++i) display[i]=(unsigned char)i;
+ printf("---------done-------\n");
+}
+
 int main()
 {
+ printf("-------------------- main ------------------\n");
+ init();
  SYS.OSC4=0x2cac;
- CLCDC.Timing0=0x1313A4C4,
- CLCDC.Timing1=0x0505F657,
+ CLCDC.Timing0= 0x1313A4C4;  
+ CLCDC.Timing1=0x0505F657;
  CLCDC.Timing2=0x071F1800;
-
- printf("PCellID3 = %p\n",&CLCDC.PCellID3);
+ CLCDC.UPBASE=(unsigned)display;
+ CLCDC.LPBASE=(unsigned)display;
+ CLCDC.Control=(1<< 0)
+              |(1<<11)
+	      |(1<< 5)
+	      |(5<< 1);  /* 4: 16 bpp       ok both
+	                    5: 24 bpp TFT   ok both
+			    6: 16 bpp 5:6:5 ok both
+			    7: 12 bbp 4:4:4 ok mine qemu-devel
+	                  */
+ printf("CLCDC.Control @ %p val %x\n"
+        "      UPBASE  %x LPBASE %x\n",
+        &CLCDC.Control,CLCDC.Control,
+	 CLCDC.UPBASE ,CLCDC.LPBASE
+	);
  return 0;
 }
