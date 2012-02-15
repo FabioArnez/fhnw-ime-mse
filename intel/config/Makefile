@@ -42,7 +42,8 @@ ld  -o${@} \
     -Map ${@}.map ${^} && \
 objcopy --output-target=binary ${@} ../iso/${@} && \
 genisoimage -R \
-           -b stage2_eltorito \
+	   -graft-points \
+           -bstage2_eltorito \
 	   -no-emul-boot \
 	   -boot-load-size 4 \
 	   -boot-info-table \
