@@ -18,5 +18,5 @@ qemu
 qemu-devel
 tc
 *.iso
-iso
+iso/
 distro*
