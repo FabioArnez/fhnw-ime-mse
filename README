@@ -4,12 +4,12 @@ The home of sos
 src 
   *.c/h files
 
-host:   fully featured POSIX  
+host:   simulated POSIX
   config: Makefiles etc.
   src
   work
 
-arm:   minimal arm integratorcp virtual machines
+arm:   minimal arm realview virtual machines
   config	
   src
   tool:     arm specific tools
@@ -23,10 +23,9 @@ intel: minimal BIOS based virtual machine
   tool:     intel specific tools
   work
 
-
 posix: fully equipped posix system
   config 
-  src 
+  src *.c/h and *.java Files
   work
   
 tool: scripts

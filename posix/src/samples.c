@@ -40,7 +40,7 @@ static void samples(double fS,/* sampling frequency Hz */
   double y1=x0*sin_ + y0*cos_;
   x0=x1;
   y0=y1;
-  for(unsigned i=0;i<30000;++i)     /* set the value manually */
+  for(unsigned i=0;i<12000;++i)     /* set the value manually */
   {
    volatile unsigned v=i; /* preventing optimizer to optimize loop away */
   }

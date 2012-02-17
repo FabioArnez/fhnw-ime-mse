@@ -7,116 +7,257 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.LineNumberReader;
 import java.io.File;
+import java.io.InputStream;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.Vector;
+import java.util.Stack;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Collections;
+import java.util.Comparator;
 
 class Indexer
 {
 //TODO make a parameter
- static private final String   IdxHome="../../slides/hardware-related-software";
- static private final String   SrcHome="../..";
- static private final String[] PathNames= 
-   {
-    "sos/arm",
-    "sos/arm/config",
-    "sos/arm/src",
-    "sos/arm/tool",
-    "sos/host",
-    "sos/host/config",
-    "sos/host/src",
-    "sos/intel",
-    "sos/intel/config",
-    "sos/intel/iso",
-    "sos/intel/src",
-    "sos/intel/tool",
-    "sos/posix",
-    "sos/posix/config",
-    "sos/posix/src",
-    "sos/src",
-    "sos/tool",
-    "codedemos/config",
-    "codedemos/src",
-    "codedemos/src/hardware",
-    "codedemos/src/mem",
-    "codedemos/src/mem/ram"
-   };
+ private final Properties props=new Properties();
+ 
+ private final String   idxHome;
 
- class Entry implements Comparable<Entry>
+ class Entry 
  {
-  String name;     //of file
-  Vector<String> lst;
-  Entry(String name,Vector<String> lst)
+  String          file;     //of file
+  Vector<String>  lst;      //of file locations
+  Map<String,Vector<String>> slide=new TreeMap<String,           //name
+                                               Vector<String>>();//page nbr
+  
+  Entry(String file)
   {
-   this.name=name;
-   this.lst=lst;
+   this.file=file;
+   lst=locate(file);
   }
   
-  public int compareTo(Entry e)
+  void slide(String name,String page)
   {
-   return name.compareTo(e.name);
-  }
- }
- 
- Map<Entry,Map<String,Vector<String>>> index=new TreeMap<Entry,     // file
-                                                         Map<String, //slide
-							 Vector<String>>>();//page
-  
- static private final File[] Path=new File[PathNames.length];
- 
- static 
- {
-  int i=0;
-  for(String s:PathNames)
-  {
-   Path[i++]=new File(SrcHome+"/"+s);
-  }
- }
-
- static private final Pattern Entry=Pattern.compile(
-           "\\\\indexentry\\{(.*)\\}\\{(.*)\\}"
-                                                   );
- 
-
- Vector<String> locate(String f)
- {
-  Vector<String> list=new Vector<String>();
-  int i=0;
-  for(File dir:Path)
-  {
-   File fil=new File(dir,f);
-   if (fil.exists())
+   Vector<String> pag=slide.get(name);
+   if (pag==null)
       {
-       list.add(PathNames[i]+"/"+f);    
+       pag=new Vector<String>();
+       slide.put(name,pag);
       }
-   ++i;   
+   pag.add(page);   
   }
-  return list;
  }
+
+  
+ private final String     srcHome;
+ private Vector<String[]> fileList=new Vector<String[]>();
+ private Set<String>      exclude =new HashSet<String>();
+
+
+ private Map<String,Entry> index=new TreeMap<String,Entry>();
  
- private void insert(String idx,Entry key,String page)
+ private void insert(String slide, 
+                     String file,
+		     String page)
+
  {
-  Map<String,Vector<String>> e=index.get(key);
+  Entry e=index.get(file);
   if (e==null)
      {
-      e=new TreeMap<String,Vector<String>>();
-      index.put(key,e);
+      e=new Entry(file);
+      index.put(file,e);
      }
-  Vector<String> pages=e.get(idx);
-  if (pages==null)
+  e.slide(slide,page);   
+ }
+
+
+
+ private void show()
+ {
+  for(Map.Entry<String,Entry> e:index.entrySet())
+  {
+   System.out.print(e.getKey()+": ");
+   {
+    Entry ee=e.getValue();
+    for(Map.Entry<String,Vector<String>> eee:ee.slide.entrySet())
+    {
+     System.out.print(eee.getKey()+"(");
+     int pc=0;
+     for(String p:eee.getValue())
      {
-      pages=new Vector<String>();
-      e.put(idx,pages);
+      if (pc>0) System.out.print(",");
+      System.out.print(p);
+      ++pc;
      }
-  pages.add(page);
+     System.out.println(")");
+    }
+    for(String s:ee.lst)
+    {
+     System.out.println("    "+s);
+    } 
+   }
+   System.out.println();
+  }
+ }
+
+ private void add(Stack<File> path,File f)
+ {
+//  System.out.println("add "+f);
+  String[] p=new String[path.size()+2];
+  int i=0;
+  p[i++]=f.getName();
+  int size=path.size();
+  while(size>0)
+  {
+   p[i++]=path.get(--size).getName();
+  }
+  p[i]=null; //for terminating
+  fileList.add(p);
  }
  
+ private void fileList(Stack<File> path,File dir)
+ {
+//  System.out.println("fileList "+dir);
+  File[] lst=dir.listFiles();
+  for(File f:lst)
+  {
+//   System.err.println("  "+f.getName());
+   if (f.isDirectory() && ! exclude.contains(f.getName())) 
+      {
+       path.push(f);
+       fileList(path,f);
+       path.pop();
+       
+      }
+      else
+      {
+       add(path,f);
+      }
+  }
+ }
  
+ private void fileList()
+ {
+  Stack<File> path=new Stack<File>();
+  fileList(path,new File(srcHome));
+ }
+
+ class Cmp implements Comparator<String[]>
+ {
+  public int compare(String[] ss0,String[] ss1) //reverse order
+  {
+   int i=0;
+   while(true)
+   {
+    String s0=ss0[i];
+    String s1=ss1[i];
+    if (s0==null) return (s1==null)?0:1;
+    if (s1==null) return (s0==null)?0:-1;
+    int r=s0.compareTo(s1);
+    if (r!=0) return -r;
+    ++i;
+   }
+  }
+  
+  public boolean substring(String[] ss0,String ss1[])
+  {
+   int i=0;
+   while(true)
+   {
+    String s0=ss0[i];
+    String s1=ss1[i];
+    if (s0==null) return true;
+    if (s1==null) return false;
+    if (s0.compareTo(s1)!=0) return false;
+    ++i;
+   }
+  }
+ }
+ 
+ private Cmp cmp=new Cmp();
+ 
+ private void sort()
+ {
+  Collections.sort(fileList,cmp);
+ }
+ 
+ static private final Pattern Entry=
+        Pattern.compile("\\\\indexentry\\{(.*)\\}\\{(.*)\\}");
+
+ 
+ static private String[] revert(String f)
+ {
+  String[] ff=f.split("/+");
+  int len=ff.length;
+  String[] ffr=new String[len+1]; //last is null
+  int i=0;
+  while(len>0)
+  {
+   ffr[i++]=ff[--len];
+  }
+  ffr[i]=null;
+  return ffr;
+ }
+ 
+ static String string(String[] ss) 
+ {
+  int len=ss.length-1;
+  StringBuffer sb=new StringBuffer();
+  while(len>0)
+  {
+   sb.append(ss[--len]);
+   if (len>0) sb.append("/");
+  }
+  return sb.toString();
+ }
+ 
+ private int binarySearch(String[] s)
+ {
+//  System.out.println("binarySearch "+string(s));
+  int i0=0;
+  int i1=fileList.size();
+  while((i1-i0)>1)
+  {
+   int im=(i0+i1)/2;
+//   System.out.println(im+"\t"+string(fileList.get(im)));
+   if (cmp.compare(s,fileList.get(im))<0)
+      {
+       i1=im;
+      }
+      else
+      {
+       i0=im;
+      }
+   
+  }
+  return i0;
+ }
+ 
+ private Vector<String> locate(String f)
+ {
+  String[] fr=revert(f);
+  int i=binarySearch(fr);
+  Vector<String> lst=new Vector<String>();
+  while(true)
+  {
+   String[] ff=fileList.get(i--);
+   if (cmp.substring(fr,ff))
+      {
+       lst.add(string(ff));
+      }
+      else break;
+      
+  }
+  return lst;
+ }
+
  private void index(String fil) throws Exception
  {
-  String fName=IdxHome+"/"+fil+".idx";
+  String fName=idxHome+"/"+fil+".idx";
   try
   {
    LineNumberReader src=new LineNumberReader(new FileReader(fName));
@@ -127,9 +268,12 @@ class Indexer
     Matcher m=Entry.matcher(li);
     if (m.matches())
        {
-//        System.out.println(m.group(2)+"\t"+m.group(1));
-        Vector<String> lst=locate(m.group(1));
-	insert(fil,new Entry(m.group(1),lst),m.group(2));
+//        System.out.println(m.group(2)+  //page number
+//	                   "\t"+
+//	                   m.group(1)); //file name
+	insert(fil,          //the slide
+	       m.group(1),   //the file 
+	       m.group(2));  //the page number
        }
    }
   }
@@ -139,43 +283,49 @@ class Indexer
   }
  }
  
- private void show()
+ private void index() throws Exception
  {
-  for(Map.Entry<Entry,Map<String,Vector<String>>> me:index.entrySet())
-  {
-   Entry e=me.getKey();
-   System.out.print(e.name+": ");
-   for(Map.Entry<String,Vector<String>> ee:me.getValue().entrySet())
-   {
-    System.out.print(ee.getKey()+"(");
-    Vector<String> pages=ee.getValue();
-    for(int i=0;i<pages.size();++i)
-    {
-     if (i>0)System.out.print(",");
-     System.out.print(pages.get(i));
-    }
-    System.out.print(")");
-   }
-   System.out.println();
-   for(String f:e.lst)
-   {
-    System.out.println("  "+f);
-   }
-   System.out.println();
-  }
- }
- 
- private Indexer(String idxFiles[]) throws Exception
- {
-  for(String fil:idxFiles)
+  for(String fil:props.getProperty("IDX_FILES").split("\\s+"))
   {
    index(fil);
   }
+ }
+ 
+ private void exclude()
+ {
+  for(String s:props.getProperty("EXCLUDE_DIR").split("\\s+"))
+  {
+   exclude.add(s);
+  }
+ }
+ 
+ private Indexer(InputStream props) throws Exception
+ {
+  this.props.load(props);
+  idxHome=this.props.getProperty("IDX_HOME");
+  srcHome=this.props.getProperty("SRC_HOME");
+  exclude();
+  
+  fileList();
+  
+  sort();
+  
+/*
+  int i=0;
+  for(String[] ss:fileList)
+  {
+   System.out.print((i++)+"\t");
+   for(String s:ss) System.out.print(s+"/");
+   System.out.println();
+  }
+*/
+//  locate("big-bang-irq.S");
+  index();
   show();
  }
  
  public static void main(String args[]) throws Exception
  {
-  new Indexer(args); //list of idx files generated by latex
+  new Indexer(System.in); 
  }
 }

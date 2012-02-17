@@ -3,17 +3,24 @@
 #(c) H.Buchmann FHNW 2011
 #$Id$
 #-------------------------
-VPATH=../src:../../src
+CC=gcc
+CFLAGS=-std=c99 
+LDLIBS=-lm
 
 #posix files will be searched normally
-export CPPFLAGS:=-iquote../src -iquote../../src
+export CPPFLAGS:=-I../src -I../../src
+
+#-------------------------- where to look for the files
+VPATH=../src:../../src
 
 SRC=cpu-demo.c \
 cpu-demo-ops.c \
-stdio-test.c
+stdio-test.c \
+samples.c
 
 
-cpu-demo: cpu-demo.o cpu-demo-ops.o
+cpu-demo: 	cpu-demo.o cpu-demo-ops.o
+samples:	samples.o
 
 include make.rules
 
