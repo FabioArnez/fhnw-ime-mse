@@ -51,7 +51,7 @@ genisoimage -R \
 
 #------------------------------------------ <source files>
 #add here your source files typically c rsp. S files
-SRC= 
+SRC=hello-world.c
 
 #------------------------------------------ <applications>
 #------------------------------------------ rules
