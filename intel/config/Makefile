@@ -51,24 +51,9 @@ genisoimage -R \
 
 #------------------------------------------ <source files>
 #add here your source files typically c rsp. S files
-SRC=vga-demo.c \
-sys/boot/grub-big-bang.S \
-sys/start.c \
-sys/pic.c \
-sys/pit.c \
-sys/trap.c \
-sys/trap0.S \
-sys/deb.c \
-stdout.c \
-stdio.c \
-io/screen.c \
-io/kbd.c \
-kbdc-demo.c \
-clock-demo.c 
+SRC= 
 
 #------------------------------------------ <applications>
-hello-world:	hello-world.o stdio.o stdout.o io/ascii.o io/screen.o \
-	sys/boot/grub-big-bang.o sys/start.o
 #------------------------------------------ rules
 #at first time using make empty make.rules
 include make.rules       # made by make rules
