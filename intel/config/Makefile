@@ -54,6 +54,7 @@ genisoimage -R \
 SRC=hello-world.c
 
 #------------------------------------------ <applications>
+hello-world:	hello-world.o
 #------------------------------------------ rules
 #at first time using make empty make.rules
 include make.rules       # made by make rules
