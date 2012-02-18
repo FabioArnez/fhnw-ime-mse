@@ -50,6 +50,50 @@ class Indexer
       }
    pag.add(page);   
   }
+  
+  void showASCII()
+  {
+   System.out.print(file+": ");
+   for(Map.Entry<String,Vector<String>> e:slide.entrySet())
+   {
+    System.out.print(e.getKey()+"(");
+    Vector<String> pag=e.getValue();
+    for(int i=0;i<pag.size();++i)
+    {
+     if (i>0) System.out.print(",");
+     System.out.print(pag.get(i));
+    }
+    System.out.print(") ");
+   }
+   System.out.println();
+   for(String s:lst)
+   {
+    System.out.println("   "+s);
+   }   
+   System.out.println();
+  }
+
+  void showLatex()
+  {
+   System.out.println("\\begin{srcfileindex}{"+file+"}");
+   for(Map.Entry<String,Vector<String>> e:slide.entrySet())
+   {
+    System.out.print("\\textfile{"+e.getKey()+"}");
+    System.out.print("{");
+    Vector<String> pag=e.getValue();
+    for(int i=0;i<pag.size();++i)
+    {
+     if (i>0) System.out.print(",");
+     System.out.print(pag.get(i));
+    }
+    System.out.println("}");
+   }
+   System.out.println("\\begin{filelist}");
+   if (lst.isEmpty()) System.out.println("  \\item -");
+      else            for(String s:lst) System.out.println("  \\item "+s);
+   System.out.println("\\end{filelist}");
+   System.out.println("\\end{srcfileindex}");
+  }  
  }
 
   
@@ -76,34 +120,22 @@ class Indexer
 
 
 
- private void show()
+ private void showASCII()
  {
   for(Map.Entry<String,Entry> e:index.entrySet())
   {
-   System.out.print(e.getKey()+": ");
-   {
-    Entry ee=e.getValue();
-    for(Map.Entry<String,Vector<String>> eee:ee.slide.entrySet())
-    {
-     System.out.print(eee.getKey()+"(");
-     int pc=0;
-     for(String p:eee.getValue())
-     {
-      if (pc>0) System.out.print(",");
-      System.out.print(p);
-      ++pc;
-     }
-     System.out.println(")");
-    }
-    for(String s:ee.lst)
-    {
-     System.out.println("    "+s);
-    } 
-   }
-   System.out.println();
+   e.getValue().showASCII();
   }
  }
 
+ private void showLatex()
+ {
+  for(Map.Entry<String,Entry> e:index.entrySet())
+  {
+   e.getValue().showLatex();
+  }
+ }
+ 
  private void add(Stack<File> path,File f)
  {
 //  System.out.println("add "+f);
@@ -321,7 +353,8 @@ class Indexer
 */
 //  locate("big-bang-irq.S");
   index();
-  show();
+//  showASCII();
+  showLatex();
  }
  
  public static void main(String args[]) throws Exception
