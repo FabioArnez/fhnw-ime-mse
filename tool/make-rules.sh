@@ -3,11 +3,12 @@
 #(c) H.Buchmann FHNW 2011
 #$Id$
 #------------------------
-echo ${CPPFLAGS}
+#echo  ${*}
+
 rm -rf make.rules
 for src in ${*}
 do
-cat<<EOF | cpp -MM -MT${src%.*}.o ${CPPFLAGS} >> make.rules
+cat<<EOF | cpp -MM -MG -MT${src%.*}.o ${CPPFLAGS} >> make.rules
  #include "${src}" 
 EOF
 done
