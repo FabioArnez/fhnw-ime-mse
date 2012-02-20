@@ -27,7 +27,7 @@ static void samples(double fS,/* sampling frequency Hz */
                     double f,          /* frequency Hz */
 		    double dur)        /* duration sec */
 {
- double dt=dur/fS;
+ double dt=1.0/fS;                 /* better than 1/fS */
  double cos_;
  double sin_;
  sincos(2*M_PI*f/fS,&sin_,&cos_);
@@ -40,7 +40,7 @@ static void samples(double fS,/* sampling frequency Hz */
   double y1=x0*sin_ + y0*cos_;
   x0=x1;
   y0=y1;
-  for(unsigned i=0;i<12000;++i)     /* set the value manually */
+  for(unsigned i=0;i<0;++i)     /* set the value manually */
   {
    volatile unsigned v=i; /* preventing optimizer to optimize loop away */
   }
@@ -51,6 +51,6 @@ int main(int argc,char** args)
 {
  samples(44000,  /* Hz  */
          440,    /* Hz  */
-	 2);     /* sec */
+	 4);     /* sec */
  return 0;
 }
