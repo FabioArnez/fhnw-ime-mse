@@ -52,12 +52,13 @@ genisoimage -R \
 #------------------------------------------ <source files>
 #add here your source files typically c rsp. S files
 SRC=hello-world.c stdio.c stdout.c io/ascii.c io/screen.c \
- sys/boot/grub-big-bang.S sys/start.c
-
+ sys/boot/grub-big-bang.S sys/start.c cpu-demo.c \
+ cpu-demo-ops.S
+ 
 SYSTEM=stdio.o stdout.o io/ascii.o io/screen.o sys/boot/grub-big-bang.o sys/start.o
 #------------------------------------------ <applications>
 hello-world:	hello-world.o ${SYSTEM}
-
+cpu-demo:	cpu-demo.o cpu-demo-ops.o ${SYSTEM}
 #------------------------------------------ rules
 #at first time using make empty make.rules
 include make.rules       # made by make rules

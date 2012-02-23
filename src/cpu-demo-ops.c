@@ -6,8 +6,8 @@
 ---------------------------*/
 #include "cpu-demo-ops.h" /* how the functions look like */
 
-/* the c language works for everey architecture
-   therefore this file is located in src
+/* the c language works for every architecture
+   therefore this file is located in this src
 */
 /* the implememtation */
 unsigned op(unsigned x,unsigned y)
