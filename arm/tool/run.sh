@@ -14,7 +14,7 @@ if [ ! -f ${1} ]
         exit 1
 fi
 QEMU=../../../qemu/bin/
-#QEMU=
+QEMU=
 ${QEMU}qemu-system-arm -M realview-eb -kernel ${1} -serial stdio -sdl -display sdl
 #-chardev pipe,id=console,path=console
 #-nographic
