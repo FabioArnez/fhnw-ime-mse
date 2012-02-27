@@ -6,5 +6,5 @@
 #include <stdio.h>
 int main()
 {
- printf("Hello World date='%s' file='%s'\n",__DATE__,__FILE__);
+ printf("-Hello World- date='%s' file='%s'\n",__DATE__,__FILE__);
 }
