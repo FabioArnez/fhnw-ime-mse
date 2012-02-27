@@ -22,7 +22,7 @@ int calleeB(int arg)
  return arg+4; 
 }
 
-/* quite cryptic: 
+/* the quite cryptic: 
 
   int (*func)(int) 
   
@@ -31,17 +31,27 @@ int calleeB(int arg)
   int aName(int)
 */
  
-void theCaller(int (*func)(int))
+void theCallerA(int (*func)(int))
 {
  int value=8;
  /* call it */
  printf("func(%d)=%d\n",value,func(value));
 }
 
+/* another possibilty for declaring function parameters */
+typedef int (*Func)(int);               /* the type Func */
+
+void theCallerB(Func f)
+{
+ int value=9;
+ /* call it */
+ printf("f(%d)=%d\n",value,f(value));
+}
+
 int main(int argc,char** args)
 {
- theCaller(calleeA); /* calleeA as parameter */
- theCaller(calleeB); /* calleeB as parameter */
+ theCallerA(calleeA); /* calleeA as parameter */
+ theCallerB(calleeB); /* calleeB as parameter */
  return 0;
 }
  
