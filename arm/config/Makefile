@@ -31,12 +31,14 @@ SRC=hello-world.c \
 stdio.c io/ascii.c stdout.c \
 io/uart.c \
 sys/boot/big-bang.S sys/start.c \
-accessing-hardware.c 
+accessing-hardware.c \
+sys/timer.c timer-test.c
 
 SYSTEM=stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
 #------------------------------------------ <applications>
 hello-world:	hello-world.o ${SYSTEM}
 accessing-hardware:	accessing-hardware.o ${SYSTEM}
+timer-test:	timer-test.o sys/timer.o ${SYSTEM}
 #------------------------------- the rules made with make rules
 include make.rules
 
