@@ -2,7 +2,8 @@
  uart
  (c) H.Buchmann FHNW 2011
  $Id$
- see [IntegratorCM] [UART]
+ see [literature/realview_emulation_basebord_ug.pdf] 
+     [literature/pl011-UART.pdf]
  -----------------------*/
 
 extern volatile struct 

@@ -1,49 +1,51 @@
 /*----------------------
  accessing-hardware
- (c) H.Buchmann FHNW 2011
+ (c) H.Buchmann FHNW 2012
  $Id$
- see [1] literature/DUI0138E_CMxx6_UserGuide.pdf
+ see  [1]config/memory.map
+      [2] literature/pl011-UART.pdf
 ----------------------*/  
+/* accessing via pointer */
 
-volatile unsigned* CM_CTRL=(volatile unsigned*)0x1000000c;
-/* 
-Core Module Control  [1] p89 
-                     [1] p123 (5.11)
-       1               0		     
-bitpos fedcba9876543210fedcba9876543210
-       |                          |||||---- R/W LED 0:off 1:on
-       |                          ||||----- R   mounted
-       |                          |||------ R/W remap [1] 4.9
-       |                          ||------- W   1: reset 
-       |--------------------------|-------- reserved                    
+/* typedef */
+typedef struct                         /* see [2] 3.2 */
+{
+ unsigned DR;                         /*Data register */ 
+ unsigned SR;                       /* Receive status */
+ unsigned res[4];                         /* reserved */
+ unsigned FR;                                 /* Flag */  
+}
+UART;
+
+/* the bits in uart->FR */
+#define RXFE (1<<4) 
+#define TXFF (1<<5)
+
+UART*const uart=(UART*const)0x10009000;
+/*|          |    |       |                 | |---- where it is see [1]
+  |          |    |       |-----------------|------ cast 
+  |          |    |-------------------------------- the value of dont change 
+  |          |------------------------------------- pointer
+  |------------------------------------------------ periphery may change the contents 
 */
 
-void led_on()
-{
- *CM_CTRL|=(1<<0); /* set bit */
-}
-
-void led_off()
-{
- *CM_CTRL&=~(1<<0); /* clear bit */
-}
-
-void wait()
-{
- for(unsigned i=0;i<0x1000;++i)
- {
-  volatile unsigned u=0;
- }
-}
-
+/* TODO make functions */
 void main()
 {
  while(1)
- {
-  led_on();
-  wait();
-  led_off();
-  wait();
+ {   /* read from uart */
+  while(uart->FR&RXFE)
+  {
+   /* Receive FIFO empty */
+  }
+  /* Receive FIFO not empty */ 
+  unsigned ch=uart->DR; /* read it */
+  while((uart->FR&TXFF))
+  {
+   /* transmit FIFO not empty */
+  }
+  /* transmit FIFO  empty */
+  uart->DR=ch;
  }
 }
 
