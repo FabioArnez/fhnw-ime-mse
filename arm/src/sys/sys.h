@@ -94,3 +94,58 @@ SYS_TEST_OSC[4:0]  0x100000C0,u2013 RO 32-bit counter clocked from ICS307 oscill
 
 #endif
 } SYS; 
+
+extern void sys_undef();            /* executes undef instruction */
+
+#if 0
+/* TODO make it working change architecture */
+inline void sys_irq_enable()
+{
+ asm
+ (
+  "\t cpsie i\n" 
+  :
+  :
+ );
+}
+
+inline  void sys_fiq_enable()
+{
+ asm
+ (
+  "\t cpsie f\n" 
+  :
+  :
+ );
+}
+#endif
+
+inline unsigned sys_getPSR()
+{
+ unsigned psr;
+ asm volatile
+ (
+  "@---------------------------- sys_getPSR\n"
+  "\tmrs %[psr],cpsr\n"
+  :[psr] "=r" (psr)
+  :
+ );
+ return psr;
+}
+
+inline void sys_setPSR(unsigned psr)
+{
+ asm volatile
+ (
+  "@---------------------------- sys_setPSR\n"
+  "\tmsr cpsr,%[psr]\n"
+  :
+  :[psr] "r" (psr)
+ );
+
+}
+
+extern void sys_irq(unsigned v);  /* v==0 disable v!=0 enable */
+extern void sys_fiq(unsigned v);
+
+

@@ -3,10 +3,42 @@
  see [RealViewEmulationBaseboard] 4.3
  (c) H.Buchmann FHNW 2012
  $Id$
- ------------------------------*/ 
-/* test */
-#if 1
+ [1] literature/ARM-Architecture-Reference-Manual.pdf
+ ------------------------------*/
 #include "sys/sys.h"
+
+/* compile with 
+ arm-xxxxxxx-gcc -S -O2 -o sys/sys.s ../src/sys/sys.c
+ to see the generated machine code
+*/
+void sys_undef() /* example of inline assembler */
+{
+ asm volatile  /* see [1] A3.1 */
+ (      /* fedcba9876543210fedcba9876543210 */
+        /* cccc00110x00xxxxxxxxxxxxxxxxxxxx */
+        /* 1110 always */
+  ".word 0b11100011000011111111111111111111\n\t"   
+  :
+  :
+ );
+}
+ 
+void sys_irq(unsigned v) /* see [1] A2.5 */
+{
+ unsigned psr=sys_getPSR();
+ sys_setPSR((v)?psr&~(1<<7):psr|(1<<7));
+                /*  |          |----------- set   
+                    |---------------------- clear */
+}
+
+void sys_fiq(unsigned v)
+{
+ unsigned psr=sys_getPSR();
+ sys_setPSR( (v)?psr&~(1<<6):psr|(1<<6));
+}
+
+/* test */
+#if 0
 #include "stdio.h"
 int main()
 {
@@ -23,3 +55,4 @@ int main()
  return 0;
 }
 #endif
+

@@ -17,15 +17,69 @@
   ldr pc,=address_of_handler
 */
 	ldr pc,=.onReset           /* 0x00 A2.6.2 */
-	
+	ldr pc,=.onUndef           /* 0x04 */
+	ldr pc,=.onSWI             /* 0x08 */
+	ldr pc,=.onPrefetch        /* 0x0c */
+	ldr pc,=.onData            /* 0x10 */
+	ldr pc,=.onReserved        /* 0x14 */
+	ldr pc,=.onIRQ             /* 0x18 */
+	ldr pc,=.onFIQ             /* 0x1c */
+
 /*------------------------------------------ text */
 .text	
 .onReset:
 	bl .setStack
 	bl .setIRQStack
-	bl _start
+	bl _start 
 0:	b 0b				/* forever */	
 
+.onUndef:
+	ldr r0,=.onUndefTxt
+	bl .string
+	b .signal
+.onSWI: 
+	ldr r0,=.onSWITxt
+	bl .string
+	b .signal
+.onPrefetch:
+	ldr r0,=.onPrefetchTxt
+	bl .string
+	b .signal
+.onData:
+	ldr r0,=.onDataTxt
+	bl .string
+	b .signal
+.onReserved:
+	ldr r0,=.onReservedTxt
+	bl .string
+	b .signal
+.onIRQ:
+	ldr r0,=.onIRQTxt
+	bl .string
+	b .signal
+.onFIQ:
+	ldr r0,=.onFIQTxt
+	bl .string
+	b .signal
+
+/*-------------------------------------- some text */ 
+.align 4
+.onUndefTxt:	.asciz "Undefined instruction\n"
+.align 4
+.onSWITxt: 	.asciz "Software switch\n"
+.align 4
+.onPrefetchTxt:	.asciz "Prefetch Abort\n"
+.align 4
+.onDataTxt:	.asciz "Data Abort\n"
+.align 4
+.onReservedTxt:	.asciz "Reserved\n"
+.align 4
+.onIRQTxt:	.asciz "IRQ\n"
+.align 4
+.onFIQTxt:	.asciz "FIQ\n"
+
+.align 4
+/*---------------------------- the local functions */
 .setStack:
 	ldr sp,=_stack_top
 	mov pc,lr
@@ -39,8 +93,7 @@
 	msr cpsr_c,r0		     /* prevous mode */
 	mov pc,lr
 
-.hello:	.asciz "Hello World\n";
-
+.align 4
 /*--------------------------------- very basic debug */
 /* see first.S */
 .signal:
@@ -73,64 +126,24 @@
 	bne 0b
 2:	b 2b                         /* loop forever */	
 
+.string:	             /* r0 pointer to string */
+	ldr r1,=UART0
+0:	ldrb r2,[r0],#1            /* post increment */
+	cmp r2,#0	         /* terminating zero */
+	moveq pc,lr    /* return if terminating zero */
+1:	ldr r3,[r1,#0x18]             /* UART0 flags */
+	ands r3,r3,#(1<<3)                   /* BUSY */
+	bne 0b	
+	str r2,[r1]
+	b 0b
 UART0=0x10009000                 /* address of UART0 */			
 
 /*-------------------------------------------- stack */
                                 /* see config/ram.ld */
+                                 /* see Makefile for */
+	      /* IRQ_STACK_SIZE_WORD/STACK_SIZE_WORD */
 .section .stack	
 	.space 4*IRQ_STACK_SIZE_WORD
 _irq_stack_top:
 	.space 4*STACK_SIZE_WORD
 _stack_top:
-
-
-
-#if 0
-/----------------------- not used --------------------------*/
-	ldr pc,=.onReset           /* 0x00 A2.6.2 */
-	ldr pc,  onUndef           /* 0x04 A2.6.3 */
-	ldr pc,=.onSWI             /* 0x08 A2.6.4 */
-	ldr pc,=.onPrefetchAbort   /* 0x0c A2.6.5 */
-	ldr pc,=.onData            /* 0x10 A2.6.6 */
-	ldr pc,=.onReserved        /* 0x14  should never be called */
-	ldr pc,= onIRQ             /* 0x18 A2.6.8 */
-	ldr pc,=.onFIQ             /* 0x1c A2.6.9 */
-
-.global onUndef
-onUndef: .word .onReserved	
-
-.global onIRQ
-onIRQ: 	.word .onReserved
-
-/*------------------------------------------ text */
-.text	
-.onReset:
-	bl .setStack
-	bl .setIRQStack
-
-	bl _start      /* call _start a C routine */ 
-	b .do_reset
-
-
-.onIRQ:
-	mov r0,sp
-	bl hex
-	b deb_signal1
-	
-/* the unimplemented traps */
-
-.onSWI:
-.onPrefetchAbort:
-.onData:
-.onReserved:
-.onFIQ:
-	b deb_signal0
-	
-/*----------------------------------------- do_reset */
-.do_reset:	
-	ldr r0,=0x1000000c
-	orr r1,r1,#(1<<3)
-	str r1,[r0]   /* reset */
-
-
-#endif

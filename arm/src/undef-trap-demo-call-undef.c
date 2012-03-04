@@ -12,6 +12,7 @@ int main()
  for(unsigned v=0;v<100;++v)
  {
   printf("trap-demo %d\n",v);
-  sys_undef(); /* calls undef */
+  sys_undef(); /* calls undef */ 
+  printf("----------- done\n");
  }
 }

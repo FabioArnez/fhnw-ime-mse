@@ -13,7 +13,7 @@ int main()
                 (1<<6) | /* periodic */
                 (1<<1) | /* 32 bit */
 		(0<<0) | /* one shot */
-		     0;
+		    0;
  TIMER0.Control|=(1<<7); /* enable */
  while(1)
  {
