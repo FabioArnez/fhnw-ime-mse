@@ -4,6 +4,7 @@
   $Id$
   [1] literature/realview_emulation_basebord_ug.pdf
   TODO only GIC1 is used remove unnecessary stuff
+       nesting interrupts
 -------------------------------------*/
 #include "sys/gic.h"
 #include "sys/deb.h"
@@ -61,8 +62,11 @@ extern volatile GIC_DIS GIC4_DIS;
 volatile GIC_IFC*const IFC[]={&GIC1_IFC,&GIC2_IFC,&GIC2_IFC,&GIC4_IFC};
 volatile GIC_DIS*const DIS[]={&GIC1_DIS,&GIC2_DIS,&GIC3_DIS,&GIC4_DIS};
 
+static Trap traps[TRAP_N]; /* the call back */
+
 void gic_init()
 {
+ for(unsigned i=0;i<TRAP_N;++i) traps[i]=0;
  for(unsigned i=0;i<4;++i)
  {
   IFC[i]->CPUControl=1;
@@ -75,21 +79,38 @@ void gic_init()
  }
 }
 
+
 void gic_enable(unsigned id)
 {
  if (id>=TRAP_N) return;
  DIS[0]->Enable[id/32]|=(1<<(id%32));
 }
 
+void gic_disable(unsigned id)
+{
+ if (id>=TRAP_N) return;
+ DIS[0]->Clear[id/32]|=(1<<(id%32));
+}
+
+void gic_install(unsigned id,Trap t)
+{
+ if (id>=TRAP_N) return;
+ traps[id]=t;
+}
+
 /*------------------------------- called by hardware */
 void gic_onIRQ()__attribute__((interrupt("IRQ")));
 void gic_onIRQ()
 {
- printf("Acknowledge %x\n",IFC[0]->Acknowledge);
- deb_signal0();
+ while(1)
+ {
+  unsigned id=IFC[0]->Acknowledge;
+  if (id>=TRAP_N) break;
+  Trap t=traps[id];
+  if (t)t();
+  IFC[0]->EndInterrupt=id;
+ }
 }
-
-
 
 void gic_trigger(unsigned id)
 {

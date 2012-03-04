@@ -36,7 +36,9 @@ sys/timer.c timer-test.c \
 sys/deb.c sys/sys.c \
 undef-trap-demo-call-undef.c sys/boot/big-bang-call-undef.S \
 undef-trap-demo-call-c.c sys/boot/big-bang-call-c.S \
-gic-test.c sys/gic.c
+gic-test.c sys/gic.c \
+io/lcd.c lcd-demo.c \
+io/font.c 
 
 SYSTEM=stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
 #------------------------------------------ <applications>
@@ -51,7 +53,12 @@ undef-trap-demo-call-undef:	undef-trap-demo-call-undef.o  sys/boot/big-bang-call
 undef-trap-demo-call-c:	undef-trap-demo-call-c.o  sys/boot/big-bang-call-c.o\
 	sys/sys.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/start.o
 
+#-----------------------------------------gic generic interrupt controller
 gic-test:	gic-test.o sys/sys.o sys/gic.o sys/deb.o ${SYSTEM}
+
+#-----------------------------------------lcd
+lcd-demo:	lcd-demo.o io/lcd.o io/font.o sys/gic.o ${SYSTEM}
+lcd-demo-0:	lcd-demo-0.o sys/gic.o sys/deb.o ${SYSTEM}
 
 #------------------------------- the rules made with make rules
 include make.rules

@@ -14,7 +14,7 @@ bit 11..15 BLUE
 
 extern void lcd_pixel(unsigned x,unsigned y, Color c);
   
-/* TODO more graphic primives */
+/* TODO more graphic primitives */
 
 extern unsigned lcd_char(unsigned x,unsigned y,Color c,char ch);
 /* returns witdh of character in pixel */

@@ -4,6 +4,7 @@
   $Id$
 -----------------------------*/
 #include "io/lcd.h"
+#include <stdio.h>
 int main()
 {
  lcd_init();
@@ -16,5 +17,6 @@ int main()
  {
   x+=lcd_char(x,0,0xffff,ch);;
  }
+ printf("------------ done\n");
  return 0;
 }

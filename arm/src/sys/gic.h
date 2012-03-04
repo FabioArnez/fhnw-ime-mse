@@ -8,11 +8,12 @@
 extern void gic_init();
 
 
-#define TRAP_N 95                    /* the number of traps */
-typedef void(*Trap)();                /* called by hardware */
+#define TRAP_N 95                      /* the number of traps */
+typedef void(*Trap)();                  /* called by hardware */
 
 extern void gic_enable(unsigned id);
-
+extern void gic_disable(unsigned id);
+extern void gic_install(unsigned id,Trap t); /* trap disabled */
 
 extern void gic_trigger(unsigned id); 
 extern void gic_active(); 

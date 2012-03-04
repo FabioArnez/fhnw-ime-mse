@@ -6,33 +6,43 @@
 #include "sys/gic.h"
 #include "sys/timer.h"
 #include "sys/sys.h"
+#include "sys/deb.h"
 #include <stdio.h>
+
+static unsigned cnt=0;
+
+static void tick()
+{
+ printf("Tick %d\n",++cnt);
+ TIMER0.IntClr=0;
+}
 
 static void timer()
 {
- TIMER0.Load=0x10000;
+ TIMER0.Load=0x100000;
  TIMER0.Control=(0<<7) | /* disabled */
                 (1<<6) | /* periodic */
                 (1<<1) | /* 32 bit */
-		(0<<0) | /* one shot */
+		(0<<0) | /* wrapping */
 		    0;
  TIMER0.Control|=(1<<7)|  /* enable */
                  (1<<5)|  /* int enable */
 		     0;
- while(TIMER0.RIS==0){}
+/* while(TIMER0.RIS==0){} */
 
- printf("Value=%x RIS=%x\n",TIMER0.Value,TIMER0.RIS);
 }
 
 int main()
 {
  sys_irq(1);
- sys_fiq(1);
  gic_init();
+ gic_install(0x24,tick);
  gic_enable(0x24);
  timer();
- gic_info();
- gic_active();
+ while(1)
+ {
+  
+ }
  return 0; 
 }
 
