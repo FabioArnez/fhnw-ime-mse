@@ -85,6 +85,7 @@ void gic_enable(unsigned id)
 void gic_onIRQ()__attribute__((interrupt("IRQ")));
 void gic_onIRQ()
 {
+ printf("Acknowledge %x\n",IFC[0]->Acknowledge);
  deb_signal0();
 }
 
