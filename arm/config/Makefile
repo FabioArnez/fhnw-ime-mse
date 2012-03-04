@@ -51,7 +51,7 @@ undef-trap-demo-call-undef:	undef-trap-demo-call-undef.o  sys/boot/big-bang-call
 undef-trap-demo-call-c:	undef-trap-demo-call-c.o  sys/boot/big-bang-call-c.o\
 	sys/sys.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/start.o
 
-gic-test:	gic-test.o sys/sys.o sys/gic.o ${SYSTEM}
+gic-test:	gic-test.o sys/sys.o sys/gic.o sys/deb.o ${SYSTEM}
 
 #------------------------------- the rules made with make rules
 include make.rules

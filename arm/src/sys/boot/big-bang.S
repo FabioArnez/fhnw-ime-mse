@@ -11,6 +11,7 @@
 	set the different stacks properly
 	do the basic exception handling sys/sys.{h,c}
 	set the exception stacks IRQStack alread set
+	remove interrupt stuff from here
 ------------------------*/
 .section .boot  /* see [1] A2.6 */
 /* one word per entry
@@ -22,7 +23,7 @@
 	ldr pc,=.onPrefetch        /* 0x0c */
 	ldr pc,=.onData            /* 0x10 */
 	ldr pc,=.onReserved        /* 0x14 */
-	ldr pc,=.onIRQ             /* 0x18 */
+	ldr pc,= gic_onIRQ         /* 0x18  see sys/gic.c*/
 	ldr pc,=.onFIQ             /* 0x1c */
 
 /*------------------------------------------ text */

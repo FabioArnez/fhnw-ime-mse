@@ -29,6 +29,7 @@ int main()
  sys_irq(1);
  sys_fiq(1);
  gic_init();
+ gic_enable(0x24);
  timer();
  gic_info();
  gic_active();
