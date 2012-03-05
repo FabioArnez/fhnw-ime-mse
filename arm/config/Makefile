@@ -11,7 +11,6 @@ CC=${PREFIX}-gcc
 LD=${PREFIX}-ld
 OBJCOPY=${PREFIX}-objcopy
 CXX=${PREFIX}-g++
-
 CFLAGS=-std=gnu99 -O2
 
 CPPFLAGS+=-DIRQ_STACK_SIZE_WORD=0x20 \
@@ -21,6 +20,8 @@ LDFLAGS=-nostdlib -Wl,--script=../config/ram.ld -Wl,-Map -Wl,${@}.map
        # |        |----- the linker script
        # |-------------- no standard libs 
 
+#------------------------------------------ assembler pattern
+%.o:	%.S;$(CC) ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
 
 VPATH=../src:../../src
 
@@ -38,14 +39,18 @@ undef-trap-demo-call-undef.c sys/boot/big-bang-call-undef.S \
 undef-trap-demo-call-c.c sys/boot/big-bang-call-c.S \
 gic-test.c sys/gic.c \
 io/lcd.c lcd-demo.c \
-io/font.c 
+io/font.c \
+io/screen.c \
+ascii-test.c \
+cpu-demo-ops.S cpu-demo.c 
 
-SYSTEM=stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
+SYSTEM=stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o sys/gic.o
 #------------------------------------------ <applications>
 hello-world:	hello-world.o ${SYSTEM}
 accessing-hardware:	accessing-hardware.o ${SYSTEM}
 timer-test:	timer-test.o sys/timer.o ${SYSTEM}
 
+cpu-demo:	cpu-demo.o cpu-demo-ops.o ${SYSTEM}
 #-----------------------------------------undef-trap-demo
 undef-trap-demo-call-undef:	undef-trap-demo-call-undef.o  sys/boot/big-bang-call-undef.o\
 	sys/sys.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/start.o
@@ -57,8 +62,9 @@ undef-trap-demo-call-c:	undef-trap-demo-call-c.o  sys/boot/big-bang-call-c.o\
 gic-test:	gic-test.o sys/sys.o sys/gic.o sys/deb.o ${SYSTEM}
 
 #-----------------------------------------lcd
-lcd-demo:	lcd-demo.o io/lcd.o io/font.o sys/gic.o ${SYSTEM}
-lcd-demo-0:	lcd-demo-0.o sys/gic.o sys/deb.o ${SYSTEM}
+lcd-demo:	lcd-demo.o io/lcd.o io/font.o  ${SYSTEM}
+lcd-demo-0:	lcd-demo-0.o sys/deb.o ${SYSTEM}
+ascii-test:	ascii-test.o io/screen.o io/lcd.o io/font.o ${SYSTEM}
 
 #------------------------------- the rules made with make rules
 include make.rules
