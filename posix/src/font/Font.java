@@ -56,15 +56,14 @@ class Font
   
   private void encode()
   {
-   long val=0;
+   int val=0;
    int cnt=0;
    int bit=0;
    for(boolean[] r:pixel)
    {
     for(boolean c:r)
     {
-     val|=(c)?1:0;
-     val<<=1;
+     if (c) val|=(1<<bit);
      ++bit;
      if (bit==32)
         {
@@ -77,7 +76,7 @@ class Font
     }
    }
   }
- }
+ } //class Glyph
  
  Glyph glyph[]=new Glyph[0x10000];
  

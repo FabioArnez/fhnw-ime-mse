@@ -7,7 +7,8 @@
 --------------------------------------*/
 typedef struct
 {
- unsigned  wi; //in pixel;
+ unsigned wi_pix; /* width in pixel  */
+ unsigned he_pix; /* height in pixel */
  const unsigned* pix; 
 } Glyph;
 

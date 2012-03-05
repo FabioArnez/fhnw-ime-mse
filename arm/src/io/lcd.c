@@ -75,6 +75,10 @@ static unsigned short pixel[WI*HE];
 
 void lcd_init()
 {
+ static unsigned initialized=0;
+ if (initialized) return;
+ ++initialized;
+ 
  font_init();
  SYS.OSC[4]    =Init[SVGA_800x600].OSC4;
  for(unsigned i=0;i<4;++i)CLCDC.Timing[i]=Init[SVGA_800x600].Timing[i];
@@ -97,27 +101,38 @@ void lcd_pixel(unsigned x,unsigned y, Color c)
  pixel[y*WI+x]=c;
 }
 
+/*
+ pixel  0 1 2 3 4 5 
+ bit    0 1 2 3 4 5 
+*/
+
+unsigned lcd_glyph(unsigned x,unsigned y,Color c,const Glyph*const g)
+{
+ unsigned short* p0=pixel+y*WI+x;          /* upper left */
+ unsigned i=0; /* index in g->pix */
+ unsigned mask=1;
+ unsigned pix=g->pix[i++];
+ for(unsigned yy=0;yy<g->he_pix;++yy)
+ {
+  unsigned short* row=p0;
+  for(unsigned xx=0;xx<g->wi_pix;++xx)
+  {
+   *row++=(pix&mask)?c:0;
+   mask<<=1;
+   if (mask==0)
+      {
+       mask=1;
+       pix=g->pix[i++];
+      }
+  }
+  p0+=WI;
+ }
+ return g->wi_pix; 
+}
+
 unsigned lcd_char(unsigned x,unsigned y,Color c,char ch)
 {
  Glyph g;
  font_glyph(ch,&g);
- unsigned wip=(32*g.wi)/16; /* in pixel */
- unsigned short* p0=pixel+y*WI+x;          /* upper left */
- unsigned bit =0;
- for(unsigned i=0;i<g.wi;++i)
- {
-  unsigned pix=g.pix[i];
-  unsigned mask=(1<<31); /* MSB */
-  while(mask>0)
-  {
-   p0[bit++]=(pix&mask)?c:0;
-   if (bit==wip)
-      {
-       bit=0;
-       p0+=WI;
-      }
-   mask>>=1;
-  }
- }
- return wip; 
+ return lcd_glyph(x,y,c,&g);
 }

@@ -4,10 +4,11 @@
  $Id$
 -----------------------*/
 #include "io/ascii.h"
-#include "sys/screen.h"
+#include "io/screen.h"
 
 int main()
 {
+ screen_init();
 //  for(unsigned i=0;i<25;++i)
 //  {
 //   ascii_printf(Screen,"--line %d %s\n",i,fill);
