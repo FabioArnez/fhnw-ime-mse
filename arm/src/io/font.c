@@ -158,11 +158,15 @@ void font_init()
  Font.pix  =Data+2+Font.end-Font.start+1;
 }
 
+unsigned font_height()
+{
+ return 16;
+}
+
 void font_glyph(char ch,Glyph* g) /* 0x20<=ch<0x80 */
 { /* TODO range control */
  unsigned i=ch-Data[0];
  unsigned idx=Font.idx[i];
  *g=(Glyph){2*(Font.idx[i+1]-idx), /* 32*(Font.idx[i+1]-idx)/16 */
-            16,
             Font.pix+idx};
 }

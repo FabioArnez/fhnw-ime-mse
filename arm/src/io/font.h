@@ -8,9 +8,9 @@
 typedef struct
 {
  unsigned wi_pix; /* width in pixel  */
- unsigned he_pix; /* height in pixel */
  const unsigned* pix; 
 } Glyph;
 
+extern unsigned font_height();
 extern void font_init();
 extern void font_glyph(char ch,Glyph* g);

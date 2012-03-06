@@ -9,10 +9,12 @@
 int main()
 {
  screen_init();
-//  for(unsigned i=0;i<25;++i)
-//  {
-//   ascii_printf(Screen,"--line %d %s\n",i,fill);
-//  }
+ char fill[]="abcdefghij";
+ for(unsigned i=0;i<25;++i)
+ {
+  ascii_printf(Screen,"--line %d %s\n",i,fill);
+ }
+#if 0
  char ch='0';
  for(unsigned i=0;i<25;++i)
  {
@@ -23,6 +25,7 @@ int main()
   if (ch=='9') ch='0';
      else      ++ch;
  }
+#endif
  ascii_string(Screen,"last");
 }
 

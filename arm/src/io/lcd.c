@@ -7,10 +7,9 @@
      and
      lcd-demo-0 
 -----------------------------*/
-#include <sys/sys.h>
-#include <sys/def-register.h>
-#include <io/lcd.h>
-#include <io/font.h>
+#include "sys/sys.h"
+#include "sys/def-register.h"
+#include "io/lcd.h"
 extern volatile struct
 {
 VAR(Timing[4]   ,0x000      ,RW,0x00000000);/* Horizontal Axis Panel Control Register on page 3-5); */
@@ -70,7 +69,7 @@ static const struct
            {0x2cac,{0x1313A4C4, 0x0505F657, 0x071F1800,0}}  /* SVGA_800x600 */
           };
 
-
+static unsigned font_he;
 static unsigned short pixel[WI*HE]; 
 
 void lcd_init()
@@ -80,6 +79,7 @@ void lcd_init()
  ++initialized;
  
  font_init();
+ font_he=font_height();
  SYS.OSC[4]    =Init[SVGA_800x600].OSC4;
  for(unsigned i=0;i<4;++i)CLCDC.Timing[i]=Init[SVGA_800x600].Timing[i];
  CLCDC.UPBASE=(unsigned)pixel;
@@ -94,11 +94,17 @@ void lcd_init()
 	                  */
  for(unsigned i=0;i<WI*HE;++i) pixel[i]=0;
 }
-
-void lcd_pixel(unsigned x,unsigned y, Color c)
+void lcd_dimension(unsigned* wi_pix,
+                   unsigned* he_pix)
 {
- if ((x>WI)||(y>HE)) return;
- pixel[y*WI+x]=c;
+ *wi_pix=WI;
+ *he_pix=HE;
+}		   
+
+Pixel lcd_pixel(unsigned x,unsigned y)
+{
+ if ((x>WI)||(y>HE)) return 0;
+ return pixel+y*WI+x;
 }
 
 /*
@@ -106,33 +112,32 @@ void lcd_pixel(unsigned x,unsigned y, Color c)
  bit    0 1 2 3 4 5 
 */
 
-unsigned lcd_glyph(unsigned x,unsigned y,Color c,const Glyph*const g)
+unsigned lcd_glyph(Pixel pix,Color c,const Glyph*const g)
 {
- unsigned short* p0=pixel+y*WI+x;          /* upper left */
  unsigned i=0; /* index in g->pix */
  unsigned mask=1;
- unsigned pix=g->pix[i++];
- for(unsigned yy=0;yy<g->he_pix;++yy)
+ unsigned p=g->pix[i++];
+ for(unsigned yy=0;yy<font_he;++yy)
  {
-  unsigned short* row=p0;
+  unsigned short* row=pix;
   for(unsigned xx=0;xx<g->wi_pix;++xx)
   {
-   *row++=(pix&mask)?c:0;
+   *row++=(p&mask)?c:0;
    mask<<=1;
    if (mask==0)
       {
        mask=1;
-       pix=g->pix[i++];
+       p=g->pix[i++];
       }
   }
-  p0+=WI;
+  pix+=WI;
  }
- return g->wi_pix; 
+ return g->wi_pix;
 }
 
-unsigned lcd_char(unsigned x,unsigned y,Color c,char ch)
+unsigned  lcd_char(Pixel pix,Color c,char ch)
 {
  Glyph g;
  font_glyph(ch,&g);
- return lcd_glyph(x,y,c,&g);
+ return lcd_glyph(pix,c,&g);
 }
