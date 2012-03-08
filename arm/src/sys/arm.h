@@ -6,10 +6,37 @@
  [1] literature/ARM-Architecture-Reference-Manual.pdf
  exercise in inline assembler
 ----------------------*/
-extern void sys_undef();  /* executes an undef instruction triggering the
+      /*              interrupt attribute */
+typedef enum { RESET, 
+	       UNDEF,           /* UNDEF */ 
+	       SWI,             /* SWI   */
+	       PREFETCH,        /* ABORT */
+	       DATA,            /* ABORT */
+	       RESERVED,        
+	       IRQ,             /* IRQ */
+	       FIQ              /* FIQ */
+	     } Exception;
+
+extern void arm_set_exception(Exception ex,void (*exception)());
+ /* guarantee that exception is defined with the appropriate attribute
+   __attribute__((interrupt(attr)))
+   
+ */
+extern void arm_undef();  /* executes an undef instruction triggering the
                              undef exeception */
-
 /* CPSR see [1] A2.5 */
-extern unsigned sys_getCPSR(); 
-extern void sys_setCPSR(unsigned val);
+extern unsigned arm_getCPSR(); 
+extern void arm_setCPSR(unsigned val);
 
+inline unsigned arm_get_lr() /* return linkregister lr */
+{
+ unsigned lr;
+ asm volatile
+ (
+ "@----------------- arm_get_lr\n"
+ "\t mov %[lr],lr\n"
+ :[lr] "=r" (lr)
+ :
+ );
+ return lr;
+}

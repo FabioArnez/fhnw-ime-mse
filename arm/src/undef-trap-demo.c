@@ -4,33 +4,22 @@
   $Id$
 ----------------------*/
 #include <stdio.h>
-#include "sys/sys.h" /* for triggering undef */
-#include "sys/deb.h"
+#include "sys/arm.h" /* for triggering undef */
 
-void onMyUndef()
+#if 0
+static __attribute__((interrupt("UNDEF")))void myUndef()
 {
- deb_signal1();
+ printf("myUndef %x\n",arm_get_lr());
+/*  while(1){} */
 }
-
-typedef void (*OnUndef)();
-
-extern OnUndef onUndef; /* see big-bang.S*/	
-
-void registerUndef(OnUndef oud)
-{
- onUndef=oud;
-}
-
+#endif
 int main()
 {
  unsigned v=0;
- registerUndef(onMyUndef);
- printf("%p\n",*onUndef);
-#if 1 
+// arm_set_exception(UNDEF,myUndef);
  while(1)
  {
-  printf("trap-demo %d\n",v++);
-  sys_undef();
+  printf("undef-trap-demo %d\n",v++);
+  arm_undef(); /* call undef */
  }
-#endif
 }  

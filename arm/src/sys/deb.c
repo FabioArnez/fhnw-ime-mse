@@ -37,6 +37,12 @@ void deb_string(const char*const msg)
  deb_out_string(msg);
 }
 
+void deb_msg(const char*const msg)
+{
+ deb_out_string(msg);
+ while(1){} /* wait */
+}
+
 static volatile unsigned* CM_CTRL=(unsigned*)0x1000000c;
  /* only known in this file */
 

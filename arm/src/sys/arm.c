@@ -3,10 +3,78 @@
  (c) H.Buchmann FHNW 2011
  $Id$
  see [1] literature/ARM-Architecture-Reference-Manual.pdf
-     [2] http://gcc.gnu.org/onlinedocs/gcc-4.5.2/gcc/
+     [2] gcc.gnu.org/onlinedocs/gcc-4.6.3/gcc/
+ an exercise in gcc specialties    
 ----------------------*/
 #include "sys/arm.h"
-void sys_undef()
+#include "sys/deb.h"
+
+#define LDRPC 0xe59ff018
+
+/* -------------------------------------------- the exception handlers */
+/* see [2] Function-Attributes */
+
+extern void onReset();       /* defined in big-bang.S */
+static __attribute__((interrupt("UNDEF"))) void onUndef()
+{
+ deb_msg("unexpected UNDEF");
+}
+
+static __attribute__((interrupt("SWI"))) void onSWI()
+{
+ deb_msg("unexpected SWI");
+}
+
+static __attribute__((interrupt("ABORT"))) void onPrefetch()
+{
+ deb_msg("unexpected ABORT");
+}
+
+static __attribute__((interrupt("ABORT"))) void onAbort()
+{
+ deb_msg("unexpected ABORT");
+}
+
+static void onReserved()
+{
+ deb_msg("onReserved");
+}
+
+static __attribute__((interrupt("IRQ"))) void onIRQ()
+{
+ deb_msg("unexpected IRQ");
+}
+
+static __attribute__((interrupt("FIQ"))) void onFIQ()
+{
+ deb_msg("unexpected FIQ");
+}
+
+/*------------------------------------------------ the exception table */
+struct /* see see [1] A2.6  */
+{
+ unsigned PC[8];
+ void (*exception[8])();  /* array of funitions void (); */
+} ExceptionTable __attribute((section(".exception_table")))=
+ {
+  {LDRPC,LDRPC,LDRPC,LDRPC,LDRPC,LDRPC,LDRPC,LDRPC},
+  {onReset,         /* see big-bang.S */
+   onUndef,
+   onSWI,
+   onPrefetch,
+   onAbort,
+   onReserved,
+   onIRQ,
+   onFIQ
+  }
+ };
+
+void arm_set_exception(Exception ex,void (*exception)())
+{
+ ExceptionTable.exception[ex]=exception;
+}
+
+void arm_undef()
 {
  asm volatile /* see [2] Extended-Asm.html#Extended-Asm */
  (
@@ -16,7 +84,7 @@ void sys_undef()
  );
 }
 
-unsigned sys_getCPSR()
+unsigned arm_getCPSR()
 {
  unsigned v;
  asm volatile /* see [2] Extended-Asm.html#Extended-Asm */
@@ -29,7 +97,7 @@ unsigned sys_getCPSR()
  return v;
 }
  
-void sys_setCPSR(unsigned v)
+void arm_setCPSR(unsigned v)
 {
   asm volatile /* see [2] Extended-Asm.html#Extended-Asm */
  (

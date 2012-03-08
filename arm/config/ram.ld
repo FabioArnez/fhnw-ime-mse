@@ -37,6 +37,7 @@ SECTIONS
    /* ^----------------- this space is relevant */
  {
   *(.boot)                     /* must be first */
+  *(.exception_table)
   *(.text)
   *(.rodata)
   *(.glue*)

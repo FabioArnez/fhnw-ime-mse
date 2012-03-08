@@ -7,93 +7,48 @@
   $Id$
   [1] literature/ARM-Architecture-Reference-Manual.pdf
   TODO: make a demo for .onSWI
-        make an informative message for the unimplemented exceptions
 	set the different stacks properly
-	do the basic exception handling sys/sys.{h,c}
 	set the exception stacks IRQStack alread set
-	remove interrupt stuff from here
+	move stack segment into an own file/module
+	                   or even into ram.ld
 ------------------------*/
-.section .boot  /* see [1] A2.6 */
-/* one word per entry
-  ldr pc,=address_of_handler
-*/
-	ldr pc,=.onReset           /* 0x00 A2.6.2 */
-	ldr pc,=.onUndef           /* 0x04 */
-	ldr pc,=.onSWI             /* 0x08 */
-	ldr pc,=.onPrefetch        /* 0x0c */
-	ldr pc,=.onData            /* 0x10 */
-	ldr pc,=.onReserved        /* 0x14 */
-	ldr pc,= gic_onIRQ         /* 0x18  see sys/gic.c*/
-	ldr pc,=.onFIQ             /* 0x1c */
 
-/*------------------------------------------ text */
-.text	
-.onReset:
+/*----------------------------------------the Mode bits */
+USER_MODE      =0b10000               /* see [1] A2.5.7 */
+FIQ_MODE       =0b10001
+IRQ_MODE       =0b10010
+SUPERVISOR_MODE=0b10011
+ABORT_MODE     =0b10111
+UNDEF_MODE     =0b11011
+SYSTEM_MODE    =0b11111
+
+.text
+.global onReset	
+onReset:
+	mov r0,#SUPERVISOR_MODE
+	ldr r1,=_stack_top
 	bl .setStack
-	bl .setIRQStack
+	mov r0,#UNDEF_MODE
+	ldr r1,=_undef_stack_top
+	bl .setStack
+	mov r0,#IRQ_MODE
+	ldr r1,=_irq_stack_top
+	bl .setStack
 	bl _start 
-0:	b 0b				/* forever */	
+0:	b 0b				    /* forever */	
 
-.onUndef:
-	ldr r0,=.onUndefTxt
-	bl .string
-	b .signal
-.onSWI: 
-	ldr r0,=.onSWITxt
-	bl .string
-	b .signal
-.onPrefetch:
-	ldr r0,=.onPrefetchTxt
-	bl .string
-	b .signal
-.onData:
-	ldr r0,=.onDataTxt
-	bl .string
-	b .signal
-.onReserved:
-	ldr r0,=.onReservedTxt
-	bl .string
-	b .signal
-.onIRQ:
-	ldr r0,=.onIRQTxt
-	bl .string
-	b .signal
-.onFIQ:
-	ldr r0,=.onFIQTxt
-	bl .string
-	b .signal
-
-/*-------------------------------------- some text */ 
-.align 4
-.onUndefTxt:	.asciz "Undefined instruction\n"
-.align 4
-.onSWITxt: 	.asciz "Software switch\n"
-.align 4
-.onPrefetchTxt:	.asciz "Prefetch Abort\n"
-.align 4
-.onDataTxt:	.asciz "Data Abort\n"
-.align 4
-.onReservedTxt:	.asciz "Reserved\n"
-.align 4
-.onIRQTxt:	.asciz "IRQ\n"
-.align 4
-.onFIQTxt:	.asciz "FIQ\n"
-
-.align 4
-/*---------------------------- the local functions */
+/*-------------------------------- the local functions */
+/* r0 mode bits 0..4
+/* r1 stack top */
 .setStack:
-	ldr sp,=_stack_top
+	mrs r2,cpsr /* current program status register */
+        bic r3,r2,#0x1f        /* clear mode bits 0..4 */
+	orr r3,r3,r0                       /* set mode */
+	msr cpsr_c,r3                           /* now */
+	mov sp,r1
+	msr cpsr_c,r2                  /* prevous mode */
 	mov pc,lr
 	
-.setIRQStack:
-	mrs r0,cpsr                 /* mode bits 0..4*/
-	bic r1,r0,#0x1f                 /* mode bits */
-	orr r1,r1,#0x12                /* 10010 IRQ  */ 
-	msr cpsr_c,r1	
-	ldr sp,=_irq_stack_top
-	msr cpsr_c,r0		     /* prevous mode */
-	mov pc,lr
-
 .align 4
 /*--------------------------------- very basic debug */
 /* see first.S */
@@ -143,7 +98,9 @@ UART0=0x10009000                 /* address of UART0 */
                                 /* see config/ram.ld */
                                  /* see Makefile for */
 	      /* IRQ_STACK_SIZE_WORD/STACK_SIZE_WORD */
-.section .stack	
+.section .stack
+	.space 4*UNDEF_STACK_SIZE_WORD
+_undef_stack_top:	
 	.space 4*IRQ_STACK_SIZE_WORD
 _irq_stack_top:
 	.space 4*STACK_SIZE_WORD
