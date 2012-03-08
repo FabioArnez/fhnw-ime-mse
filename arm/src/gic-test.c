@@ -5,7 +5,7 @@
  -------------------------*/
 #include "sys/gic.h"
 #include "sys/timer.h"
-#include "sys/sys.h"
+#include "sys/arm.h"
 #include "sys/deb.h"
 #include <stdio.h>
 
@@ -34,7 +34,7 @@ static void timer()
 
 int main()
 {
- sys_irq(1);
+ arm_irq(1);
  gic_init();
  gic_install(0x24,tick);
  gic_enable(0x24);

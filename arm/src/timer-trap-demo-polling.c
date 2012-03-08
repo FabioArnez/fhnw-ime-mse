@@ -5,30 +5,21 @@
 ------------------------*/
 #include "stdio.h"
 #include "sys/timer.h"
-#include "sys/gic.h"
-#include "sys/arm.h"
 
-#define TIMER_0_1 36
 static unsigned tick=0;
 
-static void onTick()        /* the call back */
-{
- printf("tick %d\n",tick++);
- TIMER0.IntClr=0; /* write simply something */
-}
 
 int main()
 {
-/* TIMER configuration */ 
  TIMER0.Load=0x100000; /* the count */
  TIMER0.Control=(1<<7) | /* disabled */
                 (1<<6) | /* periodic */
                 (1<<1) | /* 32 bit */
-		(1<<5) | /* interrupt enable
 		(0<<0) | /* wrapping */
 		    0;
  while(1)
  {
+  printf("Value=%x RIS=%x\n",TIMER0.Value,TIMER0.RIS);
  }
  return 0; 
 } 

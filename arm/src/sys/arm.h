@@ -40,3 +40,7 @@ inline unsigned arm_get_lr() /* return linkregister lr */
  );
  return lr;
 }
+
+
+extern void arm_irq(unsigned v);  /* v==0 disable v!=0 enable */
+extern void arm_fiq(unsigned v);

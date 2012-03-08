@@ -7,6 +7,7 @@
        nesting interrupts
 -------------------------------------*/
 #include "sys/gic.h"
+#include "sys/arm.h"
 #include "sys/deb.h"
 #include "stdio.h"
 
@@ -64,20 +65,6 @@ volatile GIC_DIS*const DIS[]={&GIC1_DIS,&GIC2_DIS,&GIC3_DIS,&GIC4_DIS};
 
 static Trap traps[TRAP_N]; /* the call back */
 
-void gic_init()
-{
- for(unsigned i=0;i<TRAP_N;++i) traps[i]=0;
- for(unsigned i=0;i<4;++i)
- {
-  IFC[i]->CPUControl=1;
-  DIS[i]->Control=1;
-  for(unsigned k=0;k<24;++k) DIS[i]->CPUTargets[k]=1;
- }
- for(unsigned i=0;i<4;++i)
- {
-  printf("%d\t%x\t%p\n",i,DIS[i]->ControllerType,&(DIS[i]->Software));
- }
-}
 
 
 void gic_enable(unsigned id)
@@ -99,8 +86,7 @@ void gic_install(unsigned id,Trap t)
 }
 
 /*------------------------------- called by hardware */
-void gic_onIRQ()__attribute__((interrupt("IRQ")));
-void gic_onIRQ()
+__attribute__((interrupt("IRQ"))) void gic_onIRQ()
 {
  while(1)
  {
@@ -110,6 +96,24 @@ void gic_onIRQ()
   if (t)t();
   IFC[0]->EndInterrupt=id;
  }
+}
+
+void gic_init()
+{
+ for(unsigned i=0;i<TRAP_N;++i) traps[i]=0;
+ for(unsigned i=0;i<4;++i)
+ {
+  IFC[i]->CPUControl=1;
+  DIS[i]->Control=1;
+  for(unsigned k=0;k<24;++k) DIS[i]->CPUTargets[k]=1;
+ }
+#if 0
+ for(unsigned i=0;i<4;++i)
+ {
+  printf("%d\t%x\t%p\n",i,DIS[i]->ControllerType,&(DIS[i]->Software));
+ }
+#endif
+ arm_set_exception(IRQ,gic_onIRQ);
 }
 
 void gic_trigger(unsigned id)

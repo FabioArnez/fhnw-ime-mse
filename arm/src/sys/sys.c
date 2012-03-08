@@ -23,19 +23,6 @@ void sys_undef() /* example of inline assembler */
  );
 }
  
-void sys_irq(unsigned v) /* see [1] A2.5 */
-{
- unsigned psr=sys_getPSR();
- sys_setPSR((v)?psr&~(1<<7):psr|(1<<7));
-                /*  |          |----------- set   
-                    |---------------------- clear */
-}
-
-void sys_fiq(unsigned v)
-{
- unsigned psr=sys_getPSR();
- sys_setPSR( (v)?psr&~(1<<6):psr|(1<<6));
-}
 
 /* test */
 #if 0

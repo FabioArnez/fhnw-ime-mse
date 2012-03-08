@@ -120,32 +120,5 @@ inline  void sys_fiq_enable()
 }
 #endif
 
-inline unsigned sys_getPSR()
-{
- unsigned psr;
- asm volatile
- (
-  "@---------------------------- sys_getPSR\n"
-  "\tmrs %[psr],cpsr\n"
-  :[psr] "=r" (psr)
-  :
- );
- return psr;
-}
-
-inline void sys_setPSR(unsigned psr)
-{
- asm volatile
- (
-  "@---------------------------- sys_setPSR\n"
-  "\tmsr cpsr,%[psr]\n"
-  :
-  :[psr] "r" (psr)
- );
-
-}
-
-extern void sys_irq(unsigned v);  /* v==0 disable v!=0 enable */
-extern void sys_fiq(unsigned v);
 
 

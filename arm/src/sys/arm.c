@@ -108,3 +108,16 @@ void arm_setCPSR(unsigned v)
  );
 }
 
+void arm_irq(unsigned v) /* see [1] A2.5 */
+{
+ unsigned psr=arm_getCPSR();
+ arm_setCPSR((v)?psr&~(1<<7):psr|(1<<7));
+                /*  |          |----------- set   
+                    |---------------------- clear */
+}
+
+void arm_fiq(unsigned v)
+{
+ unsigned psr=arm_getCPSR();
+ arm_setCPSR( (v)?psr&~(1<<6):psr|(1<<6));
+}
