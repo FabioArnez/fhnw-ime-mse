@@ -6,3 +6,4 @@
  -----------------------*/
 extern void uart_out(char ch);
 extern char uart_in();
+extern unsigned uart_avail(); /* returns true if char available */

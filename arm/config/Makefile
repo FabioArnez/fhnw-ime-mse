@@ -47,7 +47,9 @@ cpu-demo-ops.S cpu-demo.c \
 sys/arm.c \
 timer-trap-demo-hw.c \
 timer-trap-demo-polling.c \
-timer-trap-demo-irq.c
+timer-trap-demo-irq.c \
+common-access.c
+
 
 SYSTEM=sys/stack.o sys/arm.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o sys/gic.o
 #------------------------------------------ <applications>
@@ -64,6 +66,10 @@ undef-trap-demo:	undef-trap-demo.o ${SYSTEM}
 timer-trap-demo-hw:		timer-trap-demo-hw.o sys/timer.o ${SYSTEM}
 timer-trap-demo-polling:	timer-trap-demo-polling.o sys/timer.o ${SYSTEM}
 timer-trap-demo-irq:		timer-trap-demo-irq.o sys/timer.o ${SYSTEM}
+
+#-----------------------------------------common-access
+common-access: 	common-access.o sys/timer.o ${SYSTEM}
+
 #-----------------------------------------gic generic interrupt controller
 gic-test:	gic-test.o sys/sys.o sys/gic.o sys/deb.o ${SYSTEM}
 

@@ -27,3 +27,8 @@ char uart_in()
  return UART0.DR;
 }
 
+
+unsigned uart_avail()
+{
+ return UART0.FR&(1<<4)==0;
+}

@@ -20,10 +20,6 @@ static void onTick()        /* the call back */
 int main()
 {
 /* TIMER configuration */ 
- arm_irq(1);
- gic_init();
- gic_install(TIMER_0_1,onTick);
- gic_enable(TIMER_0_1);
  TIMER0.Load=0x100000; /* the count */
  TIMER0.Control=(1<<7) | /* disabled */
                 (1<<6) | /* periodic */
