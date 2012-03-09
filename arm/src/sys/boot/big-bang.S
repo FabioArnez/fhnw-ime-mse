@@ -12,7 +12,8 @@
 	move stack segment into an own file/module
 	                   or even into ram.ld
 ------------------------*/
-
+#include "sys/start.h"
+#include "sys/stack.h"
 /*----------------------------------------the Mode bits */
 USER_MODE      =0b10000               /* see [1] A2.5.7 */
 FIQ_MODE       =0b10001
@@ -26,13 +27,16 @@ SYSTEM_MODE    =0b11111
 .global onReset	
 onReset:
 	mov r0,#SUPERVISOR_MODE
-	ldr r1,=_stack_top
+	ldr r1,=_stack_top  /* r1 contents of _stack_top */
+	ldr r1,[r1];
 	bl .setStack
 	mov r0,#UNDEF_MODE
 	ldr r1,=_undef_stack_top
+        ldr r1,[r1]	
 	bl .setStack
 	mov r0,#IRQ_MODE
 	ldr r1,=_irq_stack_top
+        ldr r1,[r1]	
 	bl .setStack
 	bl _start 
 0:	b 0b				    /* forever */	
@@ -94,6 +98,7 @@ onReset:
 	b 0b
 UART0=0x10009000                 /* address of UART0 */			
 
+#if 0
 /*-------------------------------------------- stack */
                                 /* see config/ram.ld */
                                  /* see Makefile for */
@@ -105,3 +110,4 @@ _undef_stack_top:
 _irq_stack_top:
 	.space 4*STACK_SIZE_WORD
 _stack_top:
+#endif

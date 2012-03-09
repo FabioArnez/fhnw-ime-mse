@@ -36,6 +36,7 @@ sys/boot/big-bang.S sys/start.c \
 accessing-hardware.c \
 sys/timer.c timer-test.c \
 sys/deb.c sys/sys.c \
+sys/stack.c \
 undef-trap-demo.c \
 gic-test.c sys/gic.c \
 io/lcd.c lcd-demo.c \
@@ -44,9 +45,11 @@ io/screen.c \
 ascii-test.c \
 cpu-demo-ops.S cpu-demo.c \
 sys/arm.c \
-timer-trap-demo-hw.c
+timer-trap-demo-hw.c \
+timer-trap-demo-polling.c \
+timer-trap-demo-irq.c
 
-SYSTEM=sys/arm.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o sys/gic.o
+SYSTEM=sys/stack.o sys/arm.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o sys/gic.o
 #------------------------------------------ <applications>
 hello-world:	hello-world.o ${SYSTEM}
 accessing-hardware:	accessing-hardware.o ${SYSTEM}

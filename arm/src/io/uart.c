@@ -5,6 +5,7 @@
  see [literature/realview_emulation_basebord_ug.pdf] 
      [literature/pl011-UART.pdf]
  -----------------------*/
+#include"io/uart.h"
 
 extern volatile struct 
 {
