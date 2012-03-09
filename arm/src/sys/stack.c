@@ -2,6 +2,7 @@
   stack
   (c) H.Buchmann FHNW 2012
   $Id$
+  see sys/boot/big-bang.S
  ----------------------------*/
 #include "sys/stack.h"
 __attribute__((section(".stack")))

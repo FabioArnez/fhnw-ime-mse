@@ -3,14 +3,10 @@
   (c) H.Buchmann FHNW 2011
   demonstrates .booting
                .outline of an image
-  see ram.ld linker script	       
+  see ram.ld linker script
+      sys/stack.c/h
   $Id$
   [1] literature/ARM-Architecture-Reference-Manual.pdf
-  TODO: make a demo for .onSWI
-	set the different stacks properly
-	set the exception stacks IRQStack alread set
-	move stack segment into an own file/module
-	                   or even into ram.ld
 ------------------------*/
 #include "sys/start.h"
 #include "sys/stack.h"
@@ -97,17 +93,3 @@ onReset:
 	str r2,[r1]
 	b 0b
 UART0=0x10009000                 /* address of UART0 */			
-
-#if 0
-/*-------------------------------------------- stack */
-                                /* see config/ram.ld */
-                                 /* see Makefile for */
-	      /* IRQ_STACK_SIZE_WORD/STACK_SIZE_WORD */
-.section .stack
-	.space 4*UNDEF_STACK_SIZE_WORD
-_undef_stack_top:	
-	.space 4*IRQ_STACK_SIZE_WORD
-_irq_stack_top:
-	.space 4*STACK_SIZE_WORD
-_stack_top:
-#endif
