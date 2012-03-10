@@ -30,5 +30,5 @@ char uart_in()
 
 unsigned uart_avail()
 {
- return UART0.FR&(1<<4)==0;
+ return (UART0.FR&(1<<4))==0;
 }

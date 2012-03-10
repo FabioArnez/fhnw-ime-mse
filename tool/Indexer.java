@@ -19,7 +19,8 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Collections;
 import java.util.Comparator;
-
+import java.util.Set;
+import java.util.TreeSet;
 class Indexer
 {
 //TODO make a parameter
@@ -31,8 +32,8 @@ class Indexer
  {
   String          file;     //of file
   Vector<String>  lst;      //of file locations
-  Map<String,Vector<String>> slide=new TreeMap<String,           //name
-                                               Vector<String>>();//page nbr
+  Map<String,Set<String>> slide=new TreeMap<String,           //name
+                                               Set<String>>();//page nbr
   
   Entry(String file)
   {
@@ -42,10 +43,10 @@ class Indexer
   
   void slide(String name,String page)
   {
-   Vector<String> pag=slide.get(name);
+   Set<String> pag=slide.get(name);
    if (pag==null)
       {
-       pag=new Vector<String>();
+       pag=new TreeSet<String>();
        slide.put(name,pag);
       }
    pag.add(page);   
@@ -54,14 +55,16 @@ class Indexer
   void showASCII()
   {
    System.out.print(file+": ");
-   for(Map.Entry<String,Vector<String>> e:slide.entrySet())
+   for(Map.Entry<String,Set<String>> e:slide.entrySet())
    {
     System.out.print(e.getKey()+"(");
-    Vector<String> pag=e.getValue();
-    for(int i=0;i<pag.size();++i)
+    Set<String> pag=e.getValue();
+    int i=0;
+    for(String p:pag)
     {
      if (i>0) System.out.print(",");
-     System.out.print(pag.get(i));
+     System.out.print(p);
+     ++i;
     }
     System.out.print(") ");
    }
@@ -76,15 +79,17 @@ class Indexer
   void showLatex()
   {
    System.out.println("\\begin{srcfileindex}{"+file+"}");
-   for(Map.Entry<String,Vector<String>> e:slide.entrySet())
+   for(Map.Entry<String,Set<String>> e:slide.entrySet())
    {
     System.out.print("\\textfile{"+e.getKey()+"}");
     System.out.print("{");
-    Vector<String> pag=e.getValue();
-    for(int i=0;i<pag.size();++i)
+    Set<String> pag=e.getValue();
+    int i=0;
+    for(String p:pag)
     {
      if (i>0) System.out.print(",");
-     System.out.print(pag.get(i));
+     System.out.print(p);
+     ++i;
     }
     System.out.println("}");
    }
@@ -153,7 +158,7 @@ class Indexer
  
  private void fileList(Stack<File> path,File dir)
  {
-//  System.out.println("fileList "+dir);
+//  System.err.println("fileList "+dir);
   File[] lst=dir.listFiles();
   for(File f:lst)
   {
@@ -216,9 +221,12 @@ class Indexer
  {
   Collections.sort(fileList,cmp);
  }
- 
+
+// typical entry
+// \indexentry{hardware/access.c|hyperpage}{8}
+
  static private final Pattern Entry=
-        Pattern.compile("\\\\indexentry\\{(.*)\\}\\{(.*)\\}");
+        Pattern.compile("\\\\indexentry\\{(.*?)(?:\\|hyperpage)?\\}\\{(.*)\\}");
 
  
  static private String[] revert(String f)
@@ -300,9 +308,9 @@ class Indexer
     Matcher m=Entry.matcher(li);
     if (m.matches())
        {
-//        System.out.println(m.group(2)+  //page number
-//	                   "\t"+
-//	                   m.group(1)); //file name
+        System.err.println(m.group(2)+  //page number
+	                   "\t"+
+	                   m.group(1)); //file name
 	insert(fil,          //the slide
 	       m.group(1),   //the file 
 	       m.group(2));  //the page number
@@ -311,7 +319,7 @@ class Indexer
   }
   catch(FileNotFoundException ex)
   {
-   System.err.println("File '"+fil+"' not found");
+   System.err.println("File '"+fil+".idx' not found");
   }
  }
  

@@ -36,6 +36,16 @@ void ascii_unsigned_dec(Out* out,unsigned v)
  while(i>0) out->put(rev[--i]);
 }
 
+void ascii_int_dec(Out* out,int v)
+{
+ if (v<0) 
+    {
+     out->put('-');
+     v=-v;
+    }
+ ascii_unsigned_dec(out,v);
+}
+
 void ascii_unsigned_hex(Out* out,unsigned v)
 {
  static const char Digits[]="0123456789abcdef";
@@ -72,7 +82,7 @@ void ascii_printf(Out* out,const char* fmt,...)
       ascii_string(out,va_arg(lst,char*));
      break;
      case 'd':
-      ascii_unsigned_dec(out,va_arg(lst,unsigned));
+      ascii_int_dec(out,va_arg(lst,int));
      break;
      case 'x':
       ascii_put(out,'0');ascii_put(out,'x');

@@ -20,8 +20,8 @@ static inline void ascii_newln(Out* out){out->newln();}
 void ascii_string(Out* out,const char s[]);
 void ascii_unsigned_dec(Out* out,unsigned v);
 void ascii_unsigned_hex(Out* out,unsigned v);
-
-/*TODO int and long types too */
+void ascii_int_dec(Out* out,int v);
+/*TODO long types too */
 
 /*TODO more type and safer */
 void ascii_printf(Out* out,const char* fmt,...);

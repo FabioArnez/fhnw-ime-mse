@@ -45,7 +45,7 @@ int printf(const char* fmt,...)
       ascii_string(stdout,va_arg(lst,char*));
      break;
      case 'd':
-      ascii_unsigned_dec(stdout,va_arg(lst,unsigned));
+      ascii_int_dec(stdout,va_arg(lst,int));
      break;
      case 'x':
       ascii_put(stdout,'0');ascii_put(stdout,'x');

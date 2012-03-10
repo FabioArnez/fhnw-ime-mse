@@ -12,10 +12,11 @@
 #define TIMER_0_1 36
 
 volatile static int tick=0;
-
+volatile static int own_IRQ_tick=0;
 static void onTick()        /* the call back */
 {
  ++tick;
+ ++own_IRQ_tick;
  TIMER0.IntClr=0; /* write simply something */
 }
 
@@ -48,22 +49,23 @@ static void wait(unsigned cnt) /* use TIMER1 for busy wait */
 
 static void loop()
 {
+ int own_loop_tick=0;
  while(1)
  {
-  volatile int local=tick;
-  if (local)
-     {
-      --local;
-      wait(0x100);
-      if ((local+1)!=tick) printf("%d\n",tick-local);
-      tick=local;
-     }
+  if (uart_avail()) break;
+  volatile int l0=tick; /* for real assignment */
+  --l0;
+  wait(0x10);
+  tick=l0;
+  ++own_loop_tick;
  }
+ printf("balance=%d\n",tick-(own_IRQ_tick-own_loop_tick));
 }
 
 int main()
 {
  init();
  loop();
+ printf("done\n");
  return 0; 
 } 
