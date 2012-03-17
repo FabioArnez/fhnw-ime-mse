@@ -13,6 +13,13 @@ OUTPUT_ARCH(arm)
   
 SECTIONS
 {
+ MEGA = (1<<20);
+ /*--------------------------
+   the memory
+ ----------------------------*/
+ MEM_BEG  = 0x00000000;
+ MEM_SIZE = 64*MEGA;
+ 
  /*--------------------------
    the periphery
  ----------------------------*/
@@ -32,7 +39,9 @@ SECTIONS
  GIC2_DIS = GIC2_IFC + 0x1000; 
  GIC3_DIS = GIC3_IFC + 0x1000;
  GIC4_DIS = GIC4_IFC + 0x1000;
- . = 0 ;                      /* start of memory */
+ 
+ /*------------------------------ start of virtual memory */
+ . = MEM_BEG ;             /* start of memory */
  .text :
    /* ^----------------- this space is relevant */
  {

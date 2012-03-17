@@ -10,6 +10,7 @@
 ------------------------*/
 #include "sys/start.h"
 #include "sys/stack.h"
+#include "sys/mmu.h"
 /*----------------------------------------the Mode bits */
 USER_MODE      =0b10000               /* see [1] A2.5.7 */
 FIQ_MODE       =0b10001
@@ -19,9 +20,25 @@ ABORT_MODE     =0b10111
 UNDEF_MODE     =0b11011
 SYSTEM_MODE    =0b11111
 
+/*------------------------- we are not at the right place */
+.section .boot
+/* 	ldr pc,=onReset  dont works why */
+	b onReset
+
+/*-------------------------------------------------- text */
 .text
 .global onReset	
 onReset:
+	bl .displacement
+	bl .pstack
+/* call mmu_enable r0=disp */
+	mov r0,r9
+	bl mmu_enable                   /* relative call */
+	bl .mmu_enable
+	mov r0,pc
+	b .hex	 /* on return r0 physical address of ttb */
+
+	
 	mov r0,#SUPERVISOR_MODE
 	ldr r1,=_stack_top  /* r1 contents of _stack_top */
 	ldr r1,[r1];
@@ -37,6 +54,42 @@ onReset:
 	bl _start 
 0:	b 0b				    /* forever */	
 
+/*--------------------------------------- displacement */
+.displacement:
+	mov r0,pc
+	ldr r1,.pc1                 /* relative to pc */
+1: 	             /* r0 p-addr of label 1 from pc  */
+               /* r1 v-address of label 1 from ram.ld */
+	sub r9,r0,r1               /* r9 displacement */
+	            /* *dont* use it for other things */
+                              /* p-addr = v-addr+disp */
+	mov pc,lr	
+.pc1:	.word 1b              /* the v-addr of label 1*/
+
+.mmu_enable:
+/* on entry:
+    r0 physical address of ttb 
+    r9 displacement
+    lr physical return address
+*/
+	mcr p15,0,r0,c2,c0,0                /*set ttb */ 
+	mov r1,#0xffffffff	     /* Domain Access */ 
+	mcr p15,0,r1,c3,c0,0
+	sub lr,lr,r9                 /* lr now v-addr */
+	
+	mrc p15,0,r2,c1,c0,0
+	orr r2,r2,#1	        /* enable */
+	mcr p15,0,r2,c1,c0,0	/* hopefully in v-mode */
+	mov  pc,lr
+	
+/*--------------------------------------------- pstack */
+/* physical stack  */
+.pstack:
+	ldr r1,=_stack_top                   /* v_addr */
+	add r1,r1,r9                         /* p_addr */
+	ldr r1,[r1]                    /* again v_addr */
+	add sp,r1,r9	       /* p_addr of _stack_top */
+	mov pc,lr	
 /*-------------------------------- the local functions */
 /* r0 mode bits 0..4
 /* r1 stack top */
@@ -61,6 +114,8 @@ onReset:
 	str r1,[r0]                    /* write char */
 1:	b 1b                              /* forever */
 
+.global pic_hex
+pic_hex:
 .hex:              /* prints r0 hexadecimal to UART0 */
 	                            /* see src/hex.S */
 	ldr r1,=UART0

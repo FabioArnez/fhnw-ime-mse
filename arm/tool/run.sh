@@ -13,9 +13,11 @@ if [ ! -f ${1} ]
    then echo "File ${1} dont exists"
         exit 1
 fi
+#MACHINE=realview-eb
+MACHINE=realview-eb
 QEMU=../../../qemu/bin/
 #QEMU=
-${QEMU}qemu-system-arm -M realview-eb -kernel ${1} -serial stdio -sdl -display sdl
+${QEMU}qemu-system-arm -M ${MACHINE} -kernel ${1} -serial stdio -sdl -display sdl
 #-chardev pipe,id=console,path=console
 #-nographic
 stty echo
