@@ -13,10 +13,17 @@ if [ ! -f ${1} ]
    then echo "File ${1} dont exists"
         exit 1
 fi
+#debug port 1234
+#DEBUG='-s -S'
 MACHINE=versatileab
+
 QEMU=../../../qemu/bin/
-#QEMU=
-${QEMU}qemu-system-arm -M ${MACHINE} -kernel ${1} -serial stdio -sdl -display sdl
+QEMU=
+${QEMU}qemu-system-arm -M ${MACHINE} -kernel ${1} \
+${DEBUG} \
+-serial stdio -sdl -display sdl
+
+
 #-chardev pipe,id=console,path=console
 #-nographic
 stty echo

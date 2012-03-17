@@ -9,8 +9,8 @@
 #else
 typedef struct
 {
- unsigned p_mem;   /* MByte aligned */
  unsigned v_mem;   /* MByte aligned */
+ unsigned p_mem;   /* MByte aligned */
  unsigned sizeMB;  /* in MBytes */ 
  unsigned flags;   
                    /* size_MB== 0 terminates list */

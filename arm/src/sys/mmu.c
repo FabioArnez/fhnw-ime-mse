@@ -16,15 +16,17 @@ void call(void (*p)()) /* for looking how it is done */
  p();
 }    
 /* [1] B4-27 */
-#define RAM  0xc1e   /* 1110   */
-#define PHY  0xc12   /* 110 0000 1 00 10 */
+#define RAM  0xc0e   /* 1110   */
+#define PHY  0xc02   /* 110 0000 1 00 10 */
 #define MEGA (1<<20)
 static const MMU_Desc Desc[]=
 {
- /* p-mem      v-mem       size_MB     flags */
-   {0x00000000,0x00000000, 64*MEGA,    RAM},
-// {0x00000000,0x20000000, 64*MEGA,    RAM},
- {0         ,0,         0}
+ /* v-mem      p-mem       size_MB     flags */
+   {0x00000000,0x00000000, 64*MEGA,    PHY}, /* the physical memory *must* be present */
+   {0xc0000000,0x00000000, 64*MEGA,    RAM}, /* the virtual memory */
+   {0x10000000,0x10000000, 64*MEGA,    PHY},
+             /*   4000000 */
+   {0         ,0,         0}
 };
 
 /* check if pic */
@@ -49,8 +51,8 @@ volatile unsigned* mmu_enable(unsigned disp)
  MMU_Desc* desc=(MMU_Desc*)((unsigned)Desc+disp);
  while(desc->sizeMB)
  {
-  unsigned p=desc->p_mem;
   unsigned v=desc->v_mem;
+  unsigned p=desc->p_mem;
   unsigned s=desc->sizeMB;
   unsigned f=desc->flags;
   while(s>0)

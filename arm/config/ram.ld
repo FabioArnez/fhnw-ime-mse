@@ -17,7 +17,7 @@ SECTIONS
  /*--------------------------
    the memory
  ----------------------------*/
- MEM_BEG  = 0x00000;
+ MEM_BEG  = 0xc0000000;
  MEM_SIZE = 64*MEGA;
  
  /*--------------------------
@@ -34,7 +34,7 @@ SECTIONS
  TIMER3 = 0x101e3020;
 
  /*------------------------------ start of virtual memory */
- . = MEM_BEG ;             /* start of memory */
+ . = MEM_BEG + 0x10000 ;             /* start of memory */
  .text :
    /* ^----------------- this space is relevant */
  {

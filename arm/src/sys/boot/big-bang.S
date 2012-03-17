@@ -21,14 +21,14 @@ UNDEF_MODE     =0b11011
 SYSTEM_MODE    =0b11111
 
 /*------------------------- we are not at the right place */
-.section .boot
-/* 	ldr pc,=onReset  dont works why */
+.section .boot                  /* qemu binary 0x00010000 */
 	b onReset
 
 /*-------------------------------------------------- text */
 .text
 .global onReset	
 onReset:
+
 	bl .displacement
 	bl .pstack
 /* call mmu_enable r0=disp */
@@ -55,6 +55,8 @@ onReset:
 	bl _start 
 0:	b 0b				    /* forever */	
 
+.onTrap:
+	b .signal
 /*--------------------------------------- displacement */
 .displacement:
 	mov r0,pc
@@ -74,20 +76,20 @@ onReset:
     r9 displacement
     lr physical return address
 */
-	mrc p15,0,r0,c1,c0,0
-	b .hex
-	
 	mcr p15,0,r0,c2,c0,0                /*set ttb */
 	 
 	mov r1,#0xffffffff	     /* Domain Access */ 
 	mcr p15,0,r1,c3,c0,0
-	sub lr,lr,r9                 /* lr now v-addr */
-	
+
+
+	sub r4,lr,r9                 /* r4 now v-addr */
+		
 	mrc p15,0,r2,c1,c0,0
-//	orr r2,r2,#1	        /* enable */
+	orr r2,r2,#1	                     /* enable */
 	mcr p15,0,r2,c1,c0,0	/* hopefully in v-mode */
-	mov  pc,lr
-	
+	mov pc,r4	
+
+
 /*--------------------------------------------- pstack */
 /* physical stack  */
 .pstack:

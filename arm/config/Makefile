@@ -11,7 +11,7 @@ CC=${PREFIX}-gcc
 LD=${PREFIX}-ld
 OBJCOPY=${PREFIX}-objcopy
 CXX=${PREFIX}-g++
-CFLAGS=-std=gnu99 -O2
+CFLAGS=-std=gnu99 -O2 -g
 
 CPPFLAGS+=-DIRQ_STACK_SIZE_WORD=0x20 \
           -DUNDEF_STACK_SIZE_WORD=0x20 \
