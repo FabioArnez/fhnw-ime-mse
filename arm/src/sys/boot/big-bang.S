@@ -92,4 +92,5 @@ onReset:
 	bne 0b	
 	str r2,[r1]
 	b 0b
-UART0=0x10009000                 /* address of UART0 */			
+
+UART0= 0x101f1000                /* address of UART0 */			

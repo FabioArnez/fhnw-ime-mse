@@ -51,7 +51,7 @@ timer-trap-demo-irq.c \
 common-access.c
 
 
-SYSTEM=sys/stack.o sys/arm.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o sys/gic.o
+SYSTEM=sys/stack.o sys/arm.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
 #------------------------------------------ <applications>
 hello-world:	hello-world.o ${SYSTEM}
 accessing-hardware:	accessing-hardware.o ${SYSTEM}
