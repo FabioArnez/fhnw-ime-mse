@@ -3,7 +3,7 @@
   ram.ld linker script
   (c) H.Buchmann FHNW 2011
   $Id$
-  [1] literature/versatile_application_baseboard_arm926ej_s_ug.pdf
+  [1] literature/realview_emulation_basebord_ug.pdf
   -------------------------
 */
    
@@ -24,14 +24,23 @@ SECTIONS
    the periphery for realview
  ----------------------------*/
  SYS    = 0x10000000;
- UART0  = 0x101f1000;
+ UART0  = 0x10009000;
  
- CLCDC  = 0x10120000;             /* Color LCD Controller */    
+ CLCDC  = 0x10020000;    /* Color LCD Controller */    
 
- TIMER0 = 0x101e2000; 
- TIMER1 = 0x101e2020; 
- TIMER2 = 0x101e3000; 
- TIMER3 = 0x101e3020;
+ TIMER0 = 0x10011000; 
+ TIMER1 = 0x10011020; 
+ TIMER2 = 0x10012000; 
+ TIMER3 = 0x10012020;
+
+ GIC1_IFC = 0x10040000;  /* see [1] 4.12 */
+ GIC2_IFC = 0x10050000;
+ GIC3_IFC = 0x10060000;
+ GIC4_IFC = 0x10070000;
+ GIC1_DIS = GIC1_IFC + 0x1000; 
+ GIC2_DIS = GIC2_IFC + 0x1000; 
+ GIC3_DIS = GIC3_IFC + 0x1000;
+ GIC4_DIS = GIC4_IFC + 0x1000;
 
  /*------------------------------ start of virtual memory */
  . = MEM_BEG + 0x10000 ;             /* start of memory */

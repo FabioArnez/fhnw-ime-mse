@@ -22,6 +22,8 @@ extern void arm_set_exception(Exception ex,void (*exception)());
    __attribute__((interrupt(attr)))
    
  */
+extern void arm_init();
+
 extern void arm_undef();  /* executes an undef instruction triggering the
                              undef exeception */
 /* CPSR see [1] A2.5 */

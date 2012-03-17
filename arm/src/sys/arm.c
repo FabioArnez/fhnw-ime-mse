@@ -50,28 +50,41 @@ static __attribute__((interrupt("FIQ"))) void onFIQ()
  deb_msg("unexpected FIQ");
 }
 
+
 /*------------------------------------------------ the exception table */
-struct /* see see [1] A2.6  */
+typedef  struct /* see see [1] A2.6  */
 {
  unsigned PC[8];
  void (*exception[8])();  /* array of funitions void (); */
-} ExceptionTable __attribute((section(".exception_table")))=
- {
-  {LDRPC,LDRPC,LDRPC,LDRPC,LDRPC,LDRPC,LDRPC,LDRPC},
-  {onReset,         /* see big-bang.S */
-   onUndef,
-   onSWI,
-   onPrefetch,
-   onAbort,
-   onReserved,
-   onIRQ,
-   onFIQ
-  }
- };
+} ExceptionTable;
+
+
+static const ExceptionTable DefaultExceptionTable=
+{
+ {LDRPC,LDRPC,LDRPC,LDRPC,LDRPC,LDRPC,LDRPC,LDRPC},
+ {onReset,         /* see big-bang.S */
+  onUndef,
+  onSWI,
+  onPrefetch,
+  onAbort,
+  onReserved,
+  onIRQ,
+  onFIQ
+ }
+};
+
+volatile ExceptionTable*const exceptionTable = 0;
+
+
+void arm_init()
+{
+ *exceptionTable=DefaultExceptionTable; 
+}
+
 
 void arm_set_exception(Exception ex,void (*exception)())
 {
- ExceptionTable.exception[ex]=exception;
+ exceptionTable->exception[ex]=exception;
 }
 
 void arm_undef()

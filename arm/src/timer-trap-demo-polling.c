@@ -8,6 +8,11 @@
 
 static unsigned tick=0;
 
+void onTick()
+{
+ printf("tick %d\n",tick++);
+ TIMER0.IntClr=0;
+}
 
 int main()
 {
@@ -19,7 +24,7 @@ int main()
 		    0;
  while(1)
  {
-  printf("Value=%x RIS=%x\n",TIMER0.Value,TIMER0.RIS);
+  if (TIMER0.Value,TIMER0.RIS) onTick();
  }
  return 0; 
 } 

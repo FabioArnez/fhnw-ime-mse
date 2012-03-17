@@ -69,7 +69,7 @@ undef-trap-demo:	undef-trap-demo.o ${SYSTEM}
 #-----------------------------------------timer-trap-demo
 timer-trap-demo-hw:		timer-trap-demo-hw.o sys/timer.o ${SYSTEM}
 timer-trap-demo-polling:	timer-trap-demo-polling.o sys/timer.o ${SYSTEM}
-timer-trap-demo-irq:		timer-trap-demo-irq.o sys/timer.o ${SYSTEM}
+timer-trap-demo-irq:		timer-trap-demo-irq.o sys/timer.o sys/gic.o ${SYSTEM}
 
 #-----------------------------------------common-access
 common-access: 	common-access.o sys/timer.o ${SYSTEM}

@@ -15,7 +15,8 @@ if [ ! -f ${1} ]
 fi
 #debug port 1234
 #DEBUG='-s -S'
-MACHINE=versatileab
+MACHINE=realview-eb
+#MACHINE=versatileab
 
 QEMU=../../../qemu/bin/
 QEMU=
