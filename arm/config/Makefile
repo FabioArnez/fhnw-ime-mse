@@ -21,6 +21,9 @@ LDFLAGS=-nostdlib -Wl,--script=../config/ram.ld -Wl,-Map -Wl,${@}.map
        # |        |----- the linker script
        # |-------------- no standard libs 
 
+#------------------------------------------ link pattern
+%:	%.o; $(CC) -o${@} ${^} ${LDFLAGS}
+	${OBJCOPY} -O binary ${@} ${@}.img
 #------------------------------------------ assembler pattern
 %.o:	%.S;$(CC) ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
 
@@ -48,7 +51,8 @@ sys/arm.c \
 timer-trap-demo-hw.c \
 timer-trap-demo-polling.c \
 timer-trap-demo-irq.c \
-common-access.c
+common-access.c \
+mmu-test.c sys/mmu.c
 
 
 SYSTEM=sys/stack.o sys/arm.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
@@ -78,6 +82,8 @@ lcd-demo:	lcd-demo.o io/lcd.o io/font.o  ${SYSTEM}
 lcd-demo-0:	lcd-demo-0.o sys/deb.o ${SYSTEM}
 ascii-test:	ascii-test.o io/screen.o io/lcd.o io/font.o ${SYSTEM}
 
+#------------------------------- mmu-devel
+mmu-test:	mmu-test.o sys/boot/big-bang.o sys/stack.o sys/mmu.o sys/deb.o
 #------------------------------- the rules made with make rules
 include make.rules
 

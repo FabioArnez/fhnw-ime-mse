@@ -13,8 +13,15 @@ OUTPUT_ARCH(arm)
   
 SECTIONS
 {
+ MEGA = (1<<20);
  /*--------------------------
-   the periphery
+   the memory
+ ----------------------------*/
+ MEM_BEG  = 0x00000;
+ MEM_SIZE = 64*MEGA;
+ 
+ /*--------------------------
+   the periphery for realview
  ----------------------------*/
  SYS    = 0x10000000;
  UART0  = 0x101f1000;
@@ -26,7 +33,8 @@ SECTIONS
  TIMER2 = 0x101e3000; 
  TIMER3 = 0x101e3020;
 
- . = 0 ;                      /* start of memory */
+ /*------------------------------ start of virtual memory */
+ . = MEM_BEG ;             /* start of memory */
  .text :
    /* ^----------------- this space is relevant */
  {
@@ -36,12 +44,17 @@ SECTIONS
   *(.rodata)
   *(.glue*)
  }
-
- .data ALIGN (4):
+ 
+ .data ALIGN (4) :
  {
   *(.data)
  }
 
+ .ttb ALIGN (0x4000) :
+ {
+  *(.ttb)
+ }
+ 
   bss_start= . ;
  .bss ALIGN (4) : 
  {
