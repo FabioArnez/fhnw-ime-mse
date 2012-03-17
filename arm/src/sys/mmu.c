@@ -19,13 +19,14 @@ void call(void (*p)()) /* for looking how it is done */
 #define RAM  0xc0e   /* 1110   */
 #define PHY  0xc02   /* 110 0000 1 00 10 */
 #define MEGA (1<<20)
+
+/* check address in ram.ld linker script */
 static const MMU_Desc Desc[]=
 {
  /* v-mem      p-mem       size_MB     flags */
    {0x00000000,0x00000000, 64*MEGA,    PHY}, /* the physical memory *must* be present */
    {0xc0000000,0x00000000, 64*MEGA,    RAM}, /* the virtual memory */
    {0x10000000,0x10000000, 64*MEGA,    PHY},
-             /*   4000000 */
    {0         ,0,         0}
 };
 
@@ -44,7 +45,7 @@ static void show(volatile unsigned* ttb)
  deb_out('-');
 }
 
-volatile unsigned* mmu_enable(unsigned disp)
+volatile unsigned* mmu_init(unsigned disp)
 {
  volatile unsigned* ttb=(volatile unsigned*)((unsigned)TTB+disp); 
  init(ttb);

@@ -24,7 +24,7 @@ SYSTEM_MODE    =0b11111
 .section .boot                  /* qemu binary 0x00010000 */
 	b onReset
 
-/*-------------------------------------------------- text */
+/*------------------------------------------------- text */
 .text
 .global onReset	
 onReset:
@@ -34,15 +34,15 @@ onReset:
 /* call mmu_enable r0=disp */
 	mov r0,r9
 
-	bl mmu_enable                   /* relative call */
-                 /* on return r0 physical address of ttb */
-	bl .mmu_enable
-	mov r0,pc
-	b .hex
-	
+	bl mmu_init                    /* relative call */
+                /* on return r0 physical address of ttb */
+	bl .mmu_enable 
+
+/*------------------------- here we have virtual memory */	
 	mov r0,#SUPERVISOR_MODE
 	ldr r1,=_stack_top  /* r1 contents of _stack_top */
 	ldr r1,[r1];
+
 	bl .setStack
 	mov r0,#UNDEF_MODE
 	ldr r1,=_undef_stack_top
@@ -55,8 +55,6 @@ onReset:
 	bl _start 
 0:	b 0b				    /* forever */	
 
-.onTrap:
-	b .signal
 /*--------------------------------------- displacement */
 .displacement:
 	mov r0,pc
@@ -69,7 +67,8 @@ onReset:
 	mov pc,lr	
 .pc1:	.word 1b              /* the v-addr of label 1*/
 
-/*---------------------------------------- mmu_enable */
+/*-------------------------------- the local functions */
+
 .mmu_enable:
 /* on entry:
     r0 physical address of ttb 
@@ -80,25 +79,21 @@ onReset:
 	 
 	mov r1,#0xffffffff	     /* Domain Access */ 
 	mcr p15,0,r1,c3,c0,0
-
-
-	sub r4,lr,r9                 /* r4 now v-addr */
+	sub lr,lr,r9                 /* r4 now v-addr */
 		
 	mrc p15,0,r2,c1,c0,0
 	orr r2,r2,#1	                     /* enable */
 	mcr p15,0,r2,c1,c0,0	/* hopefully in v-mode */
-	mov pc,r4	
+	mov pc,lr	
 
-
-/*--------------------------------------------- pstack */
-/* physical stack  */
 .pstack:
 	ldr r1,=_stack_top                   /* v_addr */
 	add r1,r1,r9                         /* p_addr */
 	ldr r1,[r1]                    /* again v_addr */
 	add sp,r1,r9	       /* p_addr of _stack_top */
 	mov pc,lr	
-/*-------------------------------- the local functions */
+
+
 /* r0 mode bits 0..4
 /* r1 stack top */
 .setStack:

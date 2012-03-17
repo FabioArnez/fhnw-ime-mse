@@ -26,7 +26,7 @@ SECTIONS
  SYS    = 0x10000000;
  UART0  = 0x101f1000;
  
- CLCDC  = 0x10120000; /* Color LCD Controller */    
+ CLCDC  = 0x10120000;             /* Color LCD Controller */    
 
  TIMER0 = 0x101e2000; 
  TIMER1 = 0x101e2020; 
