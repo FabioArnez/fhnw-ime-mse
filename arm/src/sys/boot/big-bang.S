@@ -33,11 +33,12 @@ onReset:
 	bl .pstack
 /* call mmu_enable r0=disp */
 	mov r0,r9
+
 	bl mmu_enable                   /* relative call */
+                 /* on return r0 physical address of ttb */
 	bl .mmu_enable
 	mov r0,pc
-	b .hex	 /* on return r0 physical address of ttb */
-
+	b .hex
 	
 	mov r0,#SUPERVISOR_MODE
 	ldr r1,=_stack_top  /* r1 contents of _stack_top */
@@ -66,19 +67,24 @@ onReset:
 	mov pc,lr	
 .pc1:	.word 1b              /* the v-addr of label 1*/
 
+/*---------------------------------------- mmu_enable */
 .mmu_enable:
 /* on entry:
     r0 physical address of ttb 
     r9 displacement
     lr physical return address
 */
-	mcr p15,0,r0,c2,c0,0                /*set ttb */ 
+	mrc p15,0,r0,c1,c0,0
+	b .hex
+	
+	mcr p15,0,r0,c2,c0,0                /*set ttb */
+	 
 	mov r1,#0xffffffff	     /* Domain Access */ 
 	mcr p15,0,r1,c3,c0,0
 	sub lr,lr,r9                 /* lr now v-addr */
 	
 	mrc p15,0,r2,c1,c0,0
-	orr r2,r2,#1	        /* enable */
+//	orr r2,r2,#1	        /* enable */
 	mcr p15,0,r2,c1,c0,0	/* hopefully in v-mode */
 	mov  pc,lr
 	

@@ -17,11 +17,11 @@ SECTIONS
  /*--------------------------
    the memory
  ----------------------------*/
- MEM_BEG  = 0x00000000;
+ MEM_BEG  = 0x00000;
  MEM_SIZE = 64*MEGA;
  
  /*--------------------------
-   the periphery
+   the periphery for realview
  ----------------------------*/
  SYS    = 0x10000000;
  UART0  = 0x10009000;
@@ -40,6 +40,7 @@ SECTIONS
  GIC3_DIS = GIC3_IFC + 0x1000;
  GIC4_DIS = GIC4_IFC + 0x1000;
  
+
  /*------------------------------ start of virtual memory */
  . = MEM_BEG ;             /* start of memory */
  .text :
@@ -51,12 +52,17 @@ SECTIONS
   *(.rodata)
   *(.glue*)
  }
-
- .data ALIGN (4):
+ 
+ .data ALIGN (4) :
  {
   *(.data)
  }
 
+ .ttb ALIGN (0x4000) :
+ {
+  *(.ttb)
+ }
+ 
   bss_start= . ;
  .bss ALIGN (4) : 
  {
