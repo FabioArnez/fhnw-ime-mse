@@ -13,6 +13,13 @@ if [ ! -f ${1} ]
    then echo "File ${1} dont exists"
         exit 1
 fi
+IMG=${1}
+IMGFILE=${IMG}.img
+if [ -f ${IMGFILE} ] 
+ then IMG=${IMGFILE}
+fi
+echo "Image = ${IMG}"
+
 #debug port 1234
 #DEBUG='-s -S'
 MACHINE=realview-eb
@@ -20,7 +27,7 @@ MACHINE=realview-eb
 
 QEMU=../../../qemu/bin/
 QEMU=
-${QEMU}qemu-system-arm -M ${MACHINE} -kernel ${1} \
+${QEMU}qemu-system-arm -M ${MACHINE} -kernel ${IMG} \
 ${DEBUG} \
 -serial stdio -sdl -display sdl
 

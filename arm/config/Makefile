@@ -22,7 +22,8 @@ LDFLAGS=-nostdlib -Wl,--script=../config/ram.ld -Wl,-Map -Wl,${@}.map
        # |-------------- no standard libs 
 
 #------------------------------------------ link pattern
-%:	%.o; $(CC) -o${@} ${^} ${LDFLAGS}
+%:	%.o; rm -f ${@}.img
+	$(CC) -o${@} ${^} ${LDFLAGS}
 	${OBJCOPY} -O binary ${@} ${@}.img
 #------------------------------------------ assembler pattern
 %.o:	%.S;$(CC) ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}

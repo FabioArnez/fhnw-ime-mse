@@ -33,7 +33,6 @@ onReset:
 	bl .pstack
 /* call mmu_enable r0=disp */
 	mov r0,r9
-
 	bl mmu_init                    /* relative call */
                 /* on return r0 physical address of ttb */
 	bl .mmu_enable 
@@ -55,35 +54,33 @@ onReset:
 	bl _start 
 0:	b 0b				    /* forever */	
 
-/*--------------------------------------- displacement */
+/*-------------------------------------- displacement */
 .displacement:
-	mov r0,pc
-	ldr r1,.pc1                 /* relative to pc */
-1: 	             /* r0 p-addr of label 1 from pc  */
+	mov r0,pc  /* r0 physical location of label 0 */ 
+	ldr r1,1f                   /* relative to pc */
+0: 	             /* r0 p-addr of label 1 from pc  */
                /* r1 v-address of label 1 from ram.ld */
 	sub r9,r0,r1               /* r9 displacement */
 	            /* *dont* use it for other things */
                               /* p-addr = v-addr+disp */
 	mov pc,lr	
-.pc1:	.word 1b              /* the v-addr of label 1*/
+1:	.word 0b              /* the v-addr of label 1*/
 
 /*-------------------------------- the local functions */
 
 .mmu_enable:
 /* on entry:
     r0 physical address of ttb 
-    r9 displacement
+    r9 displacement: p-addr - v-addr
     lr physical return address
 */
 	mcr p15,0,r0,c2,c0,0                /*set ttb */
-	 
 	mov r1,#0xffffffff	     /* Domain Access */ 
 	mcr p15,0,r1,c3,c0,0
-	sub lr,lr,r9                 /* r4 now v-addr */
-		
+	sub lr,lr,r9                 /* lr now v-addr */
 	mrc p15,0,r2,c1,c0,0
-	orr r2,r2,#1	                     /* enable */
-	mcr p15,0,r2,c1,c0,0	/* hopefully in v-mode */
+	orr r2,r2,#1	                    /* enable */
+	mcr p15,0,r2,c1,c0,0   /* hopefully in v-mode */
 	mov pc,lr	
 
 .pstack:

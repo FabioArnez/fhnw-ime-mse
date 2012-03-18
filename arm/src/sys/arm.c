@@ -51,6 +51,7 @@ static __attribute__((interrupt("FIQ"))) void onFIQ()
 }
 
 
+
 /*------------------------------------------------ the exception table */
 typedef  struct /* see see [1] A2.6  */
 {
@@ -78,12 +79,16 @@ volatile ExceptionTable*const exceptionTable = 0;
 
 void arm_init()
 {
+ static unsigned init=0;
+ if (init) return; /* already initalized */
+ init=1; 
  *exceptionTable=DefaultExceptionTable; 
 }
 
 
 void arm_set_exception(Exception ex,void (*exception)())
 {
+ arm_init();
  exceptionTable->exception[ex]=exception;
 }
 

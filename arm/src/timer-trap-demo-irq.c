@@ -32,11 +32,6 @@ int main()
 		(1<<5) | /* interrupt enable */
 		(0<<0) | /* wrapping */
 		    0;
- volatile unsigned* ex=0;
- for(unsigned i=0;i<16;++i)
- {
-  printf("%x\n",ex[i]);
- }
  while(1)
  {
  }
