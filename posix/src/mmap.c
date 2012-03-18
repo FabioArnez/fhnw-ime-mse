@@ -16,10 +16,12 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#define KiB (1<<10)
+
 int main(int argc,char** args)
 {
  unsigned offset=0x000f0000;    /* the location of the BIOS */
- unsigned len=0x100*sizeof(unsigned);
+ unsigned size=64*KiB;
  int id=open("/dev/mem",O_RDONLY);
                                 /* the memory */
  if (id<0)
@@ -28,15 +30,17 @@ int main(int argc,char** args)
      return 1;
     }
  unsigned* m=mmap(0,              /* normally 0 (only hint) */
-                  len,                            /* length */
+                  size,                             /* size */
                   PROT_READ,            /* only for reading */
 	          MAP_SHARED,
 	          id,                         /* the device */
                   offset);                    /* the offset */               
+ fprintf(stderr,"m=%p\n",m);
  if (m==0)
     {
      perror("mmap");
      return 1;
     }
- fwrite(m,1,len,stdout);
+ fwrite(m,1,size,stdout);
+ return 0;
 }

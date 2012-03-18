@@ -8,7 +8,7 @@ CFLAGS=-std=c99
 LDLIBS=-lm
 
 #posix files will be searched normally
-export CPPFLAGS:=-I../src -I../../src
+export CPPFLAGS:=-iquote ../src -iquote ../../src 
  
 #-------------------------- where to look for the files
 VPATH=../src:../../src
@@ -18,13 +18,15 @@ cpu-demo-ops.c \
 stdio-test.c \
 samples.c \
 function-parameter.c \
-pointer.c
+pointer.c \
+mmap.c
 
 
 cpu-demo: 	cpu-demo.o cpu-demo-ops.o
 samples:	samples.o
 function-parameter:	function-parameter.o
 pointer:	pointer.o
+mmap:		mmap.o
 
 include make.rules
 
