@@ -53,7 +53,8 @@ timer-trap-demo-hw.c \
 timer-trap-demo-polling.c \
 timer-trap-demo-irq.c \
 common-access.c \
-mmu-test.c sys/mmu.c
+mmu-test.c sys/mmu.c \
+swi-trap-demo.c
 
 
 SYSTEM=sys/stack.o sys/arm.o sys/mmu.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
@@ -71,6 +72,9 @@ undef-trap-demo:	undef-trap-demo.o ${SYSTEM}
 timer-trap-demo-hw:		timer-trap-demo-hw.o sys/timer.o ${SYSTEM}
 timer-trap-demo-polling:	timer-trap-demo-polling.o sys/timer.o ${SYSTEM}
 timer-trap-demo-irq:		timer-trap-demo-irq.o sys/timer.o sys/gic.o ${SYSTEM}
+
+#-----------------------------------------swi-trap-demo
+swi-trap-demo:	swi-trap-demo.o ${SYSTEM}
 
 #-----------------------------------------common-access
 common-access: 	common-access.o sys/timer.o ${SYSTEM}
