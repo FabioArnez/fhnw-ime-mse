@@ -43,13 +43,14 @@ inline unsigned* arm_get_lr() /* return linkregister lr as pointer */
  return lr;
 }
 
+/* swi made with define id as parameter */
 #define SWI(id) \
 asm volatile \
 (\
 "@----------------- swi\n"\
-"\t swi ##id"::)
+"\t swi " #id::)
 
-inline void arm_swi()
+inline void arm_swi() /* how to define an id */
 {
  asm volatile
  (
