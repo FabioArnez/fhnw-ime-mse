@@ -54,10 +54,12 @@ timer-trap-demo-polling.c \
 timer-trap-demo-irq.c \
 common-access.c \
 mmu-test.c sys/mmu.c \
-swi-trap-demo.c
+swi-trap-demo.c \
+uart-test.c \
+foreground-background.c
 
 
-SYSTEM=sys/stack.o sys/arm.o sys/mmu.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
+SYSTEM=sys/stack.o sys/arm.o sys/mmu.o sys/gic.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
 #------------------------------------------ <applications>
 hello-world:	hello-world.o ${SYSTEM}
 accessing-hardware:	accessing-hardware.o ${SYSTEM}
@@ -68,13 +70,14 @@ cpu-demo:	cpu-demo.o cpu-demo-ops.o ${SYSTEM}
 #-----------------------------------------undef-trap-demo
 undef-trap-demo:	undef-trap-demo.o ${SYSTEM}
 
+#-----------------------------------------swi-trap-demo
+swi-trap-demo:	swi-trap-demo.o ${SYSTEM}
+
 #-----------------------------------------timer-trap-demo
 timer-trap-demo-hw:		timer-trap-demo-hw.o sys/timer.o ${SYSTEM}
 timer-trap-demo-polling:	timer-trap-demo-polling.o sys/timer.o ${SYSTEM}
 timer-trap-demo-irq:		timer-trap-demo-irq.o sys/timer.o sys/gic.o ${SYSTEM}
 
-#-----------------------------------------swi-trap-demo
-swi-trap-demo:	swi-trap-demo.o ${SYSTEM}
 
 #-----------------------------------------common-access
 common-access: 	common-access.o sys/timer.o ${SYSTEM}
@@ -89,7 +92,16 @@ ascii-test:	ascii-test.o io/screen.o io/lcd.o io/font.o ${SYSTEM}
 
 #------------------------------- mmu-devel
 mmu-test:	mmu-test.o sys/boot/big-bang.o sys/stack.o sys/mmu.o sys/deb.o
+
+#------------------------------- uart-test
+uart-test:	uart-test.o ${SYSTEM}
+
+
+#------------------------------- concurrency 
+foreground-background:	foreground-background.o ${SYSTEM}
+
 #------------------------------- the rules made with make rules
+
 include make.rules
 
 #-------------------------------------- <admin>

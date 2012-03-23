@@ -100,6 +100,9 @@ __attribute__((interrupt("IRQ"))) void gic_onIRQ()
 
 void gic_init()
 {
+ static unsigned initialized=0;
+ if (initialized) return; /* already initialized */
+ ++initialized;
  for(unsigned i=0;i<TRAP_N;++i) traps[i]=0;
  for(unsigned i=0;i<4;++i)
  {
