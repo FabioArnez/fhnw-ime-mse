@@ -41,6 +41,26 @@ char uart_in()
 }
 
 
+typedef struct
+{
+ unsigned getI;
+ unsigned putI;
+ unsigned size;
+ unsigned* pool;
+} Queue;
+
+static unsigned rxPool[32];
+static Queue rxQ;
+
+
+static void init_queue(struct Queue* queue,unsigned pool)
+{
+ queue->getI=0;
+ queue->putI=0;
+ queue->size=0;
+ queue->pool=pool;
+}
+
 unsigned uart_avail()
 {
  return (UART0.FR&(1<<4))==0;
@@ -56,6 +76,7 @@ static void onRX() /* a character is available */
 
 void uart_enable()
 {
+ init_queue(&rxQ,rxPool);
  gic_init();
  gic_install(UART0_ID,onRX);
  gic_enable(UART0_ID);
