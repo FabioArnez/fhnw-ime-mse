@@ -59,7 +59,8 @@ swi-trap-demo.c \
 uart-test.c \
 foreground-background.c \
 uart-foreground-background.c \
-page-fault-demo.c
+page-fault-demo.c \
+sys/coroutine.c sys/coroutine0.S coroutine-test.c
 
 
 SYSTEM=sys/stack.o sys/arm.o sys/mmu.o sys/gic.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
@@ -103,6 +104,8 @@ mmu-test:	mmu-test.o sys/boot/big-bang.o sys/stack.o sys/mmu.o sys/deb.o
 #------------------------------- concurrency 
 foreground-background:	foreground-background.o ${SYSTEM}
 uart-foreground-background:	uart-foreground-background.o ${SYSTEM}
+
+coroutine-test: coroutine-test.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
 
 #------------------------------- the rules made with make rules
 
