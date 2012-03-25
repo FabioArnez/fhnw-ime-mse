@@ -30,6 +30,11 @@ extern void arm_undef();  /* executes an undef instruction triggering the
 extern unsigned arm_getCPSR(); 
 extern void arm_setCPSR(unsigned val);
 
+
+extern void arm_irq(unsigned v);  /* v==0 disable v!=0 enable */
+extern void arm_fiq(unsigned v);
+
+/*----------------------------------------------- inline functions */
 inline unsigned* arm_get_lr() /* return linkregister lr as pointer */
 {
  unsigned* lr;
@@ -43,8 +48,21 @@ inline unsigned* arm_get_lr() /* return linkregister lr as pointer */
  return lr;
 }
 
+inline unsigned* arm_get_fault_address()
+{
+ unsigned* fa;
+ asm volatile
+ (
+ "@----------------- arm_get_fault_address\n"
+ "\t mrc p15,0,%[fa],c6,c0,0\n"
+ :[fa] "=r" (fa)
+ :
+ );
+ return fa; 
+}
+
 /* swi made with define id as parameter */
-#define SWI(id) \
+#define _SWI_(id) \
 asm volatile \
 (\
 "@----------------- swi\n"\
@@ -60,6 +78,3 @@ inline void arm_swi() /* how to define an id */
  :
  );
 }
-
-extern void arm_irq(unsigned v);  /* v==0 disable v!=0 enable */
-extern void arm_fiq(unsigned v);

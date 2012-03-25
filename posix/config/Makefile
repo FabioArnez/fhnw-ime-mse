@@ -4,8 +4,9 @@
 #$Id$
 #-------------------------
 CC=gcc
-CFLAGS=-g -std=c99 
-LDLIBS=-lm
+OPTIMIZE=2
+CFLAGS=-O${OPTIMIZE} -g -std=c99 
+LDLIBS=-lm -lpthread
 
 #posix files will be searched normally
 export CPPFLAGS:=-iquote ../src -iquote ../../src 
@@ -20,7 +21,11 @@ samples.c \
 function-parameter.c \
 pointer.c \
 mmap.c \
-primes.c
+primes.c \
+pthread.c \
+pthread-mutex.c \
+pthread-semaphore.c \
+pthread-trigger.c
 
 
 cpu-demo: 	cpu-demo.o cpu-demo-ops.o
@@ -29,6 +34,10 @@ function-parameter:	function-parameter.o
 pointer:	pointer.o
 mmap:		mmap.o
 primes: 	primes.o
+pthread:	pthread.o
+pthread-mutex:	pthread-mutex.o
+pthread-semaphore:	pthread-semaphore.o
+pthread-trigger:	pthread-trigger.o
 
 include make.rules
 

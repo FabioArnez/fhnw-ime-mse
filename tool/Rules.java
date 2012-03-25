@@ -62,7 +62,8 @@ class Rules
      String n=name(p);
      if (!n.equals(id)) 
         {
-	 children.add(node(name(p)));
+	 Node ch=node(name(p));
+	 children.add(ch);
 	}
     }
    }

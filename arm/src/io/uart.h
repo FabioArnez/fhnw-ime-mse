@@ -4,7 +4,7 @@
  (c) H.Buchmann FHNW 2011
  $Id$
  -----------------------*/
-/*------------------------------------------------ without trap */
+/*----------------------------------------------------- polling */
 extern void uart_out(char ch); 
 extern char uart_in();        /* waits until ready */
 extern unsigned uart_avail(); /* returns true if char available */

@@ -2,14 +2,14 @@
  uart
  (c) H.Buchmann FHNW 2011
  $Id$
- see [1] literature/realview_emulation_basebord_ug.pdf] 
-     [2} literature/pl011-UART.pdf]
+ see [1] literature/realview_emulation_basebord_ug.pdf 
+     [2] literature/pl011-UART.pdf
+ TODO realize txQueue    
  -----------------------*/
-#include "stdio.h"
 #include"io/uart.h"
 #include "sys/gic.h"
 
-extern volatile struct 
+extern volatile struct                             /* see [2] 3.2 */
 {
        unsigned DR;                              /* Data register */ 
        unsigned SR;                             /* Receive status */
@@ -28,69 +28,113 @@ extern volatile struct
        unsigned ICR;                  /* Interrupt clear register */
 } UART0;
 
+/*--------------------------------------------------------- flags */
+#define RXFE (1<<4) /* see [2] 3.3.3  */
+#define RXIM (1<<4) /* see [2] 3.3.10 */
+#define RXIC (1<<4) /* see [2] 3.3.13 */
+
+#define BUSY (1<<3)
+
+/*------------------------------------------------------- polling */
 void uart_out(char ch)
 {
- while(UART0.FR&(1<<3)){} /* wait until busy cleared */
+ while(UART0.FR & BUSY ){} /* wait until busy cleared */
  UART0.DR=ch;
 }
 
 char uart_in()
 {
- while(UART0.FR&(1<<4)){} /* wait until rx ready */
+ while(UART0.FR & RXFE){} /* wait until rx ready */
  return UART0.DR;
-}
-
-
-typedef struct
-{
- unsigned getI;
- unsigned putI;
- unsigned size;
- unsigned* pool;
-} Queue;
-
-static unsigned rxPool[32];
-static Queue rxQ;
-
-
-static void init_queue(struct Queue* queue,unsigned pool)
-{
- queue->getI=0;
- queue->putI=0;
- queue->size=0;
- queue->pool=pool;
 }
 
 unsigned uart_avail()
 {
- return (UART0.FR&(1<<4))==0;
+ return (UART0.FR & RXFE)==0;
 }
+
+/*---------------------------------------------------- fifo queue */
+/* realized as ring buffer */
+typedef struct
+{
+ unsigned getI;
+ unsigned putI;
+ volatile unsigned size; /* accessed by put and get functions */
+ unsigned capacity;
+ unsigned* pool;
+} Queue;
+
+
+static void queue_init(Queue*const queue,
+                       unsigned capacity,unsigned* pool)
+{
+ queue->getI=0;
+ queue->putI=0;
+ queue->size=0;
+ queue->capacity=capacity;
+ queue->pool=pool;
+}
+
+static unsigned queue_empty(Queue*const queue)
+{
+ return queue->size==0;
+}
+
+static unsigned queue_full(Queue*const queue)
+{
+ return queue->size==queue->capacity;
+}
+
+
+/* called by foreground */
+static void queue_put(Queue*const queue,unsigned val)
+{
+ queue->pool[queue->putI++]=val;
+ if (queue->putI==queue->capacity) queue->putI=0;
+ if (queue->size<queue->capacity) 
+    {  /* common access */
+     ++queue->size;
+    }
+}
+
+/* called by background */
+static unsigned queue_get(Queue*const queue)
+{
+ while(queue->size==0){} /* wait here */
+ /* queue->size>0 */
+ unsigned v=queue->pool[queue->getI++];
+ if (queue->getI==queue->capacity) queue->getI=0;
+/* common access */
+ UART0.IMSC&=~RXIM; /* disable rx interrupt */
+ --queue->size; 
+  UART0.IMSC|=RXIM; /* enable */
+ return v; 
+}
+
+
+#define RXPOOL 32
+static unsigned rxPool[RXPOOL];
+static Queue rxQ;
 
 #define UART0_ID 44 /* [1] 4.12.2  */
 
 static void onRX() /* a character is available */
 {
- UART0.ICR=(1<<4);
- uart_out(UART0.DR);
+ queue_put(&rxQ,UART0.DR);
+ UART0.ICR=RXIC;
 }
 
 void uart_enable()
 {
- init_queue(&rxQ,rxPool);
+ queue_init(&rxQ,RXPOOL,rxPool);
  gic_init();
  gic_install(UART0_ID,onRX);
  gic_enable(UART0_ID);
- UART0.CR=(1<<0)|
-          (1<<9)|
-	      0;
- UART0.IMSC|=(1<<4); 
+ UART0.IMSC|=RXIM; /* enable interrupt */
 }
 
 char uart_get()
 {
- while(1)
- {
- // printf("%x\t%x\t%x\n",UART0.RIS,UART0.MIS,UART0.IMSC);
- }
+ return queue_get(&rxQ);
 }
 

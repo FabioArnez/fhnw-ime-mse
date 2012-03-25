@@ -41,16 +41,23 @@ onReset:
 	mov r0,#SUPERVISOR_MODE
 	ldr r1,=_stack_top  /* r1 contents of _stack_top */
 	ldr r1,[r1];
-
 	bl .setStack
+
 	mov r0,#UNDEF_MODE
 	ldr r1,=_undef_stack_top
         ldr r1,[r1]	
 	bl .setStack
+
 	mov r0,#IRQ_MODE
 	ldr r1,=_irq_stack_top
         ldr r1,[r1]	
 	bl .setStack
+
+	mov r0,#ABORT_MODE
+	ldr r1,=_abort_stack_top
+	ldr r1,[r1]
+	bl .setStack
+
 	bl _start 
 0:	b 0b				    /* forever */	
 

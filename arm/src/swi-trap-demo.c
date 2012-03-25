@@ -20,7 +20,7 @@ int main()
  arm_set_exception(SWI,onSWI);
  while(1)
  {
-  SWI(10); /* made with define */
+  _SWI_(10); /* made with define */
  }
  return 0;
 }

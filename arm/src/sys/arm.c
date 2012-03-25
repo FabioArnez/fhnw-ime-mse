@@ -27,12 +27,12 @@ static __attribute__((interrupt("SWI"))) void onSWI()
 
 static __attribute__((interrupt("ABORT"))) void onPrefetch()
 {
- deb_msg("unexpected ABORT");
+ deb_msg("unexpected ABORT:prefetch");
 }
 
-static __attribute__((interrupt("ABORT"))) void onAbort()
+static __attribute__((interrupt("ABORT"))) void onData()
 {
- deb_msg("unexpected ABORT");
+ deb_msg("unexpected ABORT:Data");
 }
 
 static void onReserved()
@@ -67,7 +67,7 @@ static const ExceptionTable DefaultExceptionTable=
   onUndef,
   onSWI,
   onPrefetch,
-  onAbort,
+  onData,
   onReserved,
   onIRQ,
   onFIQ

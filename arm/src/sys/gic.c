@@ -9,7 +9,6 @@
 #include "sys/gic.h"
 #include "sys/arm.h"
 #include "sys/deb.h"
-#include "stdio.h"
 
 typedef struct{
        unsigned CPUControl;         /* 000 */
@@ -127,25 +126,3 @@ void gic_trigger(unsigned id)
  }
 }
 
-void gic_active()
-{
- for(unsigned i=0;i<4;++i)
- {
-  printf("%d\t",i);
-  for(unsigned k=0;k<3;++k) printf("%x ",DIS[i]->Active[k]);
-  printf("\n");
- }
-}
-
-void gic_info()
-{
- printf("i Acknowledge Running     Highest\n");
-     /*    0x12345678  0x12345678  0x12345678 */
- for(unsigned i=0;i<4;++i)
- {
-         
-  printf("%d %x  %x  %x\n",i,IFC[i]->Acknowledge,
-                             IFC[i]->Running,
-                             IFC[i]->Highest_Pending);
- }
-}

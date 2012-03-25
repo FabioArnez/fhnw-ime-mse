@@ -1,5 +1,5 @@
 /*----------------------
-  uart-test
+  uart-foreground-background
   (c) H.Buchmann FHNW 2011
   $Id$
   [1] literature/realview_emulation_basebord_ug.pdf
