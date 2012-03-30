@@ -25,6 +25,8 @@ SECTIONS
  ----------------------------*/
  SYS    = 0x10000000;
  UART0  = 0x10009000;
+ UART1  = 0x1000a000;
+ KMI1   = 0x10007000;
  
  CLCDC  = 0x10020000;    /* Color LCD Controller */    
 

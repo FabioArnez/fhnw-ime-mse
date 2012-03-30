@@ -11,7 +11,7 @@ CC=${PREFIX}-gcc
 LD=${PREFIX}-ld
 OBJCOPY=${PREFIX}-objcopy
 CXX=${PREFIX}-g++
-CFLAGS=-std=gnu99 -O2 -g
+CFLAGS=-std=gnu99 -O0 -g
 
 CPPFLAGS+=-DIRQ_STACK_SIZE_WORD=0x20 \
           -DUNDEF_STACK_SIZE_WORD=0x20 \
@@ -60,7 +60,10 @@ uart-test.c \
 foreground-background.c \
 uart-foreground-background.c \
 page-fault-demo.c \
-sys/coroutine.c sys/coroutine0.S coroutine-test.c
+sys/coroutine.c sys/coroutine0.S coroutine-test.c \
+uart-1-test.c io/uart-1.c \
+kmi-test.c
+
 
 
 SYSTEM=sys/stack.o sys/arm.o sys/mmu.o sys/gic.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
@@ -106,6 +109,9 @@ foreground-background:	foreground-background.o ${SYSTEM}
 uart-foreground-background:	uart-foreground-background.o ${SYSTEM}
 
 coroutine-test: coroutine-test.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
+
+#------------------------------- uart-1
+kmi-test:	kmi-test.o  ${SYSTEM}
 
 #------------------------------- the rules made with make rules
 

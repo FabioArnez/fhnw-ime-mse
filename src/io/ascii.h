@@ -3,7 +3,6 @@
  ascii.h output
  (c) H.Buchmann FHNW 2009
  demonstrates call back
-              
  $Id$
 ------------------------*/
 typedef struct /* the basic call backs */
