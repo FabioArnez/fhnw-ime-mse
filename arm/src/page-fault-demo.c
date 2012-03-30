@@ -7,12 +7,19 @@
 #include "sys/arm.h"
 static __attribute__((interrupt("ABORT"))) void onData()
 {
+ unsigned* loc=arm_get_lr();
+ unsigned* mem=arm_get_fault_address();
+ printf("loc=%p mem=%p\n",loc,mem);
+ while(1)
+ {
+ }
 }
 
 int main()
 {
  arm_init(); /* dont forget */
- unsigned* p=(unsigned*)(64*(1<<20)); /* no memory there: see mmc.c */
+ arm_set_exception(DATA,onData);
+ unsigned* p=(unsigned*)(64*(1<<20)+4); /* no memory there: see mmc.c */
  printf("before assignment\n");
  *p=0;
  printf("after assignment\n");
