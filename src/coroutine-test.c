@@ -5,6 +5,7 @@
 -------------------------*/
 #include "stdio.h"
 #include "sys/coroutine.h"
+#include "sys/arm.h"
 
 Coroutine c0;
 Coroutine c1;
@@ -16,21 +17,23 @@ void coroutine()
 {
  while(1)
  {
+  printf("c1\n");
   coroutine_transfer(&c1,&c0);
  }
 }
 
 int main()
 {
+ arm_init();
  coroutine_init(coroutine,pool,sizeof(pool),&c1);
- printf("pool=%p\n",pool);
- coroutine_show(&c1);
- return 0;
- 
  while(1)
  {
+  coroutine_show(&c0);
   coroutine_transfer(&c0,&c1);
+  coroutine_show(&c0);
+  break;
  }
+ printf("--------- done\n");
  return 0;
 }
  

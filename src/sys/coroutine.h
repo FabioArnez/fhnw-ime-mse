@@ -4,13 +4,14 @@
  (c) H.Buchmann FHNW 2012
  $Id$
 -----------------------------*/
-struct Status;
+typedef struct Status Status;
+typedef union Coroutine Coroutine;
 
-typedef union
+union Coroutine
 {
- unsigned*      pool;
- struct Status* status;
-} Coroutine;
+ unsigned* pool;
+ Status*   status;
+};
 
 extern void coroutine_init(void (*code)(),
                            void* pool,
