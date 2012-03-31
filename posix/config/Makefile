@@ -25,7 +25,8 @@ primes.c \
 pthread.c \
 pthread-mutex.c \
 pthread-semaphore.c \
-pthread-trigger.c
+pthread-trigger.c \
+ioport.c
 
 
 cpu-demo: 	cpu-demo.o cpu-demo-ops.o
@@ -38,6 +39,7 @@ pthread:	pthread.o
 pthread-mutex:	pthread-mutex.o
 pthread-semaphore:	pthread-semaphore.o
 pthread-trigger:	pthread-trigger.o
+ioport: 	ioport.o
 
 include make.rules
 
