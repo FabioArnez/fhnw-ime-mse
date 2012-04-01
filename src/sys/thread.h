@@ -12,13 +12,6 @@ struct Thread
  Coroutine cor;
 };
 
-struct struct
-{
- void (*enter)(); 
- void (*leave)();
-} Atomic;
-
-extern void thread_init(Atomic* a);
 
 extern void thread_create(Thread* th,
                           void (*run)(),
@@ -40,5 +33,3 @@ extern unsigned thread_queue_empty(ThreadQueue* q);
 extern void     thread_queue_init(ThreadQueue* q);
 extern void     thread_queue_put(ThreadQueue* q,Thread* th);
 extern Thread*  thread_queue_get(ThreadQueue* q);
-extern Thread*  thread_queue_transfer(ThreadQueue* from,
-                                      ThreadQueue*to)
