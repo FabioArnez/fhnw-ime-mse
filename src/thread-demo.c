@@ -6,7 +6,7 @@
 #include "sys/thread.h"
 #include "stdio.h"
 
-void run()
+void run1()
 {
  while(1)
  {
@@ -15,15 +15,23 @@ void run()
  }
 }
 
+void run2()
+{
+ while(1)
+ {
+  printf("th2\n");
+  thread_yield();
+ }
+}
+
+unsigned pool1[0x200];
 Thread th1;
-unsigned pool[0x200];
+unsigned pool2[0x200];
+Thread th2;
 
 int main()
 {
- thread_init(&th1,run,pool,sizeof(pool));
- while(1)
- {
-  printf("th0\n");
-  thread_yield();
- } 
+ thread_init(&th1,run1,pool1,sizeof(pool1));
+ thread_init(&th2,run2,pool2,sizeof(pool2));
+ thread_run(); /* never returns */
 }

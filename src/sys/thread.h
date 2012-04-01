@@ -19,6 +19,7 @@ extern void thread_init(Thread* th,
 
 extern void thread_yield();
 
+extern __attribute__((noreturn)) void thread_run(); /* never return */
 /* ------------------------------------------------ queues */ 
 typedef struct ThreadQueue ThreadQueue;
 struct ThreadQueue

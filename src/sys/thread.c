@@ -62,4 +62,8 @@ void thread_yield()
  run=thread_queue_get(&ready);
  coroutine_transfer(&(r->cor),&(run->cor));   
 }
+__attribute__((noreturn)) void thread_run()
+{
+ while(1) thread_yield();
+}
 
