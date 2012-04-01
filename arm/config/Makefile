@@ -11,7 +11,7 @@ CC=${PREFIX}-gcc
 LD=${PREFIX}-ld
 OBJCOPY=${PREFIX}-objcopy
 CXX=${PREFIX}-g++
-CFLAGS=-std=gnu99 -O0 -g
+CFLAGS=-std=gnu99 -O2 -g
 
 CPPFLAGS+=-DIRQ_STACK_SIZE_WORD=0x20 \
           -DUNDEF_STACK_SIZE_WORD=0x20 \
@@ -62,7 +62,8 @@ uart-foreground-background.c \
 page-fault-demo.c \
 sys/coroutine.c sys/coroutine0.S coroutine-test.c \
 ps2-mouse-test.c \
-io/mouse.c mouse-demo.c
+io/mouse.c mouse-demo.c \
+sys/thread.c thread-demo.c
 
 
 
@@ -107,8 +108,9 @@ mmu-test:	mmu-test.o sys/boot/big-bang.o sys/stack.o sys/mmu.o sys/deb.o
 #------------------------------- concurrency 
 foreground-background:	foreground-background.o ${SYSTEM}
 uart-foreground-background:	uart-foreground-background.o ${SYSTEM}
-
 coroutine-test: coroutine-test.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
+thread-demo:	thread-demo.o sys/thread.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
+
 #------------------------------- mouse
 ps2-mouse-test: ps2-mouse-test.o  ${SYSTEM}
 mouse-demo:	mouse-demo.o io/mouse.o ${SYSTEM}	

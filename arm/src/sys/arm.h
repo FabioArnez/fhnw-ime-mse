@@ -61,6 +61,19 @@ inline unsigned* arm_get_fault_address()
  return fa; 
 }
 
+inline unsigned* arm_get_sp()
+{
+ unsigned* sp;
+ asm volatile
+ (
+ "@----------------- arm_get_fault_address\n"
+ "\t mov %[sp],sp\n"
+ :[sp] "=r" (sp)
+ :
+ );
+ return sp; 
+}
+
 /* swi made with define id as parameter */
 #define _SWI_(id) \
 asm volatile \

@@ -7,8 +7,8 @@
 #include "sys/coroutine.h"
 #include "sys/arm.h"
 
-Coroutine c0;
-Coroutine c1;
+Coroutine cor0;
+Coroutine cor1;
 
 #define POOL 256
 unsigned pool[POOL];
@@ -17,23 +17,20 @@ void coroutine()
 {
  while(1)
  {
-  printf("c1\n");
-  coroutine_transfer(&c1,&c0);
+  printf("----------- cor1\n");
+  coroutine_transfer(&cor1,&cor0);
  }
 }
 
 int main()
 {
  arm_init();
- coroutine_init(coroutine,pool,sizeof(pool),&c1);
+ coroutine_init(coroutine,pool,sizeof(pool),&cor1);
  while(1)
  {
-  coroutine_show(&c0);
-  coroutine_transfer(&c0,&c1);
-  coroutine_show(&c0);
-  break;
+  printf("----------- cor0\n");
+  coroutine_transfer(&cor0,&cor1);
  }
- printf("--------- done\n");
  return 0;
 }
  
