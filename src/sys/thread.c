@@ -6,15 +6,18 @@
 #include "sys/thread.h"
 #include "stdio.h"
 
-typedef struct Queue Queue;
-
-struct Queue
+unsigned thread_queue_empty(ThreadQueue* q)
 {
- Thread* first;
- Thread* last;
-};
+ return q->first==0;
+}
 
-static void queue_put(Queue* q,Thread* th)
+void thread_queue_init(ThreadQueue* q)
+{
+ q->first=0;
+ q->last=0;
+}
+
+void thread_queue_put(ThreadQueue* q,Thread* th)
 {
  th->next=0;
  if (q->last==0)
@@ -28,7 +31,7 @@ static void queue_put(Queue* q,Thread* th)
  q->last=th; 
 }
 
-static Thread* queue_get(Queue* q)
+Thread* thread_queue_get(ThreadQueue* q)
 {
  if (q->first==0) return 0;
  Thread* th=q->first;
@@ -37,24 +40,9 @@ static Thread* queue_get(Queue* q)
  return th; 
 }
 
-void queue_show(Queue* q)
-{
- if (q->first==0) 
-    {
-     printf("empty\n");
-     return;
-    }
- Thread* th=q->first;
- while(th)
- {
-  printf("%p ",&(th->cor));
-  th=th->next;
- } 
-}
-
-static Thread  main_={next:0};
-static Queue   ready={0,0};
-static Thread* run=&main_;
+static Thread      main_={next:0};
+static ThreadQueue ready={0,0};
+static Thread*     run=&main_;
 
 void thread_init(Thread* th,
                  void (*run)(),
@@ -63,15 +51,15 @@ void thread_init(Thread* th,
 {
  th->next=0;
  coroutine_init(run,pool,size_byte,&(th->cor));
- queue_put(&ready,th);
+ thread_queue_put(&ready,th);
 }		 
 
 void thread_yield()
 {
   
  Thread* r=run;
- queue_put(&ready,r);
- run=queue_get(&ready);
+ thread_queue_put(&ready,r);
+ run=thread_queue_get(&ready);
  coroutine_transfer(&(r->cor),&(run->cor));   
 }
 

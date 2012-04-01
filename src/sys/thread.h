@@ -6,7 +6,6 @@
 ----------------------------*/
 #include "sys/coroutine.h"
 typedef struct Thread Thread;
-
 struct Thread
 {
  Thread*   next;
@@ -19,4 +18,15 @@ extern void thread_init(Thread* th,
 			unsigned size_byte);
 
 extern void thread_yield();
- 
+
+/* ------------------------------------------------ queues */ 
+typedef struct ThreadQueue ThreadQueue;
+struct ThreadQueue
+{
+ Thread* first;
+ Thread* last;
+};
+extern unsigned thread_queue_empty(ThreadQueue* q);
+extern void     thread_queue_init(ThreadQueue* q);
+extern void     thread_queue_put(ThreadQueue* q,Thread* th);
+extern Thread*  thread_queue_get(ThreadQueue* q);
