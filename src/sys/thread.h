@@ -12,14 +12,22 @@ struct Thread
  Coroutine cor;
 };
 
-extern void thread_init(Thread* th,
-                        void (*run)(),
-                        void* pool,
-			unsigned size_byte);
+struct struct
+{
+ void (*enter)(); 
+ void (*leave)();
+} Atomic;
+
+extern void thread_init(Atomic* a);
+
+extern void thread_create(Thread* th,
+                          void (*run)(),
+                          void* pool,
+			  unsigned size_byte);
 
 extern void thread_yield();
 
-extern __attribute__((noreturn)) void thread_run(); /* never return */
+extern __attribute__((noreturn)) void thread_run(); /* never returnS */
 /* ------------------------------------------------ queues */ 
 typedef struct ThreadQueue ThreadQueue;
 struct ThreadQueue
@@ -27,7 +35,10 @@ struct ThreadQueue
  Thread* first;
  Thread* last;
 };
+
 extern unsigned thread_queue_empty(ThreadQueue* q);
 extern void     thread_queue_init(ThreadQueue* q);
 extern void     thread_queue_put(ThreadQueue* q,Thread* th);
 extern Thread*  thread_queue_get(ThreadQueue* q);
+extern Thread*  thread_queue_transfer(ThreadQueue* from,
+                                      ThreadQueue*to)

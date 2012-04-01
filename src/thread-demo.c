@@ -31,7 +31,7 @@ Thread th2;
 
 int main()
 {
- thread_init(&th1,run1,pool1,sizeof(pool1));
- thread_init(&th2,run2,pool2,sizeof(pool2));
+ thread_create(&th1,run1,pool1,sizeof(pool1));
+ thread_create(&th2,run2,pool2,sizeof(pool2));
  thread_run(); /* never returns */
 }

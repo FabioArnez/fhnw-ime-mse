@@ -34,9 +34,14 @@ void thread_queue_put(ThreadQueue* q,Thread* th)
 Thread* thread_queue_get(ThreadQueue* q)
 {
  if (q->first==0) return 0;
+ /* q->first != 0 */
  Thread* th=q->first;
- q->first=q->first->next;
+
+
+ q->first=th->next;
  if (q->first==0) q->last=0;
+
+
  return th; 
 }
 
@@ -44,10 +49,10 @@ static Thread      main_={next:0};
 static ThreadQueue ready={0,0};
 static Thread*     run=&main_;
 
-void thread_init(Thread* th,
-                 void (*run)(),
-                 void* pool,
-		 unsigned size_byte)
+void thread_create(Thread* th,
+                   void (*run)(),
+                   void* pool,
+		   unsigned size_byte)
 {
  th->next=0;
  coroutine_init(run,pool,size_byte,&(th->cor));
