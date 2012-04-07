@@ -12,5 +12,5 @@ extern unsigned uart_avail(); /* returns true if char available */
 /*--------------------------------------------------- with trap */
 extern void uart_enable();                          /* the trap */
 extern void uart_disable();
-extern char uart_get();  
+extern char* uart_get();        /* returns pointer to char or 0 */ 
 extern void uart_put(char ch);

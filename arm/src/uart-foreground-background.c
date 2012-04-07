@@ -15,7 +15,8 @@ int main()
  uart_enable();
  while(1)
  {
-  uart_out(uart_get());
+  char* ch=uart_get();
+  if (ch) uart_out(*ch);
  }
 }  
   

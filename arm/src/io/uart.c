@@ -98,11 +98,12 @@ static void queue_put(Queue*const queue,unsigned val)
 }
 
 /* called by background */
-static unsigned queue_get(Queue*const queue)
+/* not yet in final form */
+static unsigned* queue_get(Queue*const queue)
 {
- while(queue->size==0){} /* wait here */
+if (queue->size==0) return 0; /* dont wait here */
  /* queue->size>0 */
- unsigned v=queue->pool[queue->getI++];
+ unsigned* v=queue->pool+(queue->getI++);
  if (queue->getI==queue->capacity) queue->getI=0;
 /* common access */
  UART0.IMSC&=~RXIM; /* disable rx interrupt */
@@ -133,8 +134,8 @@ void uart_enable()
  UART0.IMSC|=RXIM; /* enable interrupt */
 }
 
-char uart_get()
+char* uart_get()
 {
- return queue_get(&rxQ);
+ return (char*)queue_get(&rxQ);
 }
 
