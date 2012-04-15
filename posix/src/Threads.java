@@ -69,6 +69,11 @@ class Threads //dont confuse with java.lang.Thread
  
  public static void main(String args[]) throws Exception
  {
+  if (args.lenght!=1)
+     {
+      System.err.println("usage Threads numberOfThreads");
+      System.exit(1);
+     }
   new Threads(Integer.parseInt(args[0]));
  }
 }

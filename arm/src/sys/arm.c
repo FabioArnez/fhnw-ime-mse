@@ -74,7 +74,7 @@ static const ExceptionTable DefaultExceptionTable=
  }
 };
 
-volatile ExceptionTable*const exceptionTable = 0;
+volatile ExceptionTable* exceptionTable = 0;
 
 
 void arm_init()

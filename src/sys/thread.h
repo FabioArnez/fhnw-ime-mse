@@ -20,16 +20,24 @@ extern void thread_create(Thread* th,
 
 extern void thread_yield();
 
+
+extern void thread_ready(Thread* th);
+ /* th *not* running */
+
 extern __attribute__((noreturn)) void thread_run(); /* never returnS */
+                                /* called from main as last function */
 /* ------------------------------------------------ queues */ 
-typedef struct ThreadQueue ThreadQueue;
-struct ThreadQueue
+typedef struct WaitQueue WaitQueue; 
+
+struct WaitQueue  
 {
- Thread* first;
- Thread* last;
+ void (*lock)();
+ void (*unlock)();
+ volatile Thread* first; /* accessible fore-background */
+ volatile Thread* last;
 };
 
-extern unsigned thread_queue_empty(ThreadQueue* q);
-extern void     thread_queue_init(ThreadQueue* q);
-extern void     thread_queue_put(ThreadQueue* q,Thread* th);
-extern Thread*  thread_queue_get(ThreadQueue* q);
+
+extern void thread_wait_init(WaitQueue* q,void (*lock),void (*unlock)());
+extern void thread_put(Thread* th);
+

@@ -6,48 +6,45 @@
 #include "sys/thread.h"
 #include "stdio.h"
 
-unsigned thread_queue_empty(ThreadQueue* q)
+
+static Thread* swap(Thread* in,volatile Thread** loc)
 {
- return q->first==0;
-}
-
-void thread_queue_init(ThreadQueue* q)
-{
- q->first=0;
- q->last=0;
-}
-
-void thread_queue_put(ThreadQueue* q,Thread* th)
-{
- th->next=0;
- if (q->last==0)
-    {
-     q->first=th;
-    }
-    else
-    {
-     q->last->next=th;
-    }
- q->last=th; 
-}
-
-Thread* thread_queue_get(ThreadQueue* q)
-{
- if (q->first==0) return 0;
- /* q->first != 0 */
- Thread* th=q->first;
-
-
- q->first=th->next;
- if (q->first==0) q->last=0;
-
-
- return th; 
+ Thread* out;
+ asm volatile 
+ (
+ "@------------------------------\n"
+ "\tswp %[out],%[in],[%[loc]]\n"
+ :[out] "=&r" (out)     /* out */
+ :[loc]"r" (loc),   /* in  */
+  [in]  "r" (in)
+ );
 }
 
 static Thread      main_={next:0};
-static ThreadQueue ready={0,0};
+
+static struct 
+{
+ Thread n0;
+ Thread n1;
+          Thread* first;
+ volatile Thread* last; /*accessible by fore and background */
+} ready =            /* n0 -> n1 
+                        ^     ^
+			first last */
+{
+ n0:    {next:&ready.n1},
+ n1:    {next:0},
+ first: &ready.n0,
+ last:  &ready.n1
+};
+
 static Thread*     run=&main_;
+
+void thread_ready(Thread* th)
+{
+ Thread* l=swap(th,&ready.last);
+ l->next=th;
+}
 
 void thread_create(Thread* th,
                    void (*run)(),
@@ -56,19 +53,28 @@ void thread_create(Thread* th,
 {
  th->next=0;
  coroutine_init(run,pool,size_byte,&(th->cor));
- thread_queue_put(&ready,th);
-}		 
+ thread_ready(th);
+}
 
 void thread_yield()
 {
   
  Thread* r=run;
- thread_queue_put(&ready,r);
- run=thread_queue_get(&ready);
- coroutine_transfer(&(r->cor),&(run->cor));   
+ while(1)
+ {
+  thread_ready(r);
+  Thread* th=ready.first;
+  ready.first=th->next;
+  if ((th!=&ready.n0) && (th!=&ready.n1)) 
+     {
+      run=th;
+      coroutine_transfer(&(r->cor),&(run->cor));
+     }
+  thread_ready(th);   
+ }
 }
-__attribute__((noreturn)) void thread_run()
+
+void thread_run() 
 {
  while(1) thread_yield();
 }
-

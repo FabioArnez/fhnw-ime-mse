@@ -7,11 +7,12 @@
 
 #------------------------------------------ <setup>
 PREFIX=../tc/bin/arm-fhnw-eabi
+PREFIX=../tc/bin/arm-none-linux-gnueabi
 CC=${PREFIX}-gcc
 LD=${PREFIX}-ld
 OBJCOPY=${PREFIX}-objcopy
 CXX=${PREFIX}-g++
-CFLAGS=-std=gnu99 -O2 -g
+CFLAGS=-std=gnu9x -O2 -g
 
 CPPFLAGS+=-DIRQ_STACK_SIZE_WORD=0x20 \
           -DUNDEF_STACK_SIZE_WORD=0x20 \
@@ -19,12 +20,12 @@ CPPFLAGS+=-DIRQ_STACK_SIZE_WORD=0x20 \
 	  -DSTACK_SIZE_WORD=0x100 
 
 LDFLAGS=-nostdlib -Wl,--script=../config/ram.ld -Wl,-Map -Wl,${@}.map
-       # |        |----- the linker script
+       # |              |----- the linker script
        # |-------------- no standard libs 
 
 #------------------------------------------ link pattern
 %:	%.o; rm -f ${@}.img
-	$(CC) -o${@} ${^} ${LDFLAGS}
+	$(CC) -o${@}  ${^} ${LDFLAGS} -lgcc
 	${OBJCOPY} -O binary ${@} ${@}.img
 #------------------------------------------ assembler pattern
 %.o:	%.S;$(CC) ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
@@ -63,8 +64,8 @@ page-fault-demo.c \
 sys/coroutine.c sys/coroutine0.S coroutine-test.c \
 ps2-mouse-test.c \
 io/mouse.c mouse-demo.c \
-sys/thread.c thread-demo.c
-
+sys/thread.c thread-demo.c \
+atomic.c
 
 
 SYSTEM=sys/stack.o sys/arm.o sys/mmu.o sys/gic.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
@@ -110,7 +111,7 @@ foreground-background:	foreground-background.o ${SYSTEM}
 uart-foreground-background:	uart-foreground-background.o ${SYSTEM}
 coroutine-test: coroutine-test.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
 thread-demo:	thread-demo.o sys/thread.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
-
+atomic: 	atomic.o ${SYSTEM}
 #------------------------------- mouse
 ps2-mouse-test: ps2-mouse-test.o  ${SYSTEM}
 mouse-demo:	mouse-demo.o io/mouse.o ${SYSTEM}	

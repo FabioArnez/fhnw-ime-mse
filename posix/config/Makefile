@@ -36,6 +36,7 @@ pointer:	pointer.o
 mmap:		mmap.o
 primes: 	primes.o
 pthread:	pthread.o
+atomic: 	atomic.o
 pthread-mutex:	pthread-mutex.o
 pthread-semaphore:	pthread-semaphore.o
 pthread-trigger:	pthread-trigger.o

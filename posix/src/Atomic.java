@@ -13,6 +13,7 @@ class Atomic
  static class Shared
  {
   private long val=0;
+
   Shared(){}
   void inc()
   {

@@ -122,6 +122,7 @@ static Queue rxQ;
 static void onRX() /* a character is available */
 {
  queue_put(&rxQ,UART0.DR);
+ 
  UART0.ICR=RXIC;
 }
 
