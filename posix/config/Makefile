@@ -26,7 +26,8 @@ pthread.c \
 pthread-mutex.c \
 pthread-semaphore.c \
 pthread-trigger.c \
-ioport.c
+ioport.c \
+atomic.c
 
 
 cpu-demo: 	cpu-demo.o cpu-demo-ops.o

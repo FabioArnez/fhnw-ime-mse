@@ -32,8 +32,7 @@ static void* increment(void* data)
  unsigned long count=COUNT;
  while(count--)
  {
-  __sync_fetch_and_add(&theShared.val,1);
-//  ++theShared.val;
+  ++theShared.val;
  }
 }
 
@@ -43,8 +42,7 @@ static void* decrement(void *data)
  unsigned long count=COUNT;
  while(count--)
  {
-  __sync_fetch_and_add(&theShared.val,-1);
-//  --theShared.val;
+  --theShared.val;
  }
 }
 
