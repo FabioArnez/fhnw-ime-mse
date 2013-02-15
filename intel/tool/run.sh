@@ -15,4 +15,4 @@ if [ ! -e ${IMAGE} ]
  then echo "${IMAGE} dont exists"
       exit 1
 fi
-qemu  -cdrom ${IMAGE}
+qemu-system-i386  -cdrom ${IMAGE}
