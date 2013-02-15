@@ -21,7 +21,7 @@ UART;
 #define RXFE (1<<4) 
 #define TXFF (1<<5)
 
-UART*const uart=(UART*const)0x10009000;
+volatile UART*const uart=(volatile UART*const)0x10009000;
 /*|          |    |       |                 | |---- where it is see [1]
   |          |    |       |-----------------|------ cast 
   |          |    |-------------------------------- the value of dont change 

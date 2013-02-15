@@ -24,7 +24,7 @@ typedef struct
  unsigned val;
 } Shared;
 
-volatile Shared theShared; /* try without volatile */
+ Shared theShared; /* try without volatile */
 
 static void* increment(void* data)
 {

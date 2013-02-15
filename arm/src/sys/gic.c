@@ -85,8 +85,14 @@ void gic_install(unsigned id,Trap t)
 }
 
 /*------------------------------- called by hardware */
+#ifdef __clang__
+#error not yet implemented
+__attribute__((naked)) void gic_onIRQ()
+#else
 __attribute__((interrupt("IRQ"))) void gic_onIRQ()
+#endif
 {
+ 
  while(1)
  {
   unsigned id=IFC[0]->Acknowledge;

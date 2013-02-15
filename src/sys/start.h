@@ -6,7 +6,7 @@ $Id$
 see big-bang
 --------------------------*/
 /* possible to include in assembler file */
-#if __ASSEMBLER__ == 1
+#ifdef __ASSEMBLER__
  .global _start
 #else
  extern void _start();

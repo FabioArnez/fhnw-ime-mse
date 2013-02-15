@@ -3,10 +3,15 @@
 #(c) H.Buchmann FHNW 2011
 #$Id$
 #-------------------------
-CC=gcc
+CC=g++
+CXX=g++
+CC=clang++
+CXX=clang++
+
 OPTIMIZE=2
 CFLAGS=-O${OPTIMIZE} -g -std=c99 
-LDLIBS=-lm -lpthread
+CXXFLAGS=-O${OPTIMIZE}
+LDLIBS=-lm -lpthread -lasound
 
 #posix files will be searched normally
 export CPPFLAGS:=-iquote ../src -iquote ../../src 
@@ -17,7 +22,7 @@ VPATH=../src:../../src
 SRC=cpu-demo.c \
 cpu-demo-ops.c \
 stdio-test.c \
-samples.c \
+samples.cc \
 function-parameter.c \
 pointer.c \
 mmap.c \
@@ -27,11 +32,11 @@ pthread-mutex.c \
 pthread-semaphore.c \
 pthread-trigger.c \
 ioport.c \
-atomic.c
-
+atomic.c 
 
 cpu-demo: 	cpu-demo.o cpu-demo-ops.o
 samples:	samples.o
+sound:		sound.o
 function-parameter:	function-parameter.o
 pointer:	pointer.o
 mmap:		mmap.o

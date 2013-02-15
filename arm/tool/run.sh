@@ -32,7 +32,7 @@ echo "Image = ${IMG}"
 MACHINE=realview-eb
 #MACHINE=versatileab
 
-QEMU=../../../qemu/bin/
+#QEMU=../../../qemu/bin/
 #QEMU=
 ${QEMU}qemu-system-arm -M ${MACHINE} -kernel ${IMG} \
 ${DEBUG} \

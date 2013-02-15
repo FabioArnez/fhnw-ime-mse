@@ -4,8 +4,9 @@
 #$Id$
 #--------------------------
 #home of the latex generated idx files
-IDX_HOME=../../slides/hardware-related-software
-IDX_FILES=1-intro 2-architecture 3-hardware 4-interrupts 5-fast-machines
+IDX_HOME=../../slides/1-hardware-related-software
+IDX_FILES=1-intro 2-architecture 
+#3-hardware 4-interrupts 5-fast-machines
 
 #home of the source files
 SRC_HOME=../../sos

@@ -98,7 +98,7 @@ onReset:
 	mov pc,lr	
 
 
-/* r0 mode bits 0..4
+/* r0 mode bits 0..4 */
 /* r1 stack top */
 .setStack:
 	mrs r2,cpsr /* current program status register */
