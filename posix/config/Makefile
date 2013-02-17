@@ -5,7 +5,7 @@
 #-------------------------
 CC=g++
 CXX=g++
-CC=clang++
+CC=clang
 CXX=clang++
 
 OPTIMIZE=2
@@ -15,7 +15,9 @@ LDLIBS=-lm -lpthread -lasound
 
 #posix files will be searched normally
 export CPPFLAGS:=-iquote ../src -iquote ../../src 
- 
+#-------------------------- how to link
+%:	%.o;${CXX} ${LDFLAGS} ${^} ${LOADLIBES} ${LDLIBS} -o${@}
+
 #-------------------------- where to look for the files
 VPATH=../src:../../src
 
