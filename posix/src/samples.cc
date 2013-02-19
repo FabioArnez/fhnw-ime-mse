@@ -139,8 +139,8 @@ Generator::Generator(Player& player,
   double y1=x0*sin_ + y0*cos_;
   x0=x1;
   y0=y1;
-#if 0
-  for(unsigned i=0;i<200000;++i)
+#if 1
+  for(unsigned i=0;i<4000;++i)
   {
    volatile unsigned v=i;
   }
@@ -151,7 +151,7 @@ Generator::Generator(Player& player,
 
 int main(int argc,char** args)
 {
- Player p(48000,1<<20);
+ Player p(48000,1024);
  Time start;
  Generator gen(p,0.875,440,2);
 // Time end;
