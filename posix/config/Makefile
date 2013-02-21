@@ -5,8 +5,9 @@
 #-------------------------
 CC=g++
 CXX=g++
-CC=clang
-CXX=clang++
+#-------------------- uncomment if you are using clang
+#CC=clang
+#CXX=clang++
 
 OPTIMIZE=2
 CFLAGS=-O${OPTIMIZE} -g -std=c99 
