@@ -21,6 +21,7 @@ UART;
 #define RXFE (1<<4) 
 #define TXFF (1<<5)
 
+#if 1
 volatile UART*const uart=(volatile UART*const)0x10009000;
 /*|          |    |       |                 | |---- where it is see [1]
   |          |    |       |-----------------|------ cast 
@@ -28,7 +29,10 @@ volatile UART*const uart=(volatile UART*const)0x10009000;
   |          |------------------------------------- pointer
   |------------------------------------------------ periphery may change the contents 
 */
-
+#endif
+#if 0
+extern volatile UART  UART0; /* see linker script ram.ld */
+#endif
 /* TODO make functions */
 void main()
 {
