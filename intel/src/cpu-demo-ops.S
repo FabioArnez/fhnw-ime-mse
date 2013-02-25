@@ -51,9 +51,14 @@ addr	             /--->|    val1|
 */
 .global copy
 copy:
-        movl 8(%esp),%eax  /* read  */
-        movl (%eax) ,%ebx  /* read  */
-        movl 4(%esp),%eax  /* read  */
-        mov %ebx,(%eax)    /* write */
+#if 0
+        movl 8(%esp),%eax  /* read: value of src */
+	movl 4(%esp),%ebx  /* read: value of dst */
+	movl (%eax),(%ebx) /* error Error: too many memory references for `mov' */
+#endif
+        movl 8(%esp),%eax   /* read: value of src */
+	movl (%eax), %ebx   /* ebx: val1
+	movl (4%esp),%eax   /* read: value of dst */
+	movl %ebx,(%eax)    /* write */
         ret
         
