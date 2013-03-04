@@ -4,10 +4,13 @@
 #$Id$
 #we are in work
 #------------------------------------------ 
-
+#figure out prefix automatically
+PREFIX=$(patsubst %-gcc,%,${shell ls ../tc/bin/*gcc})
+#PREFIX=../tc/bin/arm-fhnw-eabi
+#PREFIX=../tc/bin/arm-none-eabi
+$(info PREFIX=${PREFIX})
+export PATH:=${shell pwd}/${PREFIX}/bin:${PATH}
 #------------------------------------------ <setup>
-PREFIX=../tc/bin/arm-fhnw-eabi
-PREFIX=../tc/bin/arm-none-linux-gnueabi
 CC=${PREFIX}-gcc
 LD=${PREFIX}-ld
 OBJCOPY=${PREFIX}-objcopy
