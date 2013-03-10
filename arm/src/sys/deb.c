@@ -73,3 +73,8 @@ void deb_hex(unsigned val)
   deb_out((nibble<10)?'0'+nibble:'a'+(nibble-10));
  }
 }
+
+void deb_newln()
+{
+ deb_out('\n');
+}

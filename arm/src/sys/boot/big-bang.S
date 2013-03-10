@@ -33,7 +33,7 @@ onReset:
 	bl .pstack
 /* call mmu_enable r0=disp */
 	mov r0,r9
-	bl mmu_init                    /* relative call */
+	bl mmu_init         /* relative call  see mmu.c */
                 /* on return r0 physical address of ttb */
 	bl .mmu_enable 
 

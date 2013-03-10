@@ -2,11 +2,13 @@
   timer-trap-demo
   (c) H.Buchmann FHNW 2011
   $Id$
+  dont works with qemu-system-arm v 1.4.0
 ------------------------*/
 #include "stdio.h"
 #include "sys/timer.h"
 #include "sys/gic.h"
 #include "sys/arm.h"
+#include "sys/deb.h"
 
 #define TIMER_0_1 36
 static unsigned tick=0;
@@ -32,8 +34,12 @@ int main()
 		(1<<5) | /* interrupt enable */
 		(0<<0) | /* wrapping */
 		    0;
+ printf("PSR=%x\n",arm_getCPSR());
+ gic_debug();
  while(1)
  {
+  deb_in();
+  gic_debug();
  }
  return 0; 
 } 

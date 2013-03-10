@@ -15,3 +15,14 @@ extern void deb_string(const char*const msg);
 extern void deb_hex(unsigned val); /* position idependent deb_hex */
                                    /* see hex.S */
 extern char deb_in(); /* waits until char read */
+extern void deb_newln();
+
+inline void deb_key_val(const char*const key,unsigned val)
+{
+ deb_string(key);deb_out('\t');deb_hex(val);deb_newln();
+}
+
+inline void deb_pointer(const void*const p)
+{
+ deb_hex((unsigned)p);
+}

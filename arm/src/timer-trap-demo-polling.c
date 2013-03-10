@@ -1,7 +1,7 @@
 /*----------------------
   timer-trap-demo
   (c) H.Buchmann FHNW 2011
-  $Id$
+  calls onTick 'manually'
 ------------------------*/
 #include "stdio.h"
 #include "sys/timer.h"

@@ -1,11 +1,10 @@
 /*----------------------
   timer-trap-demo
   (c) H.Buchmann FHNW 2011
-  $Id$
+  shows TIMER0.Value TIMER0.RIS
 ------------------------*/
 #include "stdio.h"
 #include "sys/timer.h"
-
 
 int main()
 {

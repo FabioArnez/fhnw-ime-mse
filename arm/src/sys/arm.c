@@ -9,7 +9,6 @@
 #include "sys/arm.h"
 #include "sys/deb.h"
 
-#define LDRPC 0xe59ff018
 
 /* -------------------------------------------- the exception handlers */
 /* see [2] Function-Attributes */
@@ -55,10 +54,11 @@ static __attribute__((interrupt("FIQ"))) void onFIQ()
 /*------------------------------------------------ the exception table */
 typedef  struct /* see see [1] A2.6  */
 {
- unsigned PC[8];
- void (*exception[8])();  /* array of funitions void (); */
+ unsigned PC[8];                      /* code for ldr pc,exception[i] */
+ void (*exception[8])();               /* array of functions void (); */
 } ExceptionTable;
 
+#define LDRPC 0xe59ff018
 
 static const ExceptionTable DefaultExceptionTable=
 {

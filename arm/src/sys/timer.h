@@ -52,7 +52,7 @@ typedef struct /* see [2] 3.1 */
        unsigned BGLoad;
 } Timer;
 
-extern volatile Timer TIMER0;
+extern volatile Timer TIMER0;              /* see linker script */
 extern volatile Timer TIMER1;
 extern volatile Timer TIMER2;
 extern volatile Timer TIMER3;

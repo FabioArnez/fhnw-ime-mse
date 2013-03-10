@@ -24,7 +24,7 @@ TODO
   return r0<-r0 op r1
 -----------------------------------*/  
 .global op
-op:	add r0,r0,r1
+op:	sub r0,r0,r1
 	mov pc,lr
 
 
@@ -49,4 +49,9 @@ op:	add r0,r0,r1
 copy:	ldr r2,[r1]            /* r2<-[r1] */  
 	str r2,[r0]            /*r2-> [r0] */
 	mov pc,lr
+ 
+ 
+ 
+ 
+ 
  

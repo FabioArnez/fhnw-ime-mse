@@ -5,11 +5,12 @@
 ------------------------*/
 #include "stdio.h"
 #include "sys/arm.h"
+
 static __attribute__((interrupt("ABORT"))) void onData()
 {
  unsigned* loc=arm_get_lr();
  unsigned* mem=arm_get_fault_address();
- printf("loc=%p mem=%p\n",loc,mem);
+ printf("page fault loc=%p mem=%p\n",loc,mem);
  while(1)
  {
  }

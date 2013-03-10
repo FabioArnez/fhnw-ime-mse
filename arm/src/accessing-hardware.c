@@ -21,7 +21,7 @@ UART;
 #define RXFE (1<<4) 
 #define TXFF (1<<5)
 
-#if 1
+#if 0
 volatile UART*const uart=(volatile UART*const)0x10009000;
 /*|          |    |       |                 | |---- where it is see [1]
   |          |    |       |-----------------|------ cast 
@@ -30,7 +30,7 @@ volatile UART*const uart=(volatile UART*const)0x10009000;
   |------------------------------------------------ periphery may change the contents 
 */
 #endif
-#if 0
+#if 1
 extern volatile UART  UART0; /* see linker script ram.ld */
 #endif
 /* TODO make functions */
@@ -38,18 +38,18 @@ void main()
 {
  while(1)
  {   /* read from uart */
-  while(uart->FR&RXFE)
+  while(UART0.FR&RXFE)
   {
    /* Receive FIFO empty */
   }
   /* Receive FIFO not empty */ 
-  unsigned ch=uart->DR; /* read it */
-  while((uart->FR&TXFF))
+  unsigned ch=UART0.DR; /* read it */
+  while((UART0.FR&TXFF))
   {
    /* transmit FIFO not empty */
   }
   /* transmit FIFO  empty */
-  uart->DR=ch;
+  UART0.DR=(ch-1);
  }
 }
 

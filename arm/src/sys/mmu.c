@@ -8,9 +8,10 @@
 #include "sys/mmu.h"
 #include "sys/arm.h"
 /* Translation table base [1] B4.7.1 */
-
-unsigned TTB[0x1000] __attribute__((section(".ttb"))); /* aligned on 4 KB boundary */
-
+           
+static unsigned TTBL[0x1000] __attribute__((section(".ttbl"))); 
+               /* aligned on 16 KB boundary see ram.ld*/
+       
 void call(void (*p)()) /* for looking how it is done */
 {
  p();
@@ -31,24 +32,24 @@ static const MMU_Desc Desc[]=
 };
 
 /* check if pic */
-static void init(volatile unsigned* ttb)
+static void init(volatile unsigned* ttbl)
 { 
- for(unsigned i=0;i<4096;++i) ttb[i]=0;
+ for(unsigned i=0;i<4096;++i) ttbl[i]=0;
 }
 
-static void show(volatile unsigned* ttb)
+static void show(volatile unsigned* ttbl)
 {
  for(unsigned i=0;i<4096;++i)
  {
-  deb_hex(i);deb_out('\t');deb_hex(ttb[i]);deb_out('\n');
+  deb_hex(i);deb_out('\t');deb_hex(ttbl[i]);deb_out('\n');
  }
  deb_out('-');
 }
 
 volatile unsigned* mmu_init(unsigned disp)
 {
- volatile unsigned* ttb=(volatile unsigned*)((unsigned)TTB+disp); 
- init(ttb);
+ volatile unsigned* ttbl=(volatile unsigned*)((unsigned)TTBL+disp); 
+ init(ttbl);
  MMU_Desc* desc=(MMU_Desc*)((unsigned)Desc+disp);
  while(desc->sizeMB)
  {
@@ -58,7 +59,7 @@ volatile unsigned* mmu_init(unsigned disp)
   unsigned f=desc->flags;
   while(s>0)
   {
-   ttb[v>>20]=p|f;
+   ttbl[v>>20]=p|f;
    v+=MEGA;
    p+=MEGA;
    s-=MEGA;
@@ -66,6 +67,6 @@ volatile unsigned* mmu_init(unsigned disp)
   ++desc;
  }
 // show(ttb);
- return ttb;
+ return ttbl;
 }
 

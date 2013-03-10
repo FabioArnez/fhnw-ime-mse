@@ -29,7 +29,8 @@ int main(int argc,char** args)
      perror("open");
      return 1;
     }
- unsigned* m=mmap(0,              /* normally 0 (only hint) */
+ unsigned* m=(unsigned*)
+                  mmap(0,              /* normally 0 (only hint) */
                   size,                             /* size */
                   PROT_READ,            /* only for reading */
 	          MAP_SHARED,

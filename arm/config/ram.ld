@@ -35,6 +35,7 @@ SECTIONS
  TIMER2 = 0x10012000; 
  TIMER3 = 0x10012020;
 
+ GIC1     = 0x10040000;
  GIC1_IFC = 0x10040000;  /* see [1] 4.12 */
  GIC2_IFC = 0x10050000;
  GIC3_IFC = 0x10060000;
@@ -61,9 +62,9 @@ SECTIONS
   *(.data)
  }
 
- .ttb ALIGN (0x4000) :
+ .ttb ALIGN (0x4000) :         /* 16 kB boundary */
  {
-  *(.ttb)
+  *(.ttbl)
  }
  
   bss_start= . ;
