@@ -15,8 +15,9 @@ extern void gic_enable(unsigned id);
 extern void gic_disable(unsigned id);
 extern void gic_install(unsigned id,Trap t); /* trap disabled */
 
-#if 0
+extern void gic_debug(); 
 extern void gic_trigger(unsigned id); 
+#if 0
 extern void gic_active(); 
 extern void gic_info();
 #endif

@@ -1,14 +1,14 @@
 /*-----------------------------------
   gic generic interrupt controller
   (c) H.Buchmann FHNW 2012
-  $Id$
   [1] literature/realview_emulation_basebord_ug.pdf
-  TODO only GIC1 is used remove unnecessary stuff
+  only GIC1 is used 
        nesting interrupts
 -------------------------------------*/
 #include "sys/gic.h"
 #include "sys/arm.h"
 #include "sys/deb.h"
+#include "stdio.h"  /* for debug only */
 
 typedef struct{
        unsigned CPUControl;         /* 000 */
@@ -20,17 +20,19 @@ typedef struct{
  const unsigned Highest_Pending;    /* 018 */
 } GIC_IFC; 
 
+
 #undef ARR
 #undef RES
 
 #define ARR(name,start,end) unsigned name[1+(end-start)/sizeof(unsigned)] 
 #define RES(id,start,end) ARR(RES##id,start,end)
 
+
 typedef struct{
       unsigned Control;
 const unsigned ControllerType;
 	       RES(0,0x1008,0x10fc);
-      unsigned Enable[3];
+      unsigned EnableSet[3];
 	       RES(1,0x110c,0x117c);
       unsigned Clear[3];
 	       RES(2,0x118c,0x11fc);
@@ -38,7 +40,7 @@ const unsigned ControllerType;
 	       RES(3,0x120c,0x127c);
       unsigned PendingClear[3];
 	       RES(4,0x128c,0x12fc);
-const unsigned Active[3];
+const unsigned ActiveSet[3];
 	       RES(5,0x130c,0x13fc);
 	       ARR(Priority,0x1400,0x143c);
 	       RES(6,0x1440,0x17FC);
@@ -49,33 +51,23 @@ const unsigned Active[3];
       unsigned Software;
 } GIC_DIS;
 
+
 extern volatile GIC_IFC GIC1_IFC;
-extern volatile GIC_IFC GIC2_IFC;
-extern volatile GIC_IFC GIC3_IFC;
-extern volatile GIC_IFC GIC4_IFC;
-
 extern volatile GIC_DIS GIC1_DIS;
-extern volatile GIC_DIS GIC2_DIS;
-extern volatile GIC_DIS GIC3_DIS;
-extern volatile GIC_DIS GIC4_DIS;
 
-volatile GIC_IFC*const IFC[]={&GIC1_IFC,&GIC2_IFC,&GIC2_IFC,&GIC4_IFC};
-volatile GIC_DIS*const DIS[]={&GIC1_DIS,&GIC2_DIS,&GIC3_DIS,&GIC4_DIS};
 
 static Trap traps[TRAP_N]; /* the call back */
-
-
 
 void gic_enable(unsigned id)
 {
  if (id>=TRAP_N) return;
- DIS[0]->Enable[id/32]|=(1<<(id%32));
+ GIC1_DIS.EnableSet[id/32]|=(1<<(id%32));
 }
 
 void gic_disable(unsigned id)
 {
  if (id>=TRAP_N) return;
- DIS[0]->Clear[id/32]|=(1<<(id%32));
+ GIC1_DIS.Clear[id/32]|=(1<<(id%32));
 }
 
 void gic_install(unsigned id,Trap t)
@@ -92,14 +84,13 @@ __attribute__((naked)) void gic_onIRQ()
 __attribute__((interrupt("IRQ"))) void gic_onIRQ()
 #endif
 {
- 
  while(1)
  {
-  unsigned id=IFC[0]->Acknowledge;
+  unsigned id=GIC1_IFC.Acknowledge;
   if (id>=TRAP_N) break;
   Trap t=traps[id];
-  if (t)t();
-  IFC[0]->EndInterrupt=id;
+  if (t) t(); /* call trap */
+  GIC1_IFC.EndInterrupt=id;
  }
 }
 
@@ -108,18 +99,14 @@ void gic_init()
  static unsigned initialized=0;
  if (initialized) return; /* already initialized */
  ++initialized;
+/* for(unsigned i=0;i<16;++i) GIC1_DIS.Priority[i]=0xffffffff; */
  for(unsigned i=0;i<TRAP_N;++i) traps[i]=0;
- for(unsigned i=0;i<4;++i)
- {
-  IFC[i]->CPUControl=1;
-  DIS[i]->Control=1;
-  for(unsigned k=0;k<24;++k) DIS[i]->CPUTargets[k]=1;
- }
-#if 0
- for(unsigned i=0;i<4;++i)
- {
-  printf("%d\t%x\t%p\n",i,DIS[i]->ControllerType,&(DIS[i]->Software));
- }
+ GIC1_IFC.CPUControl=1;
+ GIC1_IFC.Priority=0xff;
+ GIC1_DIS.Control=1;
+ for(unsigned k=0;k<24;++k) GIC1_DIS.CPUTargets[k]=1;
+#if 1
+ printf("---------------------ControllerType=%x\n",GIC1_DIS.ControllerType);
 #endif
  arm_set_exception(IRQ,gic_onIRQ);
 }
@@ -128,7 +115,30 @@ void gic_trigger(unsigned id)
 {
  for(unsigned i=0;i<4;++i)
  {
-  DIS[i]->Software=id;
+  GIC1_DIS.Software=id;
  }
+}
+
+static void bits(const char*const name,const unsigned*const b,unsigned len)
+{
+ deb_pointer(b);deb_out('\t');deb_string(name);deb_out('\t');
+ for(unsigned i=0;i<len;++i)
+ {
+  deb_hex(b[i]);
+  deb_out(' ');
+ }
+ deb_newln();
+}
+
+void gic_debug()
+{
+#if 0
+ deb_key_val("Acknowledge",GIC1_IFC.Acknowledge);
+ deb_key_val("Highest_Pending",GIC1_IFC.Highest_Pending);
+ bits("EnableSet",GIC1_DIS.EnableSet,3);
+ bits("PendingSet",GIC1_DIS.PendingSet,3);
+ bits("ActiveSet",GIC1_DIS.ActiveSet,3);
+ bits("CPUTargets",GIC1_DIS.CPUTargets,0x60/4);
+#endif
 }
 
