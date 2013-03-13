@@ -38,8 +38,7 @@ int main()
  gic_debug();
  while(1)
  {
-  deb_in();
-  gic_debug();
+  deb_out(deb_in());
  }
  return 0; 
 } 
