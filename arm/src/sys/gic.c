@@ -73,6 +73,7 @@ void gic_disable(unsigned id)
 void gic_install(unsigned id,Trap t)
 {
  if (id>=TRAP_N) return;
+ gic_disable(id);
  traps[id]=t;
 }
 
