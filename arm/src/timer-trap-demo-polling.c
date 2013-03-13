@@ -24,7 +24,7 @@ int main()
 		    0;
  while(1)
  {
-  if (TIMER0.Value,TIMER0.RIS) onTick();
+  if (TIMER0.RIS) onTick();
  }
  return 0; 
 } 
