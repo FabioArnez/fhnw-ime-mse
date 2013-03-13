@@ -59,6 +59,8 @@ VAR(PCellID3    ,0xFFC      ,RO,0xB1      );/* PrimeCell Identification Register
 #define WI SVGA_WIDTH
 #define HE SVGA_HEIGHT
 
+const Color WHITE=0xffff;
+
 static const struct 
 {
  unsigned OSC4;      /* value of SYS.OSC4 */

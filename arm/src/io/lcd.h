@@ -12,6 +12,8 @@ bit  0.. 4 RED
 bit  5..10 GREEN
 bit 11..15 BLUE
 */
+extern const Color WHITE;
+
 typedef volatile Color* Pixel;
 
 extern void lcd_init();

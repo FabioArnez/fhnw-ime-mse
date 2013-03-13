@@ -33,9 +33,11 @@ LDFLAGS=-nostdlib -Wl,--script=../config/ram.ld -Wl,-Map -Wl,${@}.map
 #------------------------------------------ assembler pattern
 %.o:	%.S;$(CC) ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
 
-VPATH=../src:../../src
 
-export CPPFLAGS+=-I../src -I../../src
+SOURCE_PATH=../src ../src/concurrency  ../../src
+
+VPATH=$(foreach s,${SOURCE_PATH},:${s})
+export CPPFLAGS+=$(foreach s,${SOURCE_PATH},-I${s})
 
 #------------------------------------------ <source files>
 SRC=hello-world.c \
@@ -68,8 +70,9 @@ sys/coroutine.c sys/coroutine0.S coroutine-test.c \
 ps2-mouse-test.c \
 io/mouse.c mouse-demo.c \
 sys/thread.c thread-demo.c \
-atomic.c
-
+atomic.c \
+clock.c \
+polling.c 
 
 SYSTEM=sys/stack.o sys/arm.o sys/mmu.o sys/gic.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
 #------------------------------------------ <applications>
@@ -101,9 +104,11 @@ common-access: 	common-access.o sys/timer.o ${SYSTEM}
 gic-test:	gic-test.o sys/sys.o sys/gic.o sys/deb.o ${SYSTEM}
 
 #-----------------------------------------lcd
-lcd-demo:	lcd-demo.o io/lcd.o io/font.o  ${SYSTEM}
+LCD=io/lcd.o io/font.o
+lcd-demo:	lcd-demo.o ${LCD} ${SYSTEM}
 lcd-demo-0:	lcd-demo-0.o sys/deb.o ${SYSTEM}
 ascii-test:	ascii-test.o io/screen.o io/lcd.o io/font.o ${SYSTEM}
+clock:		clock.o io/lcd.o io/font.o ${SYSTEM}
 
 #------------------------------- mmu-devel
 mmu-test:	mmu-test.o sys/boot/big-bang.o sys/stack.o sys/mmu.o sys/deb.o
@@ -115,6 +120,7 @@ uart-foreground-background:	uart-foreground-background.o ${SYSTEM}
 coroutine-test: coroutine-test.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
 thread-demo:	thread-demo.o sys/thread.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
 atomic: 	atomic.o ${SYSTEM}
+polling:	polling.o clock.o ${LCD} ${SYSTEM}
 #------------------------------- mouse
 ps2-mouse-test: ps2-mouse-test.o  ${SYSTEM}
 mouse-demo:	mouse-demo.o io/mouse.o ${SYSTEM}	

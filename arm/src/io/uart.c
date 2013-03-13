@@ -35,6 +35,14 @@ extern volatile struct                             /* see [2] 3.2 */
 
 #define BUSY (1<<3)
 
+void uart_init()
+{
+ static unsigned initalized=0;
+ if (initalized) return;
+ ++initalized;
+ /* TODO initialize it */
+}
+
 /*------------------------------------------------------- polling */
 void uart_out(char ch)
 {
