@@ -23,8 +23,8 @@ void clock_init()
  lcd_init();
 }
 
-void clock_create(Clock* clock,
-                  const Time* time,
+void clock_create(Clock*const      clock,
+                  const Time*const time,
                   unsigned x,unsigned y)  /* position on screen */
 {
  clock->time=*time; /* copy */
@@ -53,20 +53,14 @@ void clock_tick(Clock*const clock)
 {
  Time*const t=&clock->time;
  ++t->ss;
- if (t->ss==60)
-    {
-     t->ss=0;
-     ++t->mm;
-     if (t->mm==60)
-        {
-	 t->mm=0;
-	 ++t->hh;
-	 if (t->hh==24)
-	    {
-	     t->hh=0;
-	    }
-	}
-    } 
+ if (t->ss<60) return;
+ t->ss=0;
+ ++t->mm;
+ if (t->mm<60) return;
+ t->mm=0;
+ ++t->hh;
+ if (t->hh<24) return;
+ t->hh=0;
 }
 
 #ifdef CLOCK_TEST

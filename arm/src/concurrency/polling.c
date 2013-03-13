@@ -6,7 +6,7 @@
 #include "io/uart.h"
 #include "clock.h"
 
-Clock clock;  
+Clock clock;
 
 static void onTick()
 {
@@ -15,7 +15,29 @@ static void onTick()
  TIMER0.IntClr=0;
 }
 
-Time  t={0,0,0};
+static void do_clock()
+{
+ if (TIMER0.RIS) 
+    {
+     onTick();
+    }
+}
+
+static void onChar(char ch)
+{
+ uart_out(ch);
+}
+
+static void do_uart()
+{
+ if (uart_avail())
+    {
+     onChar(uart_in());
+    }
+}
+
+Time  t={23,59,55};
+
 int main()
 {
  uart_init();
@@ -30,14 +52,8 @@ int main()
  clock_show(&clock);
  while(1)
  {
-  if (TIMER0.RIS) 
-     {
-      onTick();
-     }
-  if (uart_avail())
-     {
-      uart_out(uart_in());
-     }
+  do_clock();
+  do_uart();
  }
  return 0; 
 }

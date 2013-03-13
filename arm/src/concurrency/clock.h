@@ -20,9 +20,10 @@ typedef struct
 
 extern void clock_init();
 
-extern void clock_create(Clock* clock,
-                         const Time* time,
+extern void clock_create(Clock*const      clock,
+                         const Time*const time,
                          unsigned x,unsigned y);  /* position on screen */
+
 extern void clock_show(const Clock*const clock);
 
 extern void clock_tick(Clock*const clock);
