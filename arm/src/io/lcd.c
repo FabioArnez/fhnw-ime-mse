@@ -9,7 +9,9 @@
 -----------------------------*/
 #include "sys/sys.h"
 #include "sys/def-register.h"
+#include "sys/mmu.h"
 #include "io/lcd.h"
+
 extern volatile struct
 {
 VAR(Timing[4]   ,0x000      ,RW,0x00000000);/* Horizontal Axis Panel Control Register on page 3-5); */
@@ -70,14 +72,15 @@ static const struct
           };
 
 static unsigned font_he;
-static unsigned short pixel[WI*HE]; 
-
+static unsigned short pixelV[WI*HE];               /* in the virtual memory */
+static volatile unsigned short* pixel; /* in physical memory as required by
+                                                             LCD controller */
 void lcd_init()
 {
  static unsigned initialized=0;
  if (initialized) return;
  ++initialized;
- 
+ pixel=(volatile unsigned short*)mmu_pAddr(pixelV);
  font_init();
  font_he=font_height();
  SYS.OSC[4]    =Init[SVGA_800x600].OSC4;
@@ -119,7 +122,7 @@ unsigned lcd_glyph(Pixel pix,Color c,const Glyph*const g)
  unsigned p=g->pix[i++];
  for(unsigned yy=0;yy<font_he;++yy)
  {
-  unsigned short* row=pix;
+  volatile unsigned short* row=pix;
   for(unsigned xx=0;xx<g->wi_pix;++xx)
   {
    *row++=(p&mask)?c:0;

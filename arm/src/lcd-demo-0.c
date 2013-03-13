@@ -8,6 +8,7 @@
 #include <sys/sys.h>
 #include <sys/def-register.h>
 #include <sys/deb.h>
+#include <sys/mmu.h>
 
 extern volatile struct
 {
@@ -52,14 +53,18 @@ VAR(PCellID2    ,0xFF8      ,RO,0x05      );/* PrimeCell Identification Register
 VAR(PCellID3    ,0xFFC      ,RO,0xB1      );/* PrimeCell Identification Register 3 on page 3-32); */
 } CLCDC;
 
+/* display must be a physical address */
 #define SIZE (1<<22)
-unsigned short display[SIZE] __attribute__((aligned(8)));
+unsigned short displayV[SIZE] __attribute__((aligned(8)));
+volatile unsigned short* display;
 
 static void init()
 {
  unsigned short r=0;
  unsigned short g=0;
  unsigned short b=0;
+ display=(volatile unsigned short*)mmu_pAddr(displayV);
+
  printf("---------init-------\n");
  for(unsigned i=0;i<SIZE;++i) 
  {

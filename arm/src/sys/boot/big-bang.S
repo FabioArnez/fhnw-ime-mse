@@ -36,7 +36,6 @@ onReset:
 	bl mmu_init         /* relative call  see mmu.c */
                 /* on return r0 physical address of ttb */
 	bl .mmu_enable 
-
 /*------------------------- here we have virtual memory */	
 	mov r0,#SUPERVISOR_MODE
 	ldr r1,=_stack_top  /* r1 contents of _stack_top */

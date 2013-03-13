@@ -46,6 +46,20 @@ static void show(volatile unsigned* ttbl)
  deb_out('-');
 }
 
+static unsigned* getTTBL() /* return physical address of TTBL */
+{
+ unsigned* ttbl;
+
+ asm volatile
+ (
+ "@----------------- getTTBL\n"
+  "\t mrc p15,0,%[ttbl],c2,c0,0\n"
+  :[ttbl] "=r" (ttbl)
+  :
+ );
+ return ttbl;
+}
+
 volatile unsigned* mmu_init(unsigned disp)
 {
  volatile unsigned* ttbl=(volatile unsigned*)((unsigned)TTBL+disp); 
@@ -69,4 +83,24 @@ volatile unsigned* mmu_init(unsigned disp)
 // show(ttb);
  return ttbl;
 }
+
+void* mmu_pAddr(void* vAddr)
+{
+ static const unsigned SECTION_MASK=(1<<20)-1;
+ unsigned vA=(unsigned)vAddr;
+ unsigned* ttbl=getTTBL();
+ unsigned level1=ttbl[vA>>20];
+ switch(level1&0x3) 
+ {
+  case 0:break;
+  case 1:break;
+  case 2:
+  {
+   return (unsigned char*)(level1&(~SECTION_MASK))+(vA&SECTION_MASK);
+  }
+  case 3:break;
+ }
+ deb_msg(__FILE__ " not implemented");
+}
+		                       
 

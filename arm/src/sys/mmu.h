@@ -18,5 +18,5 @@ typedef struct
 
 extern volatile unsigned* mmu_init(unsigned disp); /* disp=p-mem-v-mem */
  /* returns p-addr of ttb */
-		                       
+extern void* mmu_pAddr(void* vAddr);		                       
 #endif
