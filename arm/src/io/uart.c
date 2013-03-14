@@ -41,18 +41,22 @@ void uart_init()
  if (initalized) return;
  ++initalized;
  /* TODO initialize it */
+  while(uart_avail())
+ {
+  uart_in();
+ }
 }
 
 /*------------------------------------------------------- polling */
 void uart_out(char ch)
 {
- while(UART0.FR & BUSY ){} /* wait until busy cleared */
+ while(UART0.FR & BUSY ){}             /* wait until busy cleared */
  UART0.DR=ch;
 }
 
 char uart_in()
 {
- while(UART0.FR & RXFE){} /* wait until rx ready */
+ while(UART0.FR & RXFE){}                 /* wait until rx ready */
  return UART0.DR;
 }
 
@@ -61,90 +65,28 @@ unsigned uart_avail()
  return (UART0.FR & RXFE)==0;
 }
 
-/*---------------------------------------------------- fifo queue */
-/* realized as ring buffer */
-typedef struct
-{
- unsigned getI;
- unsigned putI;
- volatile unsigned size; /* accessed by put and get functions */
- unsigned capacity;
- unsigned* pool;
-} Queue;
-
-
-static void queue_init(Queue*const queue,
-                       unsigned capacity,unsigned* pool)
-{
- queue->getI=0;
- queue->putI=0;
- queue->size=0;
- queue->capacity=capacity;
- queue->pool=pool;
-}
-
-static unsigned queue_empty(Queue*const queue)
-{
- return queue->size==0;
-}
-
-static unsigned queue_full(Queue*const queue)
-{
- return queue->size==queue->capacity;
-}
-
-
-/* called by foreground */
-static void queue_put(Queue*const queue,unsigned val)
-{
- queue->pool[queue->putI++]=val;
- if (queue->putI==queue->capacity) queue->putI=0;
- if (queue->size<queue->capacity) 
-    {  /* common access */
-     ++queue->size;
-    }
-}
-
-/* called by background */
-/* not yet in final form */
-static unsigned* queue_get(Queue*const queue)
-{
-if (queue->size==0) return 0; /* dont wait here */
- /* queue->size>0 */
- unsigned* v=queue->pool+(queue->getI++);
- if (queue->getI==queue->capacity) queue->getI=0;
-/* common access */
- UART0.IMSC&=~RXIM; /* disable rx interrupt */
- --queue->size; 
-  UART0.IMSC|=RXIM; /* enable */
- return v; 
-}
-
-
-#define RXPOOL 32
-static unsigned rxPool[RXPOOL];
-static Queue rxQ;
-
 #define UART0_ID 44 /* [1] 4.12.2  */
+
+static void (*listener)(char) = 0;
 
 static void onRX() /* a character is available */
 {
- queue_put(&rxQ,UART0.DR);
- 
+ if (listener)
+    {
+     listener(UART0.DR);
+    }
  UART0.ICR=RXIC;
 }
 
-void uart_enable()
+
+void uart_install(void (*li)(char))
 {
- queue_init(&rxQ,RXPOOL,rxPool);
+ uart_init();
+ listener=li;
  gic_init();
  gic_install(UART0_ID,onRX);
  gic_enable(UART0_ID);
- UART0.IMSC|=RXIM; /* enable interrupt */
+ UART0.IMSC|=RXIM;   /* enable interrupt */
 }
 
-char* uart_get()
-{
- return (char*)queue_get(&rxQ);
-}
 

@@ -34,7 +34,7 @@ const unsigned ControllerType;
 	       RES(0,0x1008,0x10fc);
       unsigned EnableSet[3];
 	       RES(1,0x110c,0x117c);
-      unsigned Clear[3];
+      unsigned ClearSet[3];
 	       RES(2,0x118c,0x11fc);
       unsigned PendingSet[3];
 	       RES(3,0x120c,0x127c);
@@ -67,14 +67,15 @@ void gic_enable(unsigned id)
 void gic_disable(unsigned id)
 {
  if (id>=TRAP_N) return;
- GIC1_DIS.Clear[id/32]|=(1<<(id%32));
+ GIC1_DIS.EnableSet[id/32]&=~(1<<(id%32));
 }
 
 void gic_install(unsigned id,Trap t)
 {
  if (id>=TRAP_N) return;
- gic_disable(id);
+// gic_disable(id);
  traps[id]=t;
+ gic_disable(id);
 }
 
 /*------------------------------- called by hardware */
@@ -133,13 +134,13 @@ static void bits(const char*const name,const unsigned*const b,unsigned len)
 
 void gic_debug()
 {
-#if 0
- deb_key_val("Acknowledge",GIC1_IFC.Acknowledge);
- deb_key_val("Highest_Pending",GIC1_IFC.Highest_Pending);
+#if 1
+// deb_key_val("Highest_Pending",GIC1_IFC.Highest_Pending);
  bits("EnableSet",GIC1_DIS.EnableSet,3);
  bits("PendingSet",GIC1_DIS.PendingSet,3);
- bits("ActiveSet",GIC1_DIS.ActiveSet,3);
- bits("CPUTargets",GIC1_DIS.CPUTargets,0x60/4);
+// bits("ActiveSet",GIC1_DIS.ActiveSet,3);
+// bits("CPUTargets",GIC1_DIS.CPUTargets,0x60/4);
+ deb_key_val("Acknowledge",GIC1_IFC.Acknowledge);
 #endif
 }
 

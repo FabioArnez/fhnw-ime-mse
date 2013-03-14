@@ -73,7 +73,8 @@ sys/thread.c thread-demo.c \
 atomic.c \
 clock.c \
 polling.c \
-threads.c
+threads.c \
+interrupts.c
 
 SYSTEM=sys/stack.o sys/arm.o sys/mmu.o sys/gic.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
 #------------------------------------------ <applications>
@@ -127,7 +128,7 @@ COROUTINE=sys/coroutine.o sys/coroutine0.o
 coroutines:	coroutines.o clock.o ${COROUTINE} ${LCD} ${SYSTEM}
 THREAD=${COROUTINE} sys/thread.o
 threads:	threads.o clock.o ${THREAD} ${LCD} ${SYSTEM}  
-
+interrupts:	interrupts.o clock.o ${LCD} ${SYSTEM}
 #------------------------------- mouse
 ps2-mouse-test: ps2-mouse-test.o  ${SYSTEM}
 mouse-demo:	mouse-demo.o io/mouse.o ${SYSTEM}	
