@@ -76,6 +76,7 @@ polling.c \
 threads.c \
 interrupts.c \
 polling-interrupts.c \
+threads-interrupts.c
 
 SYSTEM=sys/stack.o sys/arm.o sys/mmu.o sys/gic.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
 #------------------------------------------ <applications>
@@ -130,7 +131,8 @@ coroutines:	coroutines.o clock.o ${COROUTINE} ${LCD} ${SYSTEM}
 THREAD=${COROUTINE} sys/thread.o
 threads:	threads.o clock.o ${THREAD} ${LCD} ${SYSTEM}  
 interrupts:	interrupts.o clock.o ${LCD} ${SYSTEM}
-polling-interrupts: polling-interrupts.o clock.o ${LCD} ${SYSTEM}
+polling-interrupts:	polling-interrupts.o clock.o ${LCD} ${SYSTEM}
+threads-interrupts:	threads-interrupts.o clock.o ${THREAD} ${LCD} ${SYSTEM}
 #------------------------------- mouse
 ps2-mouse-test: ps2-mouse-test.o  ${SYSTEM}
 mouse-demo:	mouse-demo.o io/mouse.o ${SYSTEM}	

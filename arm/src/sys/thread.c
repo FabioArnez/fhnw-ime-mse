@@ -1,11 +1,11 @@
 /*--------------------------
  thread
  (c) H.Buchmann FHNW 2012
- $Id$
+ TODO remove arm_irq(0),arm_irq(1)
 ----------------------------*/
 #include "sys/thread.h"
 #include "stdio.h"
-
+#include "sys/arm.h"
 
 static Thread* swap(Thread* in,volatile Thread** loc)
 {
@@ -41,16 +41,41 @@ static struct
 
 static Thread*     run=&main_;
 
-
-static void show()
+static void showThread(const Thread*const th)
 {
- printf("main=%p\n",&main_);
+  if (th==&ready.n0) 
+     {
+      printf("\tth=n0\n");
+      return;
+     }
+  if (th==&ready.n1)
+     {
+      printf("\tth=n1\n");
+      return;
+     }   
+  printf("\tth=%p\n",th);
+}
+
+static void show(const char*const msg)
+{
+ printf("%smain=%p\n",msg,&main_);
  printf("run =%p\n",run);
  printf("ready\n");
  Thread* th=ready.first;
  while(th!=0)
  {
-  printf("\tth=%p\n",th);
+  showThread(th);
+  th=th->next;
+ }
+}
+
+static void showQueue(const WaitQueue* q)
+{
+ printf("queue: %p\n",q);
+ volatile Thread* th=q->first;
+ while(th)
+ {
+  printf("\t%p\n",th);
   th=th->next;
  }
 }
@@ -58,6 +83,7 @@ static void show()
 void thread_ready(Thread* th)
 {
 /*<<<<<<<<<<<<<<<<<<<<<<< critical  */
+ th->next=0;
  ready.last->next=th;
  ready.last=th;
 /*>>>>>>>>>>>>>>>>>>>>>>> critical */ 
@@ -72,23 +98,37 @@ void thread_create(Thread* th,
                    void* pool,
 		   unsigned size_byte)
 {
+/*  printf("thread_create %p\n",th); */
  th->next=0;
  coroutine_init(run,pool,size_byte,&(th->cor));
  thread_ready(th);
 }
 
+static Thread* next()
+{
+ while(1)
+ {
+  Thread* th=ready.first;
+  ready.first=th->next;
+  if ((th!=&ready.n0) && (th!=&ready.n1))
+     {
+      return th;
+     }
+     else
+     {
+      thread_ready(th);
+     }
+ }
+}
+
 void thread_yield()
 {
  Thread* r=run;
+ arm_irq(0);
  thread_ready(r);
- Thread* th=ready.first;
- ready.first=th->next;
- if ((th!=&ready.n0) && (th!=&ready.n1)) 
-    {
-     run=th;
-     coroutine_transfer(&(r->cor),&(run->cor));
-    }
- thread_ready(th);   
+ run=next(); 
+ arm_irq(1);
+ coroutine_transfer(&(r->cor),&(run->cor));
 }
 
 void thread_run() 
@@ -96,3 +136,40 @@ void thread_run()
  while(1) thread_yield();
 }
 
+void thread_wait_init(WaitQueue*const q,void (*lock),void (*unlock)())
+{
+ q->lock=lock;
+ q->unlock=unlock;
+ q->first=0;
+ q->last=0;
+}
+
+
+
+void thread_wait_at(WaitQueue*const q)
+{
+ Thread* r=run;
+ r->next=0;
+ if (q->last==0)
+    {
+     q->first=r;
+    }
+    else
+    {
+     q->last->next=r;
+    }
+ q->last=r;
+ arm_irq(0); /* try without */
+ run=next();
+ arm_irq(1);
+ coroutine_transfer(&(r->cor),&(run->cor));   
+}
+
+void thread_ready_from(WaitQueue*const q)
+{
+ Thread* th=q->first;
+ if (th==0) return; 
+ q->first=th->next;
+ if (q->first==0) q->last=0;
+ thread_ready(th);
+}

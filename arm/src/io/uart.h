@@ -14,8 +14,8 @@ extern unsigned uart_avail(); /* returns true if char available */
 /*------------------------------------------------------------ with trap */
 #define FIFO 4                                /* size of fifo = 1<<FIFO  */
 extern void uart_install(void (*li)(char));                  /* the trap */
-extern void uart_start(); 
+extern void uart_start();                          /* with traps enabled */
 
 extern void uart_put(char ch);
 extern char uart_get();
-extern unsigned uart_rx_size();  
+extern unsigned uart_rx_size();

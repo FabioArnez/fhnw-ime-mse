@@ -34,11 +34,12 @@ struct WaitQueue
 {
  void (*lock)();
  void (*unlock)();
- volatile Thread* first; /* accessible fore-background */
+ volatile Thread* first;     /* accessible fore-background */
  volatile Thread* last;
 };
 
 
 extern void thread_wait_init(WaitQueue* q,void (*lock),void (*unlock)());
-extern void thread_put(Thread* th);
-
+extern void thread_put(Thread*const th);
+extern void thread_wait_at(WaitQueue*const q);
+extern void thread_ready_from(WaitQueue*const q);

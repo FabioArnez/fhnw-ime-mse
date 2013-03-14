@@ -1,18 +1,34 @@
 /*--------------------
-  thread
+  threads-interrupt
   (c) H.Buchmann FHNW 2013
  ---------------------*/
+#include "sys/arm.h"
 #include "sys/timer.h"
 #include "io/uart.h"
 #include "clock.h"
 #include "sys/thread.h"
+#include "sys/gic.h"
 #include "stdio.h"
 
 unsigned clockPool[0x400];
 unsigned uartPool[0x400];
 
+WaitQueue clockQ;
+
+#define TIMER_0_1 36
+static volatile unsigned tick=0;
+static void onTick()
+{
+ ++tick;
+ TIMER0.IntClr=0;
+ thread_ready_from(&clockQ);
+}
+
 static void do_clock()
 {
+ thread_wait_init(&clockQ,0,0);
+ gic_install(TIMER_0_1,onTick);
+ gic_enable(TIMER_0_1);
  Time  t={23,59,55};
  Clock clock;  
  clock_init();
@@ -27,13 +43,9 @@ static void do_clock()
 		    0;
  while(1)
  {
-  if (TIMER0.RIS) 
-     {
-      clock_tick(&clock);
-      clock_display(&clock);
-      TIMER0.IntClr=0;
-     }
-  thread_yield(); /* release cpu */
+  thread_wait_at(&clockQ);
+  clock_tick(&clock);
+  clock_display(&clock);
  }    
 }
 
@@ -53,6 +65,9 @@ static void do_uart()
 
 int main()
 {
+ arm_init();
+ gic_init();
+ arm_irq(1);
  Thread clockTh;
  Thread uartTh;
  thread_create(&clockTh,do_clock,clockPool,sizeof(clockPool));
