@@ -6,33 +6,23 @@
 #include "io/uart.h"
 #include "clock.h"
 
-Clock clock;
-
-static void onTick()
-{
- clock_tick(&clock);
- clock_display(&clock);
- TIMER0.IntClr=0;
-}
+Clock clock;        /* global */
 
 static void do_clock()
 {
  if (TIMER0.RIS) 
     {
-     onTick();
+     clock_tick(&clock);
+     clock_display(&clock);
+     TIMER0.IntClr=0;
     }
-}
-
-static void onChar(char ch)
-{
- uart_out(ch);
 }
 
 static void do_uart()
 {
  if (uart_avail())
     {
-     onChar(uart_in());
+     uart_out(uart_in()); 
     }
 }
 

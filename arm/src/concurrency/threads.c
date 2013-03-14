@@ -11,18 +11,10 @@
 unsigned clockPool[0x400];
 unsigned uartPool[0x400];
 
-Clock clock;  
-
-static void onTick()
-{
- clock_tick(&clock);
- clock_display(&clock);
- TIMER0.IntClr=0;
-}
-
 static void do_clock()
 {
  Time  t={23,59,55};
+ Clock clock;  
  clock_init();
  clock_create(&clock,&t,50,50);
  clock_display(&clock);
@@ -36,15 +28,12 @@ static void do_clock()
  {
   if (TIMER0.RIS) 
      {
-      onTick();
+      clock_tick(&clock);
+      clock_display(&clock);
+      TIMER0.IntClr=0;
      }
   thread_yield(); /* release cpu */
  }    
-}
-
-static void onChar(char ch)
-{
- uart_out(ch);
 }
 
 static void do_uart()
@@ -54,7 +43,7 @@ static void do_uart()
  {
   if (uart_avail())
      {
-      onChar(uart_in());
+      uart_out(uart_in());
      }
   thread_yield(); /* release cpu */
  }

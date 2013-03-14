@@ -74,7 +74,6 @@ void thread_create(Thread* th,
 {
  th->next=0;
  coroutine_init(run,pool,size_byte,&(th->cor));
- printf("create %p\n",th);
  thread_ready(th);
 }
 

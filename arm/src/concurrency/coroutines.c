@@ -14,20 +14,10 @@ Coroutine clockCo;
 unsigned uartPool[0x400];
 Coroutine uartCo;
 
-Coroutine mainCo;
-
-Clock clock;  
-
-static void onTick()
-{
- clock_tick(&clock);
- clock_display(&clock);
- TIMER0.IntClr=0;
-}
-
 static void do_clock()
 {
  Time  t={23,59,55};
+ Clock clock;           /* clock now local */
  clock_init();
  clock_create(&clock,&t,50,50);
  clock_display(&clock);
@@ -41,16 +31,14 @@ static void do_clock()
  {
   if (TIMER0.RIS) 
      {
-      onTick();
+      clock_tick(&clock);
+      clock_display(&clock);
+      TIMER0.IntClr=0;
      }
   coroutine_transfer(&clockCo,&uartCo);
  }    
 }
 
-static void onChar(char ch)
-{
- uart_out(ch);
-}
 
 static void do_uart()
 {
@@ -59,7 +47,7 @@ static void do_uart()
  {
   if (uart_avail())
      {
-      onChar(uart_in());
+      uart_out(uart_in());
      }
   coroutine_transfer(&uartCo,&clockCo);
  }
@@ -68,6 +56,7 @@ static void do_uart()
 
 int main()
 {
+ Coroutine mainCo;
  coroutine_init(do_clock,clockPool,sizeof(clockPool),&clockCo);
  coroutine_init(do_uart, uartPool, sizeof(uartPool) ,&uartCo);
  coroutine_transfer(&mainCo,&clockCo);
