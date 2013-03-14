@@ -1,5 +1,6 @@
 /*--------------------
-  interrupts
+  polling-interrupts
+  see polling.c
   (c) H.Buchmann FHNW 2013
  ---------------------*/
 #include "sys/arm.h"
@@ -14,19 +15,37 @@
 Time  t={23,59,55};
 Clock clock;  
 
+static volatile unsigned tick=0;
+
 static void onTick()
 {
- clock_tick(&clock);
- clock_display(&clock);
+ ++tick;
  TIMER0.IntClr=0;
 }
 
-static volatile char ch0=0;
 
-static void onChar(char ch)
+static void do_clock() 
 {
- deb_out(ch);
+ if (tick>0) 
+    {
+/*<<<<<<<<<<<<<<<< critical */
+     --tick;
+/*>>>>>>>>>>>>>>>> critical */
+     clock_tick(&clock);
+     clock_display(&clock);
+    }
 }
+
+
+static void do_uart()
+{
+ if (uart_rx_size()>0)
+    {
+     uart_out(uart_get()); 
+    }
+}
+
+
 
 
 int main()
@@ -37,12 +56,10 @@ int main()
  clock_create(&clock,&t,50,50);
  clock_display(&clock); 
  
- uart_init();
- uart_install(onChar);
- uart_start();
- 
+
  gic_install(TIMER_0_1,onTick);
  gic_enable(TIMER_0_1);
+ uart_start();
  arm_irq(1);
 
  TIMER0.Load=0x100000; /* the count */
@@ -54,6 +71,8 @@ int main()
 		    0;
  while(1) /* main loop */
  {
+  do_clock();
+  do_uart();
  }
  return 0; 
 }

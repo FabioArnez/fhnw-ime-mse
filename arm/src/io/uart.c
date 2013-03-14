@@ -65,9 +65,45 @@ unsigned uart_avail()
  return (UART0.FR & RXFE)==0;
 }
 
-#define UART0_ID 44 /* [1] 4.12.2  */
 
-static void (*listener)(char) = 0;
+static volatile struct 
+{
+ char pool[1<<FIFO];
+ unsigned put;
+ unsigned get;
+ unsigned size;
+} fifo = {put:0,get:0,size:0};
+
+static void fifo_put(char ch)
+{
+ fifo.pool[fifo.put++]=ch;
+ fifo.put&=((1<<FIFO)-1); /* fast modulo */
+/*<<<<<<<<<<<<<<<< critical */
+  if (fifo.size<(1<<FIFO)) ++fifo.size;
+/*>>>>>>>>>>>>>>>> critical */
+}
+
+char uart_get() /* assuming size>0 */
+{
+ if (fifo.size==0) return 0;
+/*<<<<<<<<<<<<<<<< critical */
+  --fifo.size;
+/*>>>>>>>>>>>>>>>> critical */
+ char ch=fifo.pool[fifo.get++];
+ fifo.get&=((1<<FIFO)-1); /* fast modulo */
+ return ch;
+}
+
+unsigned uart_rx_size()
+{
+/*<<<<<<<<<<<<<<<< critical */
+ return fifo.size;
+/*>>>>>>>>>>>>>>>> critical */
+}
+
+
+#define UART0_ID 44 /* [1] 4.12.2  */
+static void (*listener)(char) = fifo_put; /*the default handler */
 
 static void onRX() /* a character is available */
 {
@@ -79,14 +115,18 @@ static void onRX() /* a character is available */
 }
 
 
-void uart_install(void (*li)(char))
+void uart_start()
 {
  uart_init();
- listener=li;
  gic_init();
  gic_install(UART0_ID,onRX);
  gic_enable(UART0_ID);
  UART0.IMSC|=RXIM;   /* enable interrupt */
+}
+
+void uart_install(void (*li)(char))
+{
+ listener=li;
 }
 
 
