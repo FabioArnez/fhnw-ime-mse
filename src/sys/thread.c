@@ -38,12 +38,33 @@ static struct
  last:  &ready.n1
 };
 
+
 static Thread*     run=&main_;
+
+
+static void show()
+{
+ printf("main=%p\n",&main_);
+ printf("run =%p\n",run);
+ printf("ready\n");
+ Thread* th=ready.first;
+ while(th!=0)
+ {
+  printf("\tth=%p\n",th);
+  th=th->next;
+ }
+}
 
 void thread_ready(Thread* th)
 {
+/*<<<<<<<<<<<<<<<<<<<<<<< critical  */
+ ready.last->next=th;
+ ready.last=th;
+/*>>>>>>>>>>>>>>>>>>>>>>> critical */ 
+#if 0
  Thread* l=swap(th,&ready.last);
  l->next=th;
+#endif
 }
 
 void thread_create(Thread* th,
@@ -53,28 +74,26 @@ void thread_create(Thread* th,
 {
  th->next=0;
  coroutine_init(run,pool,size_byte,&(th->cor));
+ printf("create %p\n",th);
  thread_ready(th);
 }
 
 void thread_yield()
 {
-  
  Thread* r=run;
- while(1)
- {
-  thread_ready(r);
-  Thread* th=ready.first;
-  ready.first=th->next;
-  if ((th!=&ready.n0) && (th!=&ready.n1)) 
-     {
-      run=th;
-      coroutine_transfer(&(r->cor),&(run->cor));
-     }
-  thread_ready(th);   
- }
+ thread_ready(r);
+ Thread* th=ready.first;
+ ready.first=th->next;
+ if ((th!=&ready.n0) && (th!=&ready.n1)) 
+    {
+     run=th;
+     coroutine_transfer(&(r->cor),&(run->cor));
+    }
+ thread_ready(th);   
 }
 
 void thread_run() 
 {
  while(1) thread_yield();
 }
+

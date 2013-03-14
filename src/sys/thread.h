@@ -26,6 +26,7 @@ extern void thread_ready(Thread* th);
 
 extern __attribute__((noreturn)) void thread_run(); /* never returnS */
                                 /* called from main as last function */
+
 /* ------------------------------------------------ queues */ 
 typedef struct WaitQueue WaitQueue; 
 

@@ -11,7 +11,7 @@ Clock clock;
 static void onTick()
 {
  clock_tick(&clock);
- clock_show(&clock);
+ clock_display(&clock);
  TIMER0.IntClr=0;
 }
 
@@ -49,7 +49,7 @@ int main()
                 (1<<1) | /* 32 bit */
 		(0<<0) | /* wrapping */
 		    0;
- clock_show(&clock);
+ clock_display(&clock);
  while(1)
  {
   do_clock();

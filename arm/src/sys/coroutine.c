@@ -18,7 +18,7 @@ struct Status
 void coroutine_init(void (*code)(),
                     void* pool,
 	            unsigned size_byte,
-		    Coroutine* co)
+		    Coroutine*const co)
 {
  Status* status=(Status*)((unsigned char*)pool+(size_byte-sizeof(Status)));
  for(unsigned i=0;i<13;++i) status->ri[i]=i;
@@ -26,7 +26,7 @@ void coroutine_init(void (*code)(),
  co->status=status;
 }
 
-void coroutine_show(Coroutine* co)
+void coroutine_show(const Coroutine*const co)
 {
  printf("pool = %p\n",co->pool);
  if (co->pool==0) return;

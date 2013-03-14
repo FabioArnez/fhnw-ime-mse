@@ -14,16 +14,24 @@ typedef struct
 
 typedef struct
 {
+ Color color[7];
+ Pixel pos[7];
+} Digit;
+
+
+typedef struct
+{
  Time   time;
- Pixel  pos;
+ Digit  hh[2];
+ Digit  mm[2];
+ Digit  ss[2];
 } Clock;
 
 extern void clock_init();
 
-extern void clock_create(Clock*const      clock,
-                         const Time*const time,
+extern void clock_create(Clock*const       clock,
+                         const Time*const  time,
                          unsigned x,unsigned y);  /* position on screen */
 
-extern void clock_show(const Clock*const clock);
-
+extern void clock_display(Clock*const clock);
 extern void clock_tick(Clock*const clock);

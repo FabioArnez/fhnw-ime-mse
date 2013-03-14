@@ -13,6 +13,7 @@ bit  5..10 GREEN
 bit 11..15 BLUE
 */
 extern const Color WHITE;
+extern const Color BLACK;
 
 typedef volatile Color* Pixel;
 

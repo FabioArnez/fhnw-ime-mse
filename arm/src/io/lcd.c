@@ -60,6 +60,7 @@ VAR(PCellID3    ,0xFFC      ,RO,0xB1      );/* PrimeCell Identification Register
 #define HE SVGA_HEIGHT
 
 const Color WHITE=0xffff;
+const Color BLACK=0x0000;
 
 static const struct 
 {
