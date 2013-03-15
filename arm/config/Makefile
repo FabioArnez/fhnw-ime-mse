@@ -66,13 +66,14 @@ uart-test.c \
 foreground-background.c \
 uart-foreground-background.c \
 page-fault-demo.c \
-sys/coroutine.c sys/coroutine0.S coroutine-test.c \
+sys/coroutine.c sys/coroutine0.S coroutine-demo.c \
 ps2-mouse-test.c \
 io/mouse.c mouse-demo.c \
 sys/thread.c thread-demo.c \
 atomic.c \
 clock.c \
 polling.c \
+coroutines.c \
 threads.c \
 interrupts.c \
 polling-interrupts.c \
@@ -121,7 +122,7 @@ mmu-test:	mmu-test.o sys/boot/big-bang.o sys/stack.o sys/mmu.o sys/deb.o
 #------------------------------- concurrency 
 foreground-background:	foreground-background.o ${SYSTEM}
 uart-foreground-background:	uart-foreground-background.o ${SYSTEM}
-coroutine-test: coroutine-test.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
+coroutine-demo: coroutine-demo.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
 thread-demo:	thread-demo.o sys/thread.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
 atomic: 	atomic.o ${SYSTEM}
 
@@ -145,6 +146,9 @@ include make.rules
 .PHONY rules:
 rules:	${SRC}
 	sh ../../tool/make-rules.sh ${SRC}
+.PHONY dirs:
+dirs:	
+	mkdir -p $(sort $(dir ${SRC}))
 
 .PHONY clean:
 clean:
