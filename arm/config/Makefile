@@ -34,7 +34,7 @@ LDFLAGS=-nostdlib -Wl,--script=../config/ram.ld -Wl,-Map -Wl,${@}.map
 %.o:	%.S;$(CC) ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
 
 
-SOURCE_PATH=../src ../src/concurrency  ../../src
+SOURCE_PATH=../src ../src/execution-environment  ../../src
 
 VPATH=$(foreach s,${SOURCE_PATH},:${s})
 export CPPFLAGS+=$(foreach s,${SOURCE_PATH},-I${s})
