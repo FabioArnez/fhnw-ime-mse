@@ -25,29 +25,21 @@ static void do_clock()
 		(0<<0) | /* wrapping */
  		(1<<5) | /* interrupt enable */
 		    0;
- while(1)
- {
   if (TIMER0.RIS) 
      {
       clock_tick(&clock);
       clock_display(&clock);
       TIMER0.IntClr=0;
      }
-  thread_yield(); /* release cpu */
- }    
 }
 
 static void do_echo()
 {
  uart_init();
- while(1)
- {
   if (uart_avail())
      {
       uart_out(uart_in());
      }
-  thread_yield(); /* release cpu */
- }
 }
 
 
@@ -55,8 +47,5 @@ int main()
 {
  Thread clockTh;
  Thread echoTh;
- thread_create(&clockTh,do_clock,clockPool,sizeof(clockPool));
- thread_create(&echoTh, do_echo, echoPool, sizeof(echoPool));
- thread_run();
  return 0; 
 }

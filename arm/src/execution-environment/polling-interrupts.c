@@ -11,11 +11,11 @@
 #include "stdio.h"
 #include "sys/deb.h"
 
-#define TIMER_0_1 36
-Time  t={23,59,55};
 Clock clock;  
 
-static volatile unsigned tick=0;
+static volatile unsigned tick=0; /* acessed asynchronously by
+                                      interrupt onTick:  foreground
+				                do_clock:background */ 
 
 static void onTick()
 {
@@ -45,14 +45,13 @@ static void do_echo()
     }
 }
 
-
-
-
+#define TIMER_0_1 36
 int main()
 {
  arm_init();
  gic_init();
  clock_init();
+ Time  t={23,59,55};
  clock_create(&clock,&t,50,50);
  clock_display(&clock); 
  

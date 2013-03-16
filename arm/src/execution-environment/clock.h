@@ -7,9 +7,7 @@
 
 typedef struct
 {
- unsigned hh;
- unsigned mm;
- unsigned ss;
+ unsigned hh,mm,ss;
 } Time;
 
 typedef struct
