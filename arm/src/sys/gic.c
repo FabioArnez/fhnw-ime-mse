@@ -8,7 +8,6 @@
 #include "sys/gic.h"
 #include "sys/arm.h"
 #include "sys/deb.h"
-#include "stdio.h"  /* for debug only */
 
 typedef struct{
        unsigned CPUControl;         /* 000 */

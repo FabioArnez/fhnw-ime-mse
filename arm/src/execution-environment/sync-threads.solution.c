@@ -1,34 +1,18 @@
 /*--------------------
-  threads-interrupt
+  thread
   (c) H.Buchmann FHNW 2013
  ---------------------*/
-#include "sys/arm.h"
 #include "sys/timer.h"
 #include "io/uart.h"
 #include "clock.h"
 #include "sys/thread.h"
-#include "sys/gic.h"
 #include "stdio.h"
 
-unsigned clockPool[0x400];
+unsigned tickPool[0x400];
 unsigned echoPool[0x400];
 
-WaitQueue clockQ;
-
-#define TIMER_0_1 36
-static volatile unsigned tick=0;
-static void onTick()
+static void doTick()
 {
- ++tick;
- TIMER0.IntClr=0;
- thread_ready_from(&clockQ);
-}
-
-static void do_clock()
-{
- thread_wait_init(&clockQ,0,0);
- gic_install(TIMER_0_1,onTick);
- gic_enable(TIMER_0_1);
  Time  t={23,59,55};
  Clock clock;  
  clock_init();
@@ -43,13 +27,17 @@ static void do_clock()
 		    0;
  while(1)
  {
-  thread_wait_at(&clockQ);
-  clock_tick(&clock);
-  clock_display(&clock);
+  if (TIMER0.RIS) 
+     {
+      clock_tick(&clock);
+      clock_display(&clock);
+      TIMER0.IntClr=0;
+     }
+  thread_yield(); /* release cpu */
  }    
 }
 
-static void do_echo()
+static void doEcho()
 {
  uart_init();
  while(1)
@@ -65,13 +53,10 @@ static void do_echo()
 
 int main()
 {
- arm_init();
- gic_init();
- arm_irq(1);
- Thread clockTh;
+ Thread tickTh;
  Thread echoTh;
- thread_create(&clockTh,do_clock,clockPool,sizeof(clockPool));
- thread_create(&echoTh, do_echo, echoPool, sizeof(echoPool));
+ thread_create(&tickTh,doTick,tickPool,sizeof(tickPool));
+ thread_create(&echoTh,doEcho,echoPool,sizeof(echoPool));
  thread_run();
  return 0; 
 }

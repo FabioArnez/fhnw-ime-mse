@@ -7,21 +7,4 @@
 #if __ASSEMBLER__ == 1
 .global coroutine_transfer
 #else
-
-typedef struct 
-{
-  unsigned r[16];
-} Register;
-
-typedef union 
-{
- unsigned* stack;
- Register* regs;
-}Coroutine;
-
-typedef struct
-{
- unsigned r[16]; //the register list r0..r15
-}Status;
-
 #endif

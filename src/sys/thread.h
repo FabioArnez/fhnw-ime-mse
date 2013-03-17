@@ -14,9 +14,9 @@ struct Thread
 
 
 extern void thread_create(Thread* th,
-                          void (*run)(),
+                          void (*code)(),
                           void* pool,
-			  unsigned size_byte);
+			  unsigned pool_size_byte);
 
 extern void thread_yield();
 

@@ -5,7 +5,6 @@
 -------------------------*/
 #include "stdio.h"
 #include "sys/coroutine.h"
-#include "sys/arm.h"
 
 Coroutine cor0;
 Coroutine cor1;
@@ -24,7 +23,6 @@ void coroutine()
 
 int main()
 {
- arm_init();
  coroutine_init(coroutine,pool,sizeof(pool),&cor1);
  while(1)
  {

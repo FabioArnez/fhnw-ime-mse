@@ -8,13 +8,13 @@
 #include "sys/coroutine.h"
 #include "stdio.h"
 
-Coroutine clockCo;
-unsigned clockPool[0x400];
+Coroutine tickCo;
+unsigned  tickPool[0x400];
 
 Coroutine echoCo;
 unsigned echoPool[0x400];
 
-static void do_clock()
+static void doTick()
 {
  Time  t={23,59,55};
  Clock clock;           /* clock now local */
@@ -36,14 +36,14 @@ static void do_clock()
 }
 
 
-static void do_echo()
+static void doEcho()
 {
  uart_init();
   if (uart_avail())
      {
       uart_out(uart_in());
      }
-  coroutine_transfer(&echoCo,&clockCo); /* explicit transfer */
+  coroutine_transfer(&echoCo,&tickCo); /* explicit transfer */
 }
 
 

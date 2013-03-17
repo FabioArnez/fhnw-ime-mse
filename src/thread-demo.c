@@ -6,7 +6,7 @@
 #include "sys/thread.h"
 #include "stdio.h"
 
-void run1()
+void code1()
 {
  while(1)
  {
@@ -15,7 +15,7 @@ void run1()
  }
 }
 
-void run2()
+void code2()
 {
  while(1)
  {
@@ -31,7 +31,7 @@ Thread th2;
 
 int main()
 {
- thread_create(&th1,run1,pool1,sizeof(pool1));
- thread_create(&th2,run2,pool2,sizeof(pool2));
+ thread_create(&th1,code1,pool1,sizeof(pool1));
+ thread_create(&th2,code2,pool2,sizeof(pool2));
  thread_run(); /* never returns */
 }

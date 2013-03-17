@@ -72,12 +72,12 @@ io/mouse.c mouse-demo.c \
 sys/thread.c thread-demo.c \
 atomic.c \
 clock.c \
-polling.c \
+sync-polling.c \
 coroutines.c \
-threads.c \
+sync-threads.c \
 interrupts.c \
-polling-interrupts.c \
-threads-interrupts.c
+async-polling.c \
+async-threads.c
 
 SYSTEM=sys/stack.o sys/arm.o sys/mmu.o sys/gic.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
 #------------------------------------------ <applications>
@@ -126,14 +126,14 @@ coroutine-demo: coroutine-demo.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
 thread-demo:	thread-demo.o sys/thread.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
 atomic: 	atomic.o ${SYSTEM}
 
-polling:	polling.o clock.o ${LCD} ${SYSTEM}
+sync-polling:	sync-polling.o clock.o ${LCD} ${SYSTEM}
 COROUTINE=sys/coroutine.o sys/coroutine0.o
 coroutines:	coroutines.o clock.o ${COROUTINE} ${LCD} ${SYSTEM}
 THREAD=${COROUTINE} sys/thread.o
-threads:	threads.o clock.o ${THREAD} ${LCD} ${SYSTEM}  
+sync-threads:	sync-threads.o clock.o ${THREAD} ${LCD} ${SYSTEM}  
 interrupts:	interrupts.o clock.o ${LCD} ${SYSTEM}
-polling-interrupts:	polling-interrupts.o clock.o ${LCD} ${SYSTEM}
-threads-interrupts:	threads-interrupts.o clock.o ${THREAD} ${LCD} ${SYSTEM}
+async-polling:	async-polling.o clock.o ${LCD} ${SYSTEM}
+async-threads:	async-threads.o clock.o ${THREAD} ${LCD} ${SYSTEM}
 #------------------------------- mouse
 ps2-mouse-test: ps2-mouse-test.o  ${SYSTEM}
 mouse-demo:	mouse-demo.o io/mouse.o ${SYSTEM}	

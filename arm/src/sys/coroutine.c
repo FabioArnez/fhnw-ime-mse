@@ -6,6 +6,7 @@
  ../src/sys/coroutine.c:27:12: warning: assignment from incompatible pointer type [enabled by default]
 -----------------------------*/
 #include "sys/coroutine.h"
+#include "sys/coroutine0.h"
 #include "stdio.h"
 
 

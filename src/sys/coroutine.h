@@ -15,9 +15,10 @@ union Coroutine
 
 extern void coroutine_init(void (*code)(),
                            void*    pool,
-			   unsigned size_byte,
+			   unsigned pool_size_byte,
                            Coroutine*const co);
 			   
-extern void coroutine_transfer(Coroutine*const from,Coroutine*const to);
+extern void coroutine_transfer(Coroutine*const from,
+                               Coroutine*const to);
 
 extern void coroutine_show(const Coroutine*const co);

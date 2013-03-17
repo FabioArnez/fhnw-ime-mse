@@ -8,10 +8,10 @@
 #include "sys/thread.h"
 #include "stdio.h"
 
-unsigned clockPool[0x400];
-unsigned uartPool[0x400];
+unsigned tickPool[0x400];
+unsigned echoPool[0x400];
 
-static void do_clock()
+static void doTick()
 {
  Time  t={23,59,55};
  Clock clock;  
@@ -25,38 +25,27 @@ static void do_clock()
 		(0<<0) | /* wrapping */
  		(1<<5) | /* interrupt enable */
 		    0;
- while(1)
- {
   if (TIMER0.RIS) 
      {
       clock_tick(&clock);
       clock_display(&clock);
       TIMER0.IntClr=0;
      }
-  thread_yield(); /* release cpu */
- }    
 }
 
-static void do_uart()
+static void doEcho()
 {
  uart_init();
- while(1)
- {
   if (uart_avail())
      {
       uart_out(uart_in());
      }
-  thread_yield(); /* release cpu */
- }
 }
 
 
 int main()
 {
- Thread clockTh;
- Thread uartTh;
- thread_create(&clockTh,do_clock,clockPool,sizeof(clockPool));
- thread_create(&uartTh, do_uart, uartPool, sizeof(uartPool));
- thread_run();
+ Thread tickTh;
+ Thread echoTh;
  return 0; 
 }

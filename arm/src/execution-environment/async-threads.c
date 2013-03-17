@@ -10,10 +10,10 @@
 #include "sys/gic.h"
 #include "stdio.h"
 
-unsigned clockPool[0x400];
-unsigned uartPool[0x400];
+unsigned tickPool[0x400];
+unsigned echoPool[0x400];
 
-WaitQueue clockQ;
+WaitQueue tickQ;
 
 #define TIMER_0_1 36
 static volatile unsigned tick=0;
@@ -21,12 +21,12 @@ static void onTick()
 {
  ++tick;
  TIMER0.IntClr=0;
- thread_ready_from(&clockQ);
+ thread_ready_from(&tickQ);
 }
 
-static void do_clock()
+static void doTick()
 {
- thread_wait_init(&clockQ,0,0);
+ thread_wait_init(&tickQ,0,0);
  gic_install(TIMER_0_1,onTick);
  gic_enable(TIMER_0_1);
  Time  t={23,59,55};
@@ -43,13 +43,14 @@ static void do_clock()
 		    0;
  while(1)
  {
-  thread_wait_at(&clockQ);
+  thread_wait_at(&tickQ);
+  --tick;
   clock_tick(&clock);
   clock_display(&clock);
  }    
 }
 
-static void do_uart()
+static void doEcho()        /* still a polling thread */
 {
  uart_init();
  while(1)
@@ -68,10 +69,10 @@ int main()
  arm_init();
  gic_init();
  arm_irq(1);
- Thread clockTh;
- Thread uartTh;
- thread_create(&clockTh,do_clock,clockPool,sizeof(clockPool));
- thread_create(&uartTh, do_uart, uartPool, sizeof(uartPool));
+ Thread tickTh;
+ Thread echoTh;
+ thread_create(&tickTh,doTick,tickPool,sizeof(tickPool));
+ thread_create(&echoTh,doEcho,echoPool,sizeof(echoPool));
  thread_run();
  return 0; 
 }
