@@ -50,7 +50,7 @@ static void doTick()
  }    
 }
 
-static void doEcho()        /* still a polling thread */
+static void doEcho()  
 {
  uart_init();
  uart_start();
