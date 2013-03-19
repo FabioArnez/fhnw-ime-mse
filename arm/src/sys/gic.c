@@ -9,6 +9,8 @@
 #include "sys/arm.h"
 #include "sys/deb.h"
 
+#include "sys/stack.h"
+
 typedef struct{
        unsigned CPUControl;         /* 000 */
        unsigned Priority;           /* 004 */   
@@ -85,6 +87,12 @@ __attribute__((naked)) void gic_onIRQ()
 __attribute__((interrupt("IRQ"))) void gic_onIRQ()
 #endif
 {
+#if 0
+ printf("    _stack_top= %p\n"
+        "_irq_stack_top= %p\n",_stack_top,_irq_stack_top);
+ printf("sp=%x\n",arm_get_sp());
+ while(1){}
+#endif 
  while(1)
  {
   unsigned id=GIC1_IFC.Acknowledge;

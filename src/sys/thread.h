@@ -3,12 +3,13 @@
  thread
  (c) H.Buchmann FHNW 2012
  $Id$
+ TODO discuss the volatile stuff
 ----------------------------*/
 #include "sys/coroutine.h"
 typedef struct Thread Thread;
 struct Thread
 {
- Thread*   next;
+ volatile Thread*   next;
  Coroutine cor;
 };
 
@@ -21,7 +22,7 @@ extern void thread_create(Thread* th,
 extern void thread_yield();
 
 
-extern void thread_ready(Thread* th);
+extern void thread_ready(volatile Thread* th);
  /* th *not* running */
 
 extern __attribute__((noreturn)) void thread_run(); /* never returnS */
@@ -39,7 +40,7 @@ struct WaitQueue
 };
 
 
-extern void thread_wait_init(WaitQueue* q,void (*lock),void (*unlock)());
+extern void thread_wait_init(volatile WaitQueue* q,void (*lock),void (*unlock)());
 extern void thread_put(Thread*const th);
-extern void thread_wait_at(WaitQueue*const q);
-extern void thread_ready_from(WaitQueue*const q);
+extern void thread_wait_at(volatile WaitQueue*const q);
+extern void thread_ready_from(volatile WaitQueue*const q);

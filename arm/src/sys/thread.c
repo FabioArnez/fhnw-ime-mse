@@ -26,7 +26,7 @@ static struct
 {
  Thread n0;
  Thread n1;
-          Thread* first;
+ volatile Thread* first;
  volatile Thread* last; /*accessible by fore and background */
 } ready =            /* n0 -> n1 
                         ^     ^
@@ -39,9 +39,9 @@ static struct
 };
 
 
-static Thread*     run=&main_;
+static volatile Thread*     run=&main_;
 
-static void showThread(const Thread*const th)
+static void showThread(volatile const Thread*const th)
 {
   if (th==&ready.n0) 
      {
@@ -61,7 +61,7 @@ static void show(const char*const msg)
  printf("%smain=%p\n",msg,&main_);
  printf("run =%p\n",run);
  printf("ready\n");
- Thread* th=ready.first;
+ volatile Thread* th=ready.first;
  while(th!=0)
  {
   showThread(th);
@@ -80,7 +80,7 @@ static void showQueue(const WaitQueue* q)
  }
 }
 
-void thread_ready(Thread* th)
+void thread_ready(volatile Thread* th)
 {
 /*<<<<<<<<<<<<<<<<<<<<<<< critical  */
  th->next=0;
@@ -104,11 +104,11 @@ void thread_create(Thread* th,
  thread_ready(th);
 }
 
-static Thread* next()
+static volatile Thread* next()
 {
  while(1)
  {
-  Thread* th=ready.first;
+  volatile Thread* th=ready.first;
   ready.first=th->next;
   if ((th!=&ready.n0) && (th!=&ready.n1))
      {
@@ -136,7 +136,7 @@ void thread_run()
  while(1) thread_yield();
 }
 
-void thread_wait_init(WaitQueue*const q,void (*lock),void (*unlock)())
+void thread_wait_init(volatile WaitQueue*const q,void (*lock),void (*unlock)())
 {
  q->lock=lock;
  q->unlock=unlock;
@@ -146,7 +146,7 @@ void thread_wait_init(WaitQueue*const q,void (*lock),void (*unlock)())
 
 
 
-void thread_wait_at(WaitQueue*const q)
+void thread_wait_at(volatile WaitQueue*const q)
 {
  Thread* r=run;
  r->next=0;
@@ -165,9 +165,9 @@ void thread_wait_at(WaitQueue*const q)
  coroutine_transfer(&(r->cor),&(run->cor));   
 }
 
-void thread_ready_from(WaitQueue*const q)
+void thread_ready_from(volatile WaitQueue*const q)
 {
- Thread* th=q->first;
+ volatile Thread* th=q->first;
  if (th==0) return; 
  q->first=th->next;
  if (q->first==0) q->last=0;

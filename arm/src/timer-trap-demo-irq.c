@@ -35,7 +35,6 @@ int main()
 		(0<<0) | /* wrapping */
 		    0;
  printf("PSR=%x\n",arm_getCPSR());
- gic_debug();
  while(1)
  {
   deb_out(deb_in());

@@ -53,13 +53,11 @@ static void doTick()
 static void doEcho()        /* still a polling thread */
 {
  uart_init();
+ uart_start();
  while(1)
  {
-  if (uart_avail())
-     {
-      uart_out(uart_in());
-     }
-  thread_yield(); /* release cpu */
+  char ch=uart_get();
+  uart_out(ch);
  }
 }
 

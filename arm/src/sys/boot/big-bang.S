@@ -58,7 +58,7 @@ onReset:
 	bl .setStack
 
 	bl _start 
-0:	b 0b				    /* forever */	
+0:	b 0b				    /* forever */
 
 /*-------------------------------------- displacement */
 .displacement:

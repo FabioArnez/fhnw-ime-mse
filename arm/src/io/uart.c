@@ -8,6 +8,7 @@
  -----------------------*/
 #include"io/uart.h"
 #include "sys/gic.h"
+#include "sys/thread.h"
 
 extern volatile struct                             /* see [2] 3.2 */
 {
@@ -35,17 +36,6 @@ extern volatile struct                             /* see [2] 3.2 */
 
 #define BUSY (1<<3)
 
-void uart_init()
-{
- static unsigned initalized=0;
- if (initalized) return;
- ++initalized;
- /* TODO initialize it */
-  while(uart_avail())
- {
-  uart_in();
- }
-}
 
 /*------------------------------------------------------- polling */
 void uart_out(char ch)
@@ -66,6 +56,9 @@ unsigned uart_avail()
 }
 
 
+/*--------------------------------------- foreground - background */
+static volatile WaitQueue rxQueue;
+
 static volatile struct 
 {
  char pool[1<<FIFO];
@@ -74,17 +67,20 @@ static volatile struct
  unsigned size;
 } fifo = {put:0,get:0,size:0};
 
-static void fifo_put(char ch)
+static void fifo_put(char ch)                     /* foreground */
 {
  fifo.pool[fifo.put++]=ch;
  fifo.put&=((1<<FIFO)-1); /* fast modulo */
 /*<<<<<<<<<<<<<<<< critical */
   if (fifo.size<(1<<FIFO)) ++fifo.size;
 /*>>>>>>>>>>>>>>>> critical */
+ thread_ready_from(&rxQueue);
+
 }
 
 char uart_get() /* assuming size>0 */
 {
+ thread_wait_at(&rxQueue);
  if (fifo.size==0) return 0;
 /*<<<<<<<<<<<<<<<< critical */
   --fifo.size;
@@ -127,6 +123,19 @@ void uart_start()
 void uart_install(void (*li)(char))
 {
  listener=li;
+}
+
+void uart_init()
+{
+ static unsigned initalized=0;
+ if (initalized) return;
+ ++initalized;
+ /* TODO initialize it */
+  while(uart_avail()) /* empty rx buffer */
+ {
+  uart_in();
+ }
+ thread_wait_init(&rxQueue,0,0);
 }
 
 
