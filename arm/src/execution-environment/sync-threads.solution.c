@@ -3,7 +3,7 @@
   (c) H.Buchmann FHNW 2013
  ---------------------*/
 #include "sys/timer.h"
-#include "io/uart.h"
+#include "io/uart-poll.h"
 #include "clock.h"
 #include "sys/thread.h"
 #include "stdio.h"

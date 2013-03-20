@@ -6,7 +6,7 @@
 #include "sys/arm.h"
 #include "sys/gic.h"
 #include "sys/timer.h"
-#include "io/uart.h"
+#include "io/uart-irq.h"
 #include "clock.h"
 #include "stdio.h"
 #include "sys/deb.h"
@@ -39,9 +39,9 @@ static void doTick()
 
 static void doEcho()
 {
- if (uart_rx_size()>0)
+ if (uart_irq_avail()>0)
     {
-     uart_out(uart_get()); 
+     uart_irq_out(uart_irq_in()); 
     }
 }
 
@@ -58,7 +58,7 @@ int main()
 
  gic_install(TIMER_0_1,onTick);
  gic_enable(TIMER_0_1);
- uart_start();
+ uart_irq_start();
  arm_irq(1);
 
  TIMER0.Load=0x100000; /* the count */

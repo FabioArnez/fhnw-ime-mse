@@ -7,7 +7,7 @@
 #include "sys/timer.h"
 #include "sys/gic.h"
 #include "sys/arm.h"
-#include "io/uart.h"
+#include "io/uart-poll.h"
 
 #define TIMER_0_1 36
 
@@ -52,7 +52,7 @@ static void loop()
  int own_loop_tick=0;
  while(1)
  {
-  if (uart_avail()) break;
+  if (uart_poll_avail()) break;
   volatile int l0=tick; /* for real assignment */
   --l0;
   wait(0x10);

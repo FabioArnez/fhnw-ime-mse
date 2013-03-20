@@ -114,9 +114,6 @@ void gic_init()
  GIC1_IFC.Priority=0xff;
  GIC1_DIS.Control=1;
  for(unsigned k=0;k<24;++k) GIC1_DIS.CPUTargets[k]=1;
-#if 1
- printf("---------------------ControllerType=%x\n",GIC1_DIS.ControllerType);
-#endif
  arm_set_exception(IRQ,gic_onIRQ);
 }
 
@@ -141,7 +138,7 @@ static void bits(const char*const name,const unsigned*const b,unsigned len)
 
 void gic_debug()
 {
-#if 1
+#if 0
 // deb_key_val("Highest_Pending",GIC1_IFC.Highest_Pending);
  bits("EnableSet",GIC1_DIS.EnableSet,3);
  bits("PendingSet",GIC1_DIS.PendingSet,3);

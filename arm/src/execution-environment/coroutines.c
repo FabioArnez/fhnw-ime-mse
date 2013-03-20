@@ -3,7 +3,7 @@
   (c) H.Buchmann FHNW 2013
  ---------------------*/
 #include "sys/timer.h"
-#include "io/uart.h"
+#include "io/uart-poll.h"
 #include "clock.h"
 #include "sys/coroutine.h"
 #include "stdio.h"
@@ -38,10 +38,10 @@ static void doTick()
 
 static void doEcho()
 {
- uart_init();
-  if (uart_avail())
+ uart_poll_init();
+  if (uart_poll_avail())
      {
-      uart_out(uart_in());
+      uart_poll_out(uart_poll_in());
      }
   coroutine_transfer(&echoCo,&tickCo); /* explicit transfer */
 }

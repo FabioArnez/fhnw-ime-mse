@@ -5,7 +5,7 @@
 #include "sys/arm.h"
 #include "sys/gic.h"
 #include "sys/timer.h"
-#include "io/uart.h"
+#include "io/uart-irq.h"
 #include "clock.h"
 #include "stdio.h"
 #include "sys/deb.h"
@@ -37,9 +37,9 @@ int main()
  clock_create(&clock,&t,50,50);
  clock_display(&clock); 
  
- uart_init();
- uart_install(onChar);
- uart_start();
+ uart_irq_init();
+ uart_irq_install(onChar);
+ uart_irq_start();
  
  gic_install(TIMER_0_1,onTick);
  gic_enable(TIMER_0_1);

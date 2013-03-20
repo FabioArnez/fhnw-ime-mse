@@ -3,7 +3,7 @@
   (c) H.Buchmann FHNW 2013
  ---------------------*/
 #include "sys/timer.h"
-#include "io/uart.h"
+#include "io/uart-poll.h"
 #include "clock.h"
 
 Clock clock;                                               /* global */
@@ -20,16 +20,16 @@ static void doTick()
 
 static void doEcho()
 {
- if (uart_avail())
+ if (uart_poll_avail())
     {
-     uart_out(uart_in()); 
+     uart_poll_out(uart_poll_in()); 
     }
 }
 
 
 int main()
 {
- uart_init();
+ uart_poll_init();
  clock_init();
  Time  t={23,59,55};
  clock_create(&clock,

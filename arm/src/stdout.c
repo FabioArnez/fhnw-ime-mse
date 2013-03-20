@@ -5,22 +5,27 @@
 -------------------------------*/
 #include "stdout.h"
 #include "io/ascii.h"
-#include "io/uart.h"
+#include "io/uart-poll.h"
+
+static void out(char ch)
+{
+ uart_poll_out(ch);
+}
 
 static void newln()
 {
- uart_out('\n');
+ uart_poll_out('\n');
 }
 
 static void tab()
 {
- uart_out('\t');
+ uart_poll_out('\t');
 }
 
 void stdout_init()
 {
 }
 
-Out stdout_={uart_out,newln,tab};
+Out stdout_={out,newln,tab};
 Out* stdout=&stdout_;
 

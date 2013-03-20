@@ -4,7 +4,7 @@
  ---------------------*/
 #include "sys/arm.h"
 #include "sys/timer.h"
-#include "io/uart.h"
+#include "io/uart-irq.h"
 #include "clock.h"
 #include "sys/thread.h"
 #include "sys/gic.h"
@@ -52,12 +52,12 @@ static void doTick()
 
 static void doEcho()  
 {
- uart_init();
- uart_start();
+ uart_irq_init();
+ uart_irq_start();
  while(1)
  {
-  char ch=uart_get();
-  uart_out(ch);
+  char ch=uart_irq_in();
+  uart_irq_out(ch);
  }
 }
 

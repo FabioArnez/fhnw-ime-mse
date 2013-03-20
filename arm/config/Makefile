@@ -15,7 +15,7 @@ CC=${PREFIX}-gcc
 LD=${PREFIX}-ld
 OBJCOPY=${PREFIX}-objcopy
 CXX=${PREFIX}-g++
-CFLAGS=-std=gnu9x -O2 -g
+CFLAGS=-std=gnu9x -O2 -g 
 
 CPPFLAGS+=-DIRQ_STACK_SIZE_WORD=0x20 \
           -DUNDEF_STACK_SIZE_WORD=0x20 \
@@ -42,7 +42,6 @@ export CPPFLAGS+=$(foreach s,${SOURCE_PATH},-I${s})
 #------------------------------------------ <source files>
 SRC=hello-world.c \
 stdio.c io/ascii.c stdout.c \
-io/uart.c \
 sys/boot/big-bang.S sys/start.c \
 accessing-hardware.c \
 sys/timer.c timer-test.c \
@@ -53,6 +52,7 @@ gic-test.c sys/gic.c \
 io/lcd.c lcd-demo.c \
 io/font.c \
 io/screen.c \
+io/uart-poll.c io/uart-irq.c \
 ascii-test.c \
 cpu-demo-ops.S cpu-demo.c \
 sys/arm.c \
@@ -63,8 +63,6 @@ common-access.c \
 mmu-test.c sys/mmu.c \
 swi-trap-demo.c \
 uart-test.c \
-foreground-background.c \
-uart-foreground-background.c \
 page-fault-demo.c \
 sys/coroutine.c sys/coroutine0.S coroutine-demo.c \
 ps2-mouse-test.c \
@@ -79,7 +77,24 @@ interrupts.c \
 async-polling.c \
 async-threads.c
 
-SYSTEM=sys/stack.o sys/arm.o sys/mmu.o sys/gic.o sys/deb.o stdio.o io/ascii.o stdout.o io/uart.o sys/boot/big-bang.o sys/start.o
+SYSTEM=sys/stack.o sys/arm.o sys/mmu.o io/uart-poll.o io/uart-base.o sys/gic.o sys/deb.o stdio.o io/ascii.o stdout.o sys/boot/big-bang.o sys/start.o
+
+all:	hello-world accessing-hardware timer-test cpu-demo \
+ 	undef-trap-demo swi-trap-demo page-fault-demo \
+	timer-trap-demo-hw timer-trap-demo-polling timer-trap-demo-irq \
+	common-access\
+	gic-test\
+	lcd-demo lcd-demo-0 ascii-test\
+	mmu-test\
+	coroutine-demo\
+	thread-demo\
+	sync-polling \
+	coroutines\
+	sync-threads\
+	interrupts\
+	async-polling\
+	async-threads
+
 #------------------------------------------ <applications>
 hello-world:	hello-world.o ${SYSTEM}
 accessing-hardware:	accessing-hardware.o ${SYSTEM}
@@ -120,8 +135,6 @@ mmu-test:	mmu-test.o sys/boot/big-bang.o sys/stack.o sys/mmu.o sys/deb.o
 
 
 #------------------------------- concurrency 
-foreground-background:	foreground-background.o ${SYSTEM}
-uart-foreground-background:	uart-foreground-background.o ${SYSTEM}
 coroutine-demo: coroutine-demo.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
 thread-demo:	thread-demo.o sys/thread.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
 atomic: 	atomic.o ${SYSTEM}
@@ -131,9 +144,9 @@ COROUTINE=sys/coroutine.o sys/coroutine0.o
 coroutines:	coroutines.o clock.o ${COROUTINE} ${LCD} ${SYSTEM}
 THREAD=${COROUTINE} sys/thread.o
 sync-threads:	sync-threads.o clock.o ${THREAD} ${LCD} ${SYSTEM}  
-interrupts:	interrupts.o clock.o ${LCD} ${SYSTEM}
-async-polling:	async-polling.o clock.o ${LCD} ${SYSTEM}
-async-threads:	async-threads.o clock.o ${THREAD} ${LCD} ${SYSTEM}
+interrupts:	interrupts.o clock.o io/uart-irq.o ${THREAD}  ${LCD} ${SYSTEM}
+async-polling:	async-polling.o io/uart-irq.o clock.o ${THREAD} ${LCD} ${SYSTEM}
+async-threads:	async-threads.o clock.o io/uart-irq.o ${THREAD} ${LCD} ${SYSTEM}
 #------------------------------- mouse
 ps2-mouse-test: ps2-mouse-test.o  ${SYSTEM}
 mouse-demo:	mouse-demo.o io/mouse.o ${SYSTEM}	
