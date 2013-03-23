@@ -6,6 +6,7 @@
        nesting interrupts
 -------------------------------------*/
 #include "sys/gic.h"
+#include "sys/gic0.h"
 #include "sys/arm.h"
 #include "sys/deb.h"
 
@@ -79,19 +80,13 @@ void gic_install(unsigned id,Trap t)
  gic_disable(id);
 }
 
-/*------------------------------- called by hardware */
-#ifdef __clang__
-#error not yet implemented
-__attribute__((naked)) void gic_onIRQ()
-#else
-__attribute__((interrupt("IRQ"))) void gic_onIRQ()
-#endif
+#if 1
+void gic_onIRQ()
 {
 #if 0
  printf("    _stack_top= %p\n"
         "_irq_stack_top= %p\n",_stack_top,_irq_stack_top);
  printf("sp=%x\n",arm_get_sp());
- while(1){}
 #endif 
  while(1)
  {
@@ -102,6 +97,20 @@ __attribute__((interrupt("IRQ"))) void gic_onIRQ()
   GIC1_IFC.EndInterrupt=id;
  }
 }
+#endif
+
+#ifndef ON_IRQ
+/*------------------------------- called by hardware */
+#ifdef __clang__
+#error not yet implemented
+__attribute__((naked)) static void onIRQ()
+#else
+__attribute__((interrupt("IRQ"))) static void onIRQ()
+#endif
+{
+ gic_onIRQ();
+}
+#endif
 
 void gic_init()
 {
@@ -114,7 +123,7 @@ void gic_init()
  GIC1_IFC.Priority=0xff;
  GIC1_DIS.Control=1;
  for(unsigned k=0;k<24;++k) GIC1_DIS.CPUTargets[k]=1;
- arm_set_exception(IRQ,gic_onIRQ);
+ arm_set_exception(IRQ,onIRQ);
 }
 
 void gic_trigger(unsigned id)

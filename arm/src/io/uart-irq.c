@@ -15,37 +15,37 @@
 
 
 /*--------------------------------------- foreground - background */
-static volatile WaitQueue rxQueue;
+static volatile WaitQueue rxWait;   /* threads waiting for a char */
 
 #define FIFO 4
-static volatile struct 
-{
+static volatile struct  
+{        /* chars read from hardware not yet consumed by a thread */
  char pool[1<<FIFO];
  unsigned put;
  unsigned get;
  unsigned size;
-} fifo = {put:0,get:0,size:0};
+} charFifo = {put:0,get:0,size:0};
 
 static void fifo_put(char ch)                     /* foreground */
 {
- fifo.pool[fifo.put++]=ch;
- fifo.put&=((1<<FIFO)-1); /* fast modulo */
+ charFifo.pool[charFifo.put++]=ch;
+ charFifo.put&=((1<<FIFO)-1); /* fast modulo */
 /*<<<<<<<<<<<<<<<< critical */
-  if (fifo.size<(1<<FIFO)) ++fifo.size;
+  if (charFifo.size<(1<<FIFO)) ++charFifo.size;
 /*>>>>>>>>>>>>>>>> critical */
- thread_ready_from(&rxQueue);
+ thread_ready_from(&rxWait);
 
 }
 
 char uart_irq_in() /* assuming size>0 */
 {
- thread_wait_at(&rxQueue);
- if (fifo.size==0) return 0;
+ thread_wait_at(&rxWait);
+ if (charFifo.size==0) return 0;
 /*<<<<<<<<<<<<<<<< critical */
-  --fifo.size;
+  --charFifo.size;
 /*>>>>>>>>>>>>>>>> critical */
- char ch=fifo.pool[fifo.get++];
- fifo.get&=((1<<FIFO)-1); /* fast modulo */
+ char ch=charFifo.pool[charFifo.get++];
+ charFifo.get&=((1<<FIFO)-1); /* fast modulo */
  return ch;
 }
 
@@ -59,7 +59,7 @@ void uart_irq_out(char ch)
 unsigned uart_irq_avail()
 {
 /*<<<<<<<<<<<<<<<< critical */
- return fifo.size;
+ return charFifo.size;
 /*>>>>>>>>>>>>>>>> critical */
 }
 
@@ -101,7 +101,7 @@ void uart_irq_init()
  {
   uart_irq_in();
  }
- thread_wait_init(&rxQueue,0,0);
+ thread_wait_init(&rxWait,0,0);
 }
 
 

@@ -48,7 +48,7 @@ sys/timer.c timer-test.c \
 sys/deb.c sys/sys.c \
 sys/stack.c \
 undef-trap-demo.c \
-gic-test.c sys/gic.c \
+gic-test.c sys/gic.c sys/gic0.S \
 io/lcd.c lcd-demo.c \
 io/font.c \
 io/screen.c \
@@ -75,9 +75,12 @@ coroutines.c \
 sync-threads.c \
 interrupts.c \
 async-polling.c \
-async-threads.c
+async-threads.c \
+uart-demo.c 
 
-SYSTEM=sys/stack.o sys/arm.o sys/mmu.o io/uart-poll.o io/uart-base.o sys/gic.o sys/deb.o stdio.o io/ascii.o stdout.o sys/boot/big-bang.o sys/start.o
+GIC=sys/gic.o sys/gic0.o
+
+SYSTEM=sys/stack.o sys/arm.o sys/mmu.o io/uart-poll.o io/uart-base.o ${GIC} sys/deb.o stdio.o io/ascii.o stdout.o sys/boot/big-bang.o sys/start.o
 
 all:	hello-world accessing-hardware timer-test cpu-demo \
  	undef-trap-demo swi-trap-demo page-fault-demo \
@@ -147,6 +150,7 @@ sync-threads:	sync-threads.o clock.o ${THREAD} ${LCD} ${SYSTEM}
 interrupts:	interrupts.o clock.o io/uart-irq.o ${THREAD}  ${LCD} ${SYSTEM}
 async-polling:	async-polling.o io/uart-irq.o clock.o ${THREAD} ${LCD} ${SYSTEM}
 async-threads:	async-threads.o clock.o io/uart-irq.o ${THREAD} ${LCD} ${SYSTEM}
+uart-demo:	uart-demo.o io/uart-irq.o ${THREAD} ${LCD} ${SYSTEM}
 #------------------------------- mouse
 ps2-mouse-test: ps2-mouse-test.o  ${SYSTEM}
 mouse-demo:	mouse-demo.o io/mouse.o ${SYSTEM}	

@@ -35,7 +35,8 @@ pthread-mutex.c \
 pthread-semaphore.c \
 pthread-trigger.c \
 ioport.c \
-atomic.c 
+atomic.c \
+pthread-demo.c
 
 cpu-demo: 	cpu-demo.o cpu-demo-ops.o
 samples:	samples.o
@@ -50,6 +51,7 @@ pthread-mutex:	pthread-mutex.o
 pthread-semaphore:	pthread-semaphore.o
 pthread-trigger:	pthread-trigger.o
 ioport: 	ioport.o
+pthread-demo:	pthread-demo.o
 
 include make.rules
 

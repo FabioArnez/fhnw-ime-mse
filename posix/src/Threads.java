@@ -6,40 +6,45 @@
 import java.util.Date;
 class Threads //dont confuse with java.lang.Thread
 {
- static final long COUNT =(1<<27);
- static final int  RUN   =32;
+ static final long COUNT         =(1<<27); 
+ static final long SLEEP         = 63;    //milliseconds */ 
+ static final int  RUN           = 32;
  
- PoC poc[];
+ TheThread theThreads[];
   
- class PoC implements Runnable //the peace of code
+ class TheThread implements Runnable //the peace of code
  {
-  private Date   t0=new Date();
           Thread th=new Thread(this); 
   private int    id;
-  private long   count=0;
   private int    run=0;
           long[] time=new long[RUN];
    
-  PoC(int id) throws Exception
+  TheThread(int id) throws Exception
   {
    this.id=id;
-   poc[id]=this;
+   theThreads[id]=this; /* insert in global list */
    th.start();
+  }
+  
+  private void busy(long count) throws Exception
+  {
+   while(count>0){--count;}
   }
   
   public void run() // the implementation of Runnable
   {
-   while(true)  //simply run
+   try
    {
-    ++count;
-    if (count==COUNT) 
-       {
-        count=0;
-        Date t1=new Date();
-	time[run++]=t1.getTime()-t0.getTime();
-	t0=t1;
-	if (run==RUN) break; // terminates thread 
-       }
+    for(int r=0;r<RUN;++r)
+    {
+     long t0=System.currentTimeMillis();
+     busy(COUNT);
+//    Thread.sleep(SLEEP);
+     long t1=System.currentTimeMillis();
+     time[r]=t1-t0;
+    }
+   } catch(Exception ex)
+   {
    }
   }
   
@@ -47,31 +52,73 @@ class Threads //dont confuse with java.lang.Thread
   {
    th.join();
   }
-
  }
  
- private Threads(int pocN) throws Exception
+ private void gnuplot() // see slides 
  {
-  poc=new PoC[pocN];
-  for(int i=0;i<pocN;++i)
+  System.out.println(
+  "set style data histograms\n"+
+  "set style histogram rowstacked\n"+
+  "set style fill solid 1.0 border -1\n"+
+  "set title '"+theThreads.length+" Thread(s)'\n"+
+  "set xlabel 'run'\n"+
+  "set ylabel 'time[ms]'");
+
+  System.out.print("plot");
+  for(int i=0;i<theThreads.length;++i)
   {
-   new PoC(i); //first PoC
+   if (i>0) System.out.print(',');
+   System.out.println("\\");
+   System.out.print("'-' using 2 title 'T#"+i+"'");
   }
-  for(PoC p:poc)p.join();
-  
-  for(int i=0;i<RUN;++i)
+  System.out.println();
+  for(TheThread th:theThreads)
   {
-   System.out.print(i);
-   for(PoC p:poc) System.out.print("\t"+p.time[i]);
+   for(int i=0;i<RUN;++i)
+   {
+    System.out.println(i+"\t"+th.time[i]);
+   }
+   System.out.println("e");
+  }
+ }
+
+ private void time()
+ {
+  long sum=0;
+  for(int r=0;r<RUN;++r)
+  {
+   System.out.print(r);
+   for(TheThread th:theThreads)
+   {
+    long ti=th.time[r];
+    sum+=ti;
+    System.out.print("\t"+ti);
+   }
    System.out.println();
   }
  }
+  
+ private Threads(int threadsN) throws Exception
+ {
+  long t0=System.currentTimeMillis();
+  theThreads=new TheThread[threadsN];
+  for(int i=0;i<threadsN;++i)
+  {
+   new TheThread(i); 
+  }
+  for(TheThread th:theThreads) th.join();
+  long total=System.currentTimeMillis()-t0;
+  gnuplot();
+//  time();
+  System.err.println(total);
+ }
+ 
  
  public static void main(String args[]) throws Exception
  {
-  if (args.lenght!=1)
+  if (args.length!=1)
      {
-      System.err.println("usage Threads numberOfThreads");
+      System.err.println("usage Threads nbrOfThreads");
       System.exit(1);
      }
   new Threads(Integer.parseInt(args[0]));
