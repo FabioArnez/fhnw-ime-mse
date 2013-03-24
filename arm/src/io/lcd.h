@@ -25,6 +25,9 @@ extern Pixel lcd_pixel(unsigned x,unsigned y);
 
 /* TODO more graphic primitives */
 /* pix upper left corner */
-extern unsigned lcd_glyph(Pixel pix,Color c,const Glyph*const g);
+extern unsigned lcd_glyph(Pixel pix,
+                          Color c,
+			  const Glyph*const g); 
+ 
 extern unsigned lcd_char(Pixel pix,Color c,char ch);
 /* returns witdh of character in pixel */

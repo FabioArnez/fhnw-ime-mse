@@ -141,6 +141,7 @@ unsigned lcd_glyph(Pixel pix,Color c,const Glyph*const g)
  return g->wi_pix;
 }
 
+
 unsigned  lcd_char(Pixel pix,Color c,char ch)
 {
  Glyph g;
