@@ -5,16 +5,24 @@
 -------------------------*/ 
 #include "sys/coroutine0.h"
 
+/*
+ stack 
+ running                          next  
+---> r0                             r0  <--- sp 
+     r1                             r1
+     ..                             .. 
+     r12                            r12
+     lr                             lr 
+     -  <--- sp->from  to->sp ---->  -
+*/
 .text
 /* void coroutine_transfer(Coroutine* from,Coroutine* to) 
  r0 -> from
  r1 -> to
 */
 coroutine_transfer:
-	push {r0-r12,lr}
-	str sp,[r0]
-	ldr sp,[r1]
-	add r2,sp,#(14*4)
-	str r2,[r1]
-	pop {r0-r12,pc}
+	push {r0-r12,lr}              /* save state */
+	str sp,[r0]                    /* into from */
+	ldr sp,[r1]           
+	pop {r0-r12,pc}            /* restore state */
 	

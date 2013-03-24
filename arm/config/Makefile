@@ -64,7 +64,7 @@ mmu-test.c sys/mmu.c \
 swi-trap-demo.c \
 uart-test.c \
 page-fault-demo.c \
-sys/coroutine.c sys/coroutine0.S coroutine-demo.c \
+sys/coroutine.c sys/coroutine0.S coroutine-test.c coroutine-demo.c \
 ps2-mouse-test.c \
 io/mouse.c mouse-demo.c \
 sys/thread.c thread-demo.c \
@@ -139,6 +139,7 @@ mmu-test:	mmu-test.o sys/boot/big-bang.o sys/stack.o sys/mmu.o sys/deb.o
 
 #------------------------------- concurrency 
 coroutine-demo: coroutine-demo.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
+coroutine-test: coroutine-test.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
 thread-demo:	thread-demo.o sys/thread.o sys/coroutine0.o sys/coroutine.o ${SYSTEM}
 atomic: 	atomic.o ${SYSTEM}
 
