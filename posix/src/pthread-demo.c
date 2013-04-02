@@ -18,7 +18,7 @@ static void* run(void* localData)
 {
  while(1)                              /* forever */
  {
-  printf("%s\n",((LocalData*)localData)->name);
+ // printf("%s\n",((LocalData*)localData)->name);
  }
 }
 
