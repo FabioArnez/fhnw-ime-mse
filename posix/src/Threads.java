@@ -38,8 +38,8 @@ class Threads //dont confuse with java.lang.Thread
     for(int r=0;r<RUN;++r)
     {
      long t0=System.currentTimeMillis();
-     busy(COUNT);
-//    Thread.sleep(SLEEP);
+//     busy(COUNT);
+     Thread.sleep(SLEEP);
      long t1=System.currentTimeMillis();
      time[r]=t1-t0;
     }
