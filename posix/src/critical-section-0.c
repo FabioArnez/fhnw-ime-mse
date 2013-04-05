@@ -1,5 +1,5 @@
 /*-------------------------
- pthread.c
+ critical-section-0
  (c) H.Buchmann FHNW 2012
  $Id$
 ---------------------------*/
@@ -7,9 +7,9 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-#define COUNT (1ul<<15)
+#define COUNT (1ul<<20)
 
-static int error(int cod,char* msg)
+static int error(int cod,const char*const msg)
 {
  if (cod<0)
     {
@@ -24,7 +24,7 @@ typedef struct
  unsigned val;
 } Shared;
 
- Shared theShared; /* try without volatile */
+volatile Shared theShared; /* try without volatile */
 
 static void* increment(void* data)
 {
@@ -81,8 +81,8 @@ static void concurrent()
 int main(int argc,char** args)
 {
  theShared.val=0; 
-// sequentially();
- concurrent();
+/* sequentially(); */
+/* concurrent(); */
  result();
  return 0;
 }

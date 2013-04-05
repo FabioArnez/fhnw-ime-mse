@@ -30,7 +30,10 @@ function-parameter.c \
 pointer.c \
 mmap.c \
 primes.c \
-pthread.c \
+critical-section-0.c \
+critical-section-2.c \
+critical-section-3.c \
+critical-section-4.c \
 pthread-mutex.c \
 pthread-semaphore.c \
 pthread-trigger.c \
@@ -45,7 +48,10 @@ function-parameter:	function-parameter.o
 pointer:	pointer.o
 mmap:		mmap.o
 primes: 	primes.o
-pthread:	pthread.o
+critical-section-0:	critical-section-0.o
+critical-section-2:	critical-section-2.o
+critical-section-3:	critical-section-3.o
+critical-section-4:	critical-section-4.o
 atomic: 	atomic.o
 pthread-mutex:	pthread-mutex.o
 pthread-semaphore:	pthread-semaphore.o

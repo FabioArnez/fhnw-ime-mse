@@ -1,16 +1,16 @@
 /*-------------------------
- atomic.c
+ critical-section-4.c semaphores
  (c) H.Buchmann FHNW 2012
  $Id$
- see Atomic.java
 ---------------------------*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <semaphore.h>
 
-#define COUNT (1ul<<15)
+#define COUNT (1ul<<25)
 
-static int error(int cod,char* msg)
+static int error(int cod,const char*const msg)
 {
  if (cod<0)
     {
@@ -22,17 +22,20 @@ static int error(int cod,char* msg)
 
 typedef struct
 {
- volatile unsigned val;
+ sem_t guard;                      /* the semaphore */
+ volatile unsigned val; /* check if really volatile */
 } Shared;
 
-Shared theShared; /* try without volatile */
+Shared theShared;
 
 static void* increment(void* data)
 {
  unsigned long count=COUNT;
  while(count--)
  {
-  __sync_add_and_fetch(&theShared.val,1);
+  sem_wait(&theShared.guard);/* close semaphore */
+  ++theShared.val;
+  sem_post(&theShared.guard); /* open semaphore */
  }
 }
 
@@ -42,7 +45,9 @@ static void* decrement(void *data)
  unsigned long count=COUNT;
  while(count--)
  {
-  __sync_add_and_fetch(&theShared.val,-1);
+  sem_wait(&theShared.guard); /* close semaphore */
+  --theShared.val;
+  sem_post(&theShared.guard); /* open semaphore */
  }
 }
 
@@ -76,6 +81,10 @@ static void concurrent()
 int main(int argc,char** args)
 {
  theShared.val=0; 
+ error(sem_init(&theShared.guard,
+                0, /* not shared among processes */
+		1), /* initially open */
+		"sem_init");
  concurrent();
  result();
  return 0;
