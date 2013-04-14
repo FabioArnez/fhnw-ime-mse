@@ -39,7 +39,8 @@ pthread-semaphore.c \
 pthread-trigger.c \
 ioport.c \
 atomic.c \
-pthread-demo.c
+pthread-demo.c \
+sys-call.S
 
 cpu-demo: 	cpu-demo.o cpu-demo-ops.o
 samples:	samples.o
@@ -58,6 +59,7 @@ pthread-semaphore:	pthread-semaphore.o
 pthread-trigger:	pthread-trigger.o
 ioport: 	ioport.o
 pthread-demo:	pthread-demo.o
+sys-call:	sys-call.o
 
 include make.rules
 

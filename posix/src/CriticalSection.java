@@ -3,13 +3,13 @@
 // shows the problem
 //(c) H.Buchmann FHNW 2013
 //---------------------------------
+import java.util.concurrent.atomic.AtomicLong;
 
-class CriticalSection0 
+class CriticalSection
 {
  static class Section
  {
-  private long val=0;
-  
+  private AtomicLong val=new AtomicLong(0);
   Section()
   {
   }
@@ -18,12 +18,12 @@ class CriticalSection0
   
   void inc()
   {
-   ++val;
+   val.incrementAndGet();
   }
   
   void dec()
   {
-   --val;
+   val.decrementAndGet();
   }
  }
  
@@ -48,10 +48,17 @@ class CriticalSection0
 
   public void run() 
   {
-   while(cnt>0)
+   try
    {
-    section();
-    --cnt;
+    while(cnt>0)
+    {
+     section();
+     --cnt;
+    }
+   }
+   catch(Exception ex)
+   {
+    ex.printStackTrace();
    }
   }
   
@@ -83,7 +90,7 @@ class CriticalSection0
    start();
   }
   
-  void section()
+  void section() 
   {
    section.inc();
   }
