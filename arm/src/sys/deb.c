@@ -6,7 +6,46 @@
  compile with at least O2
 ----------------------*/
 #include "sys/deb.h"
+static const char*const RegisterNames[]=
+{
+"r0", "r1", "r2", "r3",
+"r4", "r5", "r6", "r7",
+"r8", "r9", "r10","r11",
+"r12",
+"sp",
+"lr",
+"pc"
+};
 
+typedef struct 
+{
+  unsigned reg[16];
+}Register;
+
+
+void deb_showregister(Register*r)
+{
+// deb_key_val("r",(unsigned)r);
+#if 1
+ for(unsigned i=0;i<16;++i)
+ {
+  deb_key_val(RegisterNames[i],r->reg[i]);
+ }
+#endif
+}
+
+#if 0
+void deb_register()
+{
+ Register r;
+ deb_register0(&r);
+ for(unsigned i=0;i<16;++i)
+ {
+  deb_key_val(RegisterNames[i],r.reg[i]);
+ }
+}
+#endif
+ 
 extern volatile struct 
 {
  unsigned DR;                         /*Data register */ 

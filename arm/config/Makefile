@@ -45,7 +45,8 @@ stdio.c io/ascii.c stdout.c \
 sys/boot/big-bang.S sys/start.c \
 accessing-hardware.c \
 sys/timer.c timer-test.c \
-sys/deb.c sys/sys.c \
+sys/deb.c sys/deb0.S \
+sys/sys.c \
 sys/stack.c \
 undef-trap-demo.c \
 gic-test.c sys/gic.c sys/gic0.S \
@@ -76,11 +77,13 @@ sync-threads.c \
 interrupts.c \
 async-polling.c \
 async-threads.c \
-uart-demo.c 
+uart-demo.c \
+sergio-paganoni.c \
 
 GIC=sys/gic.o sys/gic0.o
 
-SYSTEM=sys/stack.o sys/arm.o sys/mmu.o io/uart-poll.o io/uart-base.o ${GIC} sys/deb.o stdio.o io/ascii.o stdout.o sys/boot/big-bang.o sys/start.o
+SYSTEM=sys/stack.o sys/arm.o sys/mmu.o io/uart-poll.o io/uart-base.o ${GIC} \
+sys/deb.o sys/deb0.o stdio.o io/ascii.o stdout.o sys/boot/big-bang.o sys/start.o
 
 all:	hello-world accessing-hardware timer-test cpu-demo \
  	undef-trap-demo swi-trap-demo page-fault-demo \
@@ -104,7 +107,7 @@ accessing-hardware:	accessing-hardware.o ${SYSTEM}
 timer-test:	timer-test.o sys/timer.o ${SYSTEM}
 
 cpu-demo:	cpu-demo.o cpu-demo-ops.o ${SYSTEM}
-
+sergio-paganoni:	sergio-paganoni.o ${SYSTEM}
 #-----------------------------------------undef-trap-demo
 undef-trap-demo:	undef-trap-demo.o ${SYSTEM}
 

@@ -26,3 +26,5 @@ inline void deb_pointer(const void*const p)
 {
  deb_hex((unsigned)p);
 }
+
+extern void deb_register();
