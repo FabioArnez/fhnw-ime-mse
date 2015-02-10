@@ -1,8 +1,15 @@
 #-------------------------
 #Makefile
 #(c) H.Buchmann FHNW 2011
-#$Id$
 #-------------------------
+
+#----------------------- your comments and notes
+
+
+
+
+
+#---------------------------------------------------<setup>
 CC=gcc
 CXX=g++
 #-------------------- uncomment if you are using clang
@@ -23,6 +30,7 @@ export CPPFLAGS:=-I../src -I ../../src
 #-------------------------- where to look for the files
 VPATH=../src:../../src
 
+#---------------------------------------------------<source files>
 SRC= \
 hello-world.c \
 cpu-demo.c \
@@ -47,6 +55,7 @@ atomic.c \
 pthread-demo.c \
 sys-call.S
 
+#---------------------------------------------------<applications>
 hello-world:	hello-world.o
 cpu-demo: 	cpu-demo.o cpu-demo-ops.o
 samples-demo:	samples-demo.o sound/alsa.o sound/samples.o tim.o
@@ -69,10 +78,10 @@ sys-call:	sys-call.o
 
 include make.rules
 
-#-------------------------------------- admin
+#---------------------------------------------------<admin>
 .PHONY rules:
 rules:	${SRC}
-	sh ../tool/make-rules.sh ${SRC}
+	sh ../../tool/make-rules.sh ${SRC}
 
 .PHONY clean:
 clean:

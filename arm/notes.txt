@@ -10,20 +10,15 @@ Your Notes:
  
 Preparing Work:
 ---------------
- clone repository
- git clone https://github.com/hans-buchmann/fhnw-ime-mse.git name-of-your-local-repository
+we are in arm
 
-First program in posix
- 
-$cd path-to-posix
- 
-$ls 
-config  src  tool
+link to toolchain
+
+$ln -s path-to-toolchain tc
 
 $mkdir work
 
 $cd work
-
 $ln -s ../config/Makefile
 
 create empty make.rules 
