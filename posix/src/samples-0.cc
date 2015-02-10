@@ -27,7 +27,7 @@ class Time
 Time::Time()
 {
  clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&cpu);
- clock_gettime(CLOCK_MONOTONIC,          &tim);
+ clock_gettime(CLOCK_MONOTONIC,         &tim);
 }
 
 void Time::showDiff(const Time& to)const
@@ -48,7 +48,7 @@ class Player
 {
  public:
   Player(unsigned fs,               //sampling frequency 
-         unsigned bSize);
+         unsigned bSize);           //buffer size
   ~Player();
   
   void sample(double v);         // -1<=v<1 
@@ -139,7 +139,7 @@ Generator::Generator(Player& player,
   double y1=x0*sin_ + y0*cos_;
   x0=x1;
   y0=y1;
-#if 1
+#if 0
   for(unsigned i=0;i<4000;++i)
   {
    volatile unsigned v=i;
@@ -153,7 +153,7 @@ int main(int argc,char** args)
 {
  Player p(48000,1024);
  Time start;
- Generator gen(p,0.875,440,2);
+ Generator gen(p,0.875,880,2);
 // Time end;
  start.showDiff(Time());
 }

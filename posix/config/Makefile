@@ -11,7 +11,7 @@ CXX=g++
 
 OPTIMIZE=2
 CFLAGS=-O${OPTIMIZE} -g -std=c99 
-CXXFLAGS=-O${OPTIMIZE}
+CXXFLAGS=-O${OPTIMIZE} -std=c++11
 LDLIBS=-lm -lpthread -lasound
 
 #posix files will be searched normally
@@ -25,7 +25,9 @@ VPATH=../src:../../src
 SRC=cpu-demo.c \
 cpu-demo-ops.c \
 stdio-test.c \
-samples.cc \
+samples-demo.cc \
+sound/samples.cc  sound/alsa.cc \
+tim.cc\
 function-parameter.c \
 pointer.c \
 mmap.c \
@@ -43,7 +45,7 @@ pthread-demo.c \
 sys-call.S
 
 cpu-demo: 	cpu-demo.o cpu-demo-ops.o
-samples:	samples.o
+samples-demo:	samples-demo.o sound/alsa.o sound/samples.o tim.o
 sound:		sound.o
 function-parameter:	function-parameter.o
 pointer:	pointer.o
