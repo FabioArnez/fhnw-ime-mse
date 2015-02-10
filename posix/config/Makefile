@@ -3,7 +3,7 @@
 #(c) H.Buchmann FHNW 2011
 #$Id$
 #-------------------------
-CC=g++
+CC=gcc
 CXX=g++
 #-------------------- uncomment if you are using clang
 #CC=clang
@@ -15,14 +15,17 @@ CXXFLAGS=-O${OPTIMIZE} -std=c++11
 LDLIBS=-lm -lpthread -lasound
 
 #posix files will be searched normally
-export CPPFLAGS:=-iquote ../src -iquote ../../src 
+export CPPFLAGS:=-I../src -I ../../src 
+
 #-------------------------- how to link
 %:	%.o;${CXX} ${LDFLAGS} ${^} ${LOADLIBES} ${LDLIBS} -o${@}
 
 #-------------------------- where to look for the files
 VPATH=../src:../../src
 
-SRC=cpu-demo.c \
+SRC= \
+hello-world.c \
+cpu-demo.c \
 cpu-demo-ops.c \
 stdio-test.c \
 samples-demo.cc \
@@ -44,6 +47,7 @@ atomic.c \
 pthread-demo.c \
 sys-call.S
 
+hello-world:	hello-world.o
 cpu-demo: 	cpu-demo.o cpu-demo-ops.o
 samples-demo:	samples-demo.o sound/alsa.o sound/samples.o tim.o
 sound:		sound.o
@@ -68,7 +72,7 @@ include make.rules
 #-------------------------------------- admin
 .PHONY rules:
 rules:	${SRC}
-	sh ../../tool/make-rules.sh ${SRC}
+	sh ../tool/make-rules.sh ${SRC}
 
 .PHONY clean:
 clean:

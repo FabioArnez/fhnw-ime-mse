@@ -1,22 +1,2 @@
 *.o
-*.bbl
-*.blg
 work
-*.log
-*.out
-*.aux
-*.log
-*.toc
-*.snm
-*.idx
-*.nav
-files
-*.class
-qemu
-#------------------- 
-#own .git
-qemu-devel
-tc
-*.iso
-iso/
-distro*

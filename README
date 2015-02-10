@@ -1,19 +1,22 @@
-The home of sos
----------------
+The home the repo 
+-----------------
 
 src 
-  *.c/h files
+  *.c/cc/h files
 
 host:   simulated POSIX
   config: Makefiles etc.
   src
-  work
 
-arm:   minimal arm realview virtual machines
+arduino-due: 
+  config
+  src: * cc/h files
+  tool: for downloading
+      
+arm:   qemu minimal arm realview virtual machines
   config	
   src
-  tool:     arm specific tools
-  work
+  tool:     arm/qemu specific tools
 
 intel: minimal BIOS based virtual machine
   config
@@ -21,11 +24,10 @@ intel: minimal BIOS based virtual machine
   iso:      contents of boot CD-ROM used by virtualbox
   sos.iso:  the boot CD-ROM 
   tool:     intel specific tools
-  work
 
 posix: fully equipped posix system
   config 
-  src *.c/h and *.java Files
-  work
+  src *.c/cc/h and *.java Files
   
 tool: scripts
+
