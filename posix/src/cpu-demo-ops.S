@@ -6,7 +6,25 @@
 /*assembler format:
   mnem src,dst  mnem: mnemonic 
                 data flow left to right
-		
+
+  important instructions
+  
+  mov src,dst
+  -----------
+      reg->reg
+       mov %reg,%reg
+
+      reg->memory
+       mov %reg,(%reg)
+
+      memory->reg
+       mov (%reg),&reg
+ 
+  op src,dst
+  ----------
+  
+     src=src op dst
+    		
   calling conventions:
    see [1] System V Application Binary Interface
            AMD64 Architecture Processor Supplement
@@ -26,9 +44,7 @@ rax         edi        esi
 */
 .global op
 op:
-        mov %edi,%eax
-	add %esi,%eax 
-	ret
+   /* your work */
 
 /*
 TODO 
@@ -52,10 +68,8 @@ esi---------->|        |
               +--------+
 */
 .global copy
-copy:
-	mov (%esi),%eax
-	mov %eax, (%edi)
-        ret
+copy: 
+/* your work */
         
 /*
 void swap(unsigned* x,unsigned* y)
@@ -72,8 +86,6 @@ rsi---------->|        |
 */
 
 .global swap
-swap:   mov (%esi),%eax
-	mov (%edi),%edx
-	mov %edx,(%esi)
-	mov %eax,(%edi)
+swap:   
+/* your work */
 	ret
