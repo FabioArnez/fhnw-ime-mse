@@ -22,6 +22,7 @@
   <spec mod="sys/boot/big-bang" type="S"/>
   <spec mod="sys/deb/deblow0" type="S"/>
   <spec mod="test/svc-handler" type="S"/>
+  <spec mod="cpu-demo-ops" type="S"/>
 
 <!--
   <spec mod="sys/event" type="S"/>
@@ -51,6 +52,11 @@
   <mod name="led-demo"/>
  </prj>
  
+ <prj name="cpu-demo">
+  <ref id="minimum"/>
+  <mod name="cpu-demo"/>
+  <mod name="cpu-demo-ops"/>
+ </prj>
  
  <makefile>
   <pre>
