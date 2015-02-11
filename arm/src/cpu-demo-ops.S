@@ -50,7 +50,7 @@ TODO
   return r0<-r0 op r1
 -----------------------------------*/  
 .global op
-op:	sub r0,r0,r1
+op:/* your work */
 	mov pc,lr
 
 
@@ -72,9 +72,7 @@ op:	sub r0,r0,r1
   	 
 -----------------------------------*/  
 .global copy
-copy:	ldr r2,[r1]            /* r2<-[r1] */  
-	str r2,[r0]            /*r2-> [r0] */
-	mov pc,lr
+copy:	/* your work */
  
  
 
@@ -95,12 +93,7 @@ copy:	ldr r2,[r1]            /* r2<-[r1] */
          +---------+
 */
 .global swap
-swap:
-	ldr r2,[r0]
-	ldr r3,[r1]
-	str r2,[r1]
-	str r3,[r0]
-	mov pc,lr 
+swap:/* your work */
  
  
  
