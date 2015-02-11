@@ -13,7 +13,7 @@ to figure out the real name
 */
 .global _ZN4Demo2opEjj
 _ZN4Demo2opEjj:
-	add r0,r0,r1
+/* your work */
 	mov pc,lr
 
 
@@ -22,11 +22,7 @@ _ZN4Demo2opEjj:
 */
 .global _ZN4Demo4swapERjS0_
 _ZN4Demo4swapERjS0_:
- 	ldr r2,[r0]
-	ldr r3,[r1]
-	str r2,[r1]
-	str r3,[r0]
-	mov pc,lr
+/* your work */
 
 /* Demo::copy(unsigned int&, unsigned int&) 
 */
