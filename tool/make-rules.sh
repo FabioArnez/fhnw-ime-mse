@@ -3,7 +3,7 @@
 #(c) H.Buchmann FHNW 2011
 #$Id$
 #------------------------
-#echo  ${*}
+echo  ${*}
 
 rm -rf make.rules
 for src in ${*}

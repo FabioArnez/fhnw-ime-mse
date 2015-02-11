@@ -27,14 +27,20 @@ export CPPFLAGS:=-I../src -I ../../src
 #-------------------------- how to link
 %:	%.o;${CXX} ${LDFLAGS} ${^} ${LOADLIBES} ${LDLIBS} -o${@}
 
-#-------------------------- where to look for the files
-VPATH=../src:../../src
+#-------------------------- how to assemble
+%.o:	%.S;${CC} -c -o${@} ${^}
 
+#-------------------------- where to look for the files
+SRC_PATH=../src:../../src
+vpath %.c  ${SRC_PATH}
+vpath %.cc ${SRC_PATH}
+vpath %.S  ${SRC_PATH}
+vpath %.h  ${SRC_PATH}
 #---------------------------------------------------<source files>
 SRC= \
 hello-world.c \
 cpu-demo.c \
-cpu-demo-ops.c \
+cpu-demo-ops.S \
 stdio-test.c \
 samples-demo.cc \
 sound/samples.cc  sound/alsa.cc \

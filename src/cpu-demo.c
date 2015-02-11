@@ -1,5 +1,5 @@
 /*---------------------------
- cpu-demo
+ cpu-demo made with c++
  (c) H.Buchmann FHNW 2010
  $Id$
  ----------------------------*/
@@ -13,8 +13,10 @@ int main()
 {
  unsigned res=op(src,dst);
  printf("op(%d,%d)=%d\n",src,dst,res); 
- printf("before: src=%d dst=%d\n",src,dst);
- copy(&dst,&src);
- printf("after:  src=%d dst=%d\n",src,dst); 
+ printf("    before: src=%d dst=%d\n",src,dst);
+ swap(&src,&dst);
+ printf("after swap: src=%d dst=%d\n",src,dst); 
+ copy(&dst,&src); 
+ printf("after copy: src=%d dst=%d\n",src,dst); 
  return 0;
 }
