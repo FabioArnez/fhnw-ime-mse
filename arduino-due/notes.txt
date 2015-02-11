@@ -1,0 +1,38 @@
+Notes
+-----
+
+
+Your notes:
+
+Prepare
+-------
+Install minicom
+
+
+we are in repo
+
+
+$sh tools/make-work.sh
+
+$cd arduino-due/board
+
+make link to toolchain
+
+$ln -s path-to-toolchain tc
+
+$cd work
+
+make hello world
+
+
+$make startup-1
+
+execute on the arduino-due
+- connnect both USB cables
+- start minicom in separate shell
+
+$minicom -D /dev/ttyXXX
+XXX typ. ACM0
+
+$sh ../tool/flash-1.sh startup-1
+
