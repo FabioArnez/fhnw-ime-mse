@@ -9,6 +9,7 @@
 #include <alsa/asoundlib.h>
 namespace sound
 {
+//a Player for the soundcard
  class Alsa:public Player
  {
   public:

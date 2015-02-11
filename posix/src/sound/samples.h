@@ -7,7 +7,9 @@
 #include <iostream>
 namespace sound
 {
- class Player
+//----------------------------------------------------------
+// a Player plays samples
+ class Player                      //superclass of the Player 
  {
   public:
    Player(unsigned fs);               //fs sampling frequency
@@ -15,7 +17,8 @@ namespace sound
    virtual void sample(double v)=0; //-1<=v<=v 
  };
 
- class Stream:public Player  
+//a Player writing the samples to an output stream
+ class Stream:public Player    
  {
   public:
    Stream(unsigned fs,std::ostream& out);
@@ -26,6 +29,9 @@ namespace sound
    std::ostream& out;
  };
 
+
+//----------------------------------------------------------
+//creates samples for a Player
  class Generator
  {
   public:
@@ -35,6 +41,7 @@ namespace sound
    const double dt;  
  };
 
+//a sine wave generator
  class Sine:Generator //a very simple Player
  {
   public:
@@ -43,6 +50,7 @@ namespace sound
    static constexpr double PI=4*std::atan(1.0);
  };
 
+//a white nois generator
  class Noise:Generator
  {
   public:

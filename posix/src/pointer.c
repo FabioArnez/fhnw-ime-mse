@@ -1,7 +1,7 @@
 /*------------------------
  pointer
  (c) H.Buchmann FHNW 2011
- $Id$
+ before running this program think about the output
 --------------------------*/
 #include <stdio.h>
 

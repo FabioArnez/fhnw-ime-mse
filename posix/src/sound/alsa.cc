@@ -41,11 +41,23 @@ namespace sound
 
  void Alsa::play()
  {
+//  snd_pcm_state_t state=snd_pcm_state(pcm);
+//  std::cerr<<state<<"\n";
   snd_pcm_sframes_t f=snd_pcm_writei(pcm,buffer,sI);
+  while(f<0)
+  {
+   f=snd_pcm_recover(pcm,f,1);
+  }
+#if 0
   if (f<0)
      {
       std::cerr<<"err="<<snd_strerror(f)<<"\n";
      }
+     else
+     {
+      std::cerr<<"f="<<f<<"\n";
+     }
+#endif
   sI=0;
  }
 }

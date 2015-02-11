@@ -1,14 +1,15 @@
 #pragma once
 //----------------------------
-//time
+//timer 
 //(c) H.Buchmann FHNW 2015
+// see: int clock_gettime(clockid_t clk_id, struct timespec *tp);
 //----------------------------
 #include <time.h>
-class Time
+class Timer
 {
  public:
-   Time();
-  ~Time();
+   Timer(); //<----------------- start
+  ~Timer(); //<----------------- stops and display elapsed time 
  private:
   timespec cpu;
   timespec tim;

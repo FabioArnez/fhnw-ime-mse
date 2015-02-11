@@ -28,23 +28,25 @@ export CPPFLAGS:=-I../src -I ../../src
 %:	%.o;${CXX} ${LDFLAGS} ${^} ${LOADLIBES} ${LDLIBS} -o${@}
 
 #-------------------------- how to assemble
-%.o:	%.S;${CC} -c -o${@} ${^}
-
+%.o:	%.S ;${CC} -c -o${@} ${^}
+%.o:	%.cc;${CXX} ${CXXFLAGS} -c -o${@} ${<}
+%.o:	%.c ;${CC}  ${CFLAGS}   -c -o${@} ${<}
 #-------------------------- where to look for the files
 SRC_PATH=../src:../../src
-vpath %.c  ${SRC_PATH}
-vpath %.cc ${SRC_PATH}
-vpath %.S  ${SRC_PATH}
-vpath %.h  ${SRC_PATH}
+VPATH=${SRC_PATH}
+#vpath %.c  ${SRC_PATH}
+#vpath %.cc ${SRC_PATH}
+#vpath %.S  ${SRC_PATH}
+#vpath %.h  ${SRC_PATH}
 #---------------------------------------------------<source files>
 SRC= \
 hello-world.c \
 cpu-demo.c \
 cpu-demo-ops.S \
 stdio-test.c \
-samples-demo.cc \
+sound-demo.cc \
 sound/samples.cc  sound/alsa.cc \
-tim.cc\
+timer.cc \
 function-parameter.c \
 pointer.c \
 mmap.c \
@@ -64,7 +66,7 @@ sys-call.S
 #---------------------------------------------------<applications>
 hello-world:	hello-world.o
 cpu-demo: 	cpu-demo.o cpu-demo-ops.o
-samples-demo:	samples-demo.o sound/alsa.o sound/samples.o tim.o
+sound-demo:	sound-demo.o sound/alsa.o sound/samples.o timer.o
 sound:		sound.o
 function-parameter:	function-parameter.o
 pointer:	pointer.o

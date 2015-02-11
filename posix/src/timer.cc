@@ -2,19 +2,19 @@
 //time
 //(c) H.Buchmann FHNW 2015
 //----------------------------
-#include "tim.h"
+#include "timer.h"
 #include <iostream>
 
 //uncomment for test
 //#define TIM_TEST
 
-Time::Time()
+Timer::Timer()
 {
  clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&cpu);
  clock_gettime(CLOCK_MONOTONIC,         &tim);
 }
 
-Time::~Time()
+Timer::~Timer()
 {
  timespec cpu1;
  timespec tim1;
@@ -25,7 +25,7 @@ Time::~Time()
 }
 
 
-double Time::diff(const timespec& from,const timespec& to)
+double Timer::diff(const timespec& from,const timespec& to)
 {
  static const long TONANO=1000000000lu;
  
@@ -36,7 +36,7 @@ double Time::diff(const timespec& from,const timespec& to)
 #ifdef TIM_TEST
 int main(int argc,char** args)
 {
- Time t0;
+ Timer t0;
  char ch;
  std::cin>>ch;
  return 0;
