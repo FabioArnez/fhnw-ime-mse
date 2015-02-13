@@ -4,6 +4,7 @@
  ----------------------------*/
 .text
 
+/* TODO: look for the TODO's in the other cpu-demo-ops.S files */
 /* unsigned Demo::op(unsigned int, unsigned int)
    r0                r0            r1
 
