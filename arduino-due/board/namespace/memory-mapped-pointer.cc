@@ -48,9 +48,9 @@ class Demo
 {
  static Demo demo;
  static const unsigned TX_LED=1<<21; //bit number 21 of PIOA
- static PIO*const pioA;              //declaration  
+ static volatile PIO*const pioA;              //declaration  
  static const unsigned INPUT =1<<25; //Due Pin2 see [2] PIOB
- static PIO*const pioB;
+ static volatile PIO*const pioB;
  
 //#pragma GCC optimize ("-O0")
  void init();
@@ -64,9 +64,9 @@ class Demo
 
 Demo Demo::demo;  //instance created constructor called
 
-PIO*const Demo::pioA=(PIO*const)0x400e0e00u; 
+volatile PIO*const Demo::pioA=(volatile PIO*const)0x400e0e00u; 
                     //cast      see [1] Fig 8.1
-PIO*const Demo::pioB=(PIO*const)0x400e1000;
+volatile PIO*const Demo::pioB=(volatile PIO*const)0x400e1000;
                     //cast      see [1] Fig 8.1
 
 void Demo::init()
