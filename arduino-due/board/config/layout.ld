@@ -2,7 +2,7 @@
 ---------------------------
 layout no memory map
 (c) H.Buchmann FHNW 2014
-see: superfluous/eo3s/soc/AT91SAM/3X/doc/at91sam3x.pdf
+[1] at91sam3x.pdf
      22.5
 ---------------------------
 FLASH 2 x 256 KiB mapped to 0
@@ -96,6 +96,13 @@ STACK_TOP=0x20088000;
 }
 
 }
+
+/*------------------------- see memory-mapped-extern 
+[1] Section 8 */
+
+pioA  = 0x400e0e00 ;
+pioB  = 0x400e1000 ;
+/*---------------------------------------------------*/
 
 PIOA  = 0x400e0e00 ;
 PIOB  = 0x400e1000 ;

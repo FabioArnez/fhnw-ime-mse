@@ -58,6 +58,16 @@
   <mod name="cpu-demo-ops"/>
  </prj>
  
+ <prj name="memory-mapped-pointer">
+  <ref id="minimum"/>
+  <mod name="memory-mapped-pointer"/>
+ </prj>
+
+ <prj name="memory-mapped-extern">
+  <ref id="minimum"/>
+  <mod name="memory-mapped-extern"/>
+ </prj>
+ 
  <makefile>
   <pre>
 #uncomment EARLY_INIT 
