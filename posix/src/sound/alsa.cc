@@ -9,20 +9,29 @@
 #include <iostream>
 namespace sound
 {
+
+#define SND(call) \
+{unsigned res=snd_##call; \
+ if (res<0)\
+    {std::cerr<<snd_strerror(res)<<" "<<__LINE__<<"\n";\
+    }\
+}
+
  Alsa::Alsa(unsigned fs,unsigned bufferSize)
  :Player(fs)
  ,bS(bufferSize)
  ,buffer(new Sample[bS])
  {
   static const unsigned LATENCY=10;//250000;//TODO try other values 
-  snd_pcm_open(&pcm, "default", SND_PCM_STREAM_PLAYBACK, 0);
-  snd_pcm_set_params(pcm,
+  SND(pcm_open(&pcm, "default", SND_PCM_STREAM_PLAYBACK, SND_PCM_ASYNC));
+  SND(pcm_set_params(pcm,
 	             SND_PCM_FORMAT_S16_LE,
 		     SND_PCM_ACCESS_RW_INTERLEAVED,
 	             1,
 	             fs,
 	             0,
-		     LATENCY); //latency
+		     LATENCY)); //latency
+  SND(async_add_pcm_handler(&handler,pcm,&Alsa::listener,0));
  }
 
  Alsa::~Alsa()
@@ -33,6 +42,11 @@ namespace sound
   delete [] buffer;
  }
 
+ void Alsa::listener(snd_async_handler_t*)
+ {
+  std::cerr<<"listener\n";
+ }
+ 
  void Alsa::sample(double v)
  {
   buffer[sI++]=(Sample)(0x7fff*v); //scale

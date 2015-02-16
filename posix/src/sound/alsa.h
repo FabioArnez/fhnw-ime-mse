@@ -24,5 +24,7 @@ namespace sound
    Sample*         buffer;     //TODO sample type as template
    unsigned        sI=0;       //the current sample
    void play();                //the buffer
+   snd_async_handler_t* handler;
+   static void listener(snd_async_handler_t*);
  };
 }
