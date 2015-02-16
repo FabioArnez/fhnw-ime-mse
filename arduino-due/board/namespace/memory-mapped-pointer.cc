@@ -52,11 +52,11 @@ class Demo
  static const unsigned INPUT =1<<25; //Due Pin2 see [2] PIOB
  static PIO*const pioB;
  
-#pragma GCC optimize ("-O0")
+//#pragma GCC optimize ("-O0")
  void init();
-#pragma GCC optimize ("-O0")
+//#pragma GCC optimize ("-O0")
  void menu();
-#pragma GCC optimize ("-O0")
+//#pragma GCC optimize ("-O0")
  void read();
  Demo();  //the constructor
 };
