@@ -68,6 +68,11 @@
   <mod name="memory-mapped-extern"/>
  </prj>
  
+ <prj name="simple-uart">
+  <ref id="minimum"/>
+  <mod name="simple-uart"/>
+ </prj>
+ 
  <makefile>
   <pre>
 #uncomment EARLY_INIT 
