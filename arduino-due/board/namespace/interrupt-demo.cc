@@ -13,8 +13,7 @@ IMPLEMENTATION(interrupt_demo,$Id$)
 #include "sys/deb/deb.h"
 #include "sys/msg.h"
 /*--------------------------------------  objective
- VectorTable as an array of call-backs
-  check proper position
+ VectorTable set VTOR
 */  
 
 //our interrupt source:
@@ -25,16 +24,19 @@ extern volatile struct {  //see [2] B3.3.2
 		 unsigned CALIB;
 		} TICK;
 
+typedef void (*Trap)(); //we use it more than once
+
+extern volatile Trap* VTOR;
 
 class Demo
 {
  static Demo demo;
  Demo();
  static void tickInit();
- static alignas(1<<7) void (*vectorTable[46])(); //see [1] 12-3/12.21.5
+ alignas(1<<7) static  Trap  vectorTable[46]; //see [1] 12-3/12.21.5
 };
 
-alignas(1<<7) void (*Demo::vectorTable[46])();
+alignas(1<<7) Trap Demo::vectorTable[46];
 
 void Demo::tickInit() //see [2] Table B3-30
 {
@@ -48,6 +50,8 @@ Demo Demo::demo;
 Demo::Demo()
 {
  sys::msg<<"interrupt-demo\n"
-         <<(void*)vectorTable<<"\n"; //show address of vectorTable
-	  //check alignement|bit 29 see [1] 12.21.5
+         <<"vectorTable= "<<(void*)vectorTable<<"\n" //show address of vectorTable
+	 <<"VTOR before= "<<(void*)VTOR<<"\n";
+ VTOR=vectorTable;
+ sys::msg<<"VTOR after= "<<(void*)VTOR<<"\n";	 
 }
