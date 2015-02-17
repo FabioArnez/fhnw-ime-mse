@@ -13,7 +13,7 @@ IMPLEMENTATION(interrupt_demo,$Id$)
 #include "sys/deb/deb.h"
 #include "sys/msg.h"
 /*--------------------------------------  objective
- SysTick counts
+ SysTick reading COUNTFLAG in TICK.CSR
 */  
 
 //our interrupt source:
@@ -34,7 +34,7 @@ class Demo
 
 void Demo::tickInit() //see [2] Table B3-30
 {
- TICK.RVR=0x1000;
+ TICK.RVR=(1<<24)-1; //the maximal count
  TICK.CSR=(1<<2)| //CLKSOURCE SysTick
           (1<<0); //enable
 }
@@ -46,10 +46,10 @@ Demo::Demo()
  sys::msg<<"interrupt-demo\n";
  tickInit();
  while(true)
- {
-  if (sys::deb::get()=='v')
+ { //TODO estimate processor clock
+  if (TICK.CSR&(1<<16))
      {
-      sys::msg<<TICK.CVR<<"\n";
+      sys::msg<<".";
      }
  }
 }
