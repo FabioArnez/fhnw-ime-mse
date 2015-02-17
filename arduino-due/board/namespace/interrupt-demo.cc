@@ -13,7 +13,7 @@ IMPLEMENTATION(interrupt_demo,$Id$)
 #include "sys/deb/deb.h"
 #include "sys/msg.h"
 /*--------------------------------------  objective
- VectorTable set VTOR
+ VectorTable init 
 */  
 
 //our interrupt source:
@@ -32,8 +32,11 @@ class Demo
 {
  static Demo demo;
  Demo();
+ static const unsigned TRAPN=46; //the number of Traps
  static void tickInit();
- alignas(1<<7) static  Trap  vectorTable[46]; //see [1] 12-3/12.21.5
+ static void vectorTableInit();
+ static void unexpectedTrap(); //is of type Trap
+ alignas(1<<7) static  Trap  vectorTable[TRAPN]; //see [1] 12-3/12.21.5
 };
 
 alignas(1<<7) Trap Demo::vectorTable[46];
@@ -45,6 +48,18 @@ void Demo::tickInit() //see [2] Table B3-30
           (1<<0); //enable
 }
 
+void Demo::vectorTableInit()
+{
+ for(unsigned i=0;i<TRAPN;++i) vectorTable[i]=unexpectedTrap;
+}
+
+
+void Demo::unexpectedTrap()
+{
+ sys::msg<<"unexpectedTrap\n";
+ while(true){}
+}
+
 Demo Demo::demo;
 
 Demo::Demo()
@@ -52,6 +67,11 @@ Demo::Demo()
  sys::msg<<"interrupt-demo\n"
          <<"vectorTable= "<<(void*)vectorTable<<"\n" //show address of vectorTable
 	 <<"VTOR before= "<<(void*)VTOR<<"\n";
+ vectorTableInit();     //init
  VTOR=vectorTable;
+ for(unsigned i=0;i<TRAPN;++i)
+ {
+  sys::msg<<(void*)vectorTable[i]<<"\n";
+ }
  sys::msg<<"VTOR after= "<<(void*)VTOR<<"\n";	 
 }
