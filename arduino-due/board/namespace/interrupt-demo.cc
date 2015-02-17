@@ -13,7 +13,8 @@ IMPLEMENTATION(interrupt_demo,$Id$)
 #include "sys/deb/deb.h"
 #include "sys/msg.h"
 /*--------------------------------------  objective
- SysTick reading COUNTFLAG in TICK.CSR
+ VectorTable as an array of call-backs
+  check proper position
 */  
 
 //our interrupt source:
@@ -30,7 +31,10 @@ class Demo
  static Demo demo;
  Demo();
  static void tickInit();
+ static alignas(1<<7) void (*vectorTable[46])(); //see [1] 12-3/12.21.5
 };
+
+alignas(1<<7) void (*Demo::vectorTable[46])();
 
 void Demo::tickInit() //see [2] Table B3-30
 {
@@ -43,13 +47,7 @@ Demo Demo::demo;
 
 Demo::Demo()
 {
- sys::msg<<"interrupt-demo\n";
- tickInit();
- while(true)
- { //TODO estimate processor clock
-  if (TICK.CSR&(1<<16))
-     {
-      sys::msg<<".";
-     }
- }
+ sys::msg<<"interrupt-demo\n"
+         <<(void*)vectorTable<<"\n"; //show address of vectorTable
+	  //check alignement|bit 29 see [1] 12.21.5
 }
