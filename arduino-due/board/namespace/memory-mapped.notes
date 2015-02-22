@@ -8,12 +8,12 @@ files:
  memory-mapped-extern.cc
 
 version log:
- sh ../../../tool/changelog.sh memory-mapped-pointer.cc
- sh ../../../tool/changelog.sh memory-mapped-extern.cc
+ sh ../../../tool/changelog.sh ../namespace/memory-mapped-pointer.cc
+ sh ../../../tool/changelog.sh ../namespace/memory-mapped-extern.cc
 
 select a version
-  git checkout ref memory-mapped-pointer.cc
-  git checkout ref  memory-mapped-extern.cc
+  git checkout ref ../namespace/memory-mapped-pointer.cc
+  git checkout ref ../namespace/ memory-mapped-extern.cc
  
 
 Your notes:

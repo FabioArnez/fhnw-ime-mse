@@ -73,6 +73,11 @@
   <mod name="simple-uart"/>
  </prj>
  
+ <prj name="interrupt-demo">
+  <ref id="minimum"/>
+  <mod name="interrupt-demo"/>
+ </prj>
+ 
  <makefile>
   <pre>
 #uncomment EARLY_INIT 
