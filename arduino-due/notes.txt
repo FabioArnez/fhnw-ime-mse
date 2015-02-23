@@ -1,18 +1,27 @@
 Notes
 -----
+Im the scripts do not run on an Ubuntu System.
 
+replace sh with bash:
+
+sh foo-script.sh
+
+bash foo-script.sh
+
+TODO bash/sh bei Ubuntu
 
 Your notes:
 
 Prepare
 -------
-Install minicom
+Install java
+Install minicom terminal (ubuntu apt-get install minicom)
 
 
 we are in repo
 
 
-$sh tools/make-work.sh
+$bash tool/make-work.sh
 
 $cd arduino-due/board
 
@@ -22,7 +31,7 @@ $ln -s path-to-toolchain tc
 
 $cd work
 
-make hello world
+make startup-1 as first of your program
 
 
 $make startup-1
@@ -34,5 +43,5 @@ execute on the arduino-due
 $minicom -D /dev/ttyXXX
 XXX typ. ACM0
 
-$sh ../tool/flash-1.sh startup-1
+$sh ../tools/flash-1.sh startup-1
 
