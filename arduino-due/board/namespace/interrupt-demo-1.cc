@@ -69,7 +69,7 @@ void Demo::onTick()
 
 Trap Demo::vectorTable[TRAPN]=
 {
-}
+};
 
 Demo Demo::demo;
 
