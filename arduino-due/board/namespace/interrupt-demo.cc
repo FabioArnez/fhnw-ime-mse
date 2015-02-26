@@ -12,12 +12,10 @@
 IMPLEMENTATION(interrupt_demo,$Id$)
 #include "sys/deb/deb.h"
 #include "sys/msg.h"
+#include "sys/reg/nvic.h"           //the registers
 /*--------------------------------------  objective
- VectorTable as an array of call-backs
-  check proper position
-  with dummy traps
-  setting VTOR
-  calling manually via VTOR
+ Nested Vectored Interrupt Controller NVIC
+ reading the pending bit
 */  
 
 //our interrupt source:
@@ -39,7 +37,8 @@ class Demo
  static Demo demo;
  Demo();
  static void tickInit();
- static alignas(1<<8) Trap vectorTable[46]; //see [1] Table 12-3
+ static const unsigned TRAPN=16+45; 
+ static alignas(1<<8) Trap vectorTable[TRAPN]; //see [1] Table 12-3
                                             //        12.21.5
 					    //an array of call-backs
  template<unsigned N>  //using a template
@@ -50,7 +49,7 @@ class Demo
  
 };
 
-alignas(1<<8) Trap Demo::vectorTable[46]=
+alignas(1<<8) Trap Demo::vectorTable[TRAPN]=
 {
 onTrap<0>,    //not used 
 onTrap<1>,
@@ -69,7 +68,7 @@ onTrap<13>,
 onTrap<14>,
 onTrap<15>,
 
-onTrap<16>,  //numbering see [1] Table 11-1.
+onTrap<16>,  //numbering see [1] Table 11-1. PID 0
 onTrap<17>,
 onTrap<18>,
 onTrap<19>,
@@ -99,9 +98,25 @@ onTrap<39>,
 onTrap<40>,
 onTrap<41>,
 onTrap<42>,
-onTrap<43>,
+onTrap<43>, //16+27 the trap number of Timer Counter TC0
+            //pending bit 27  
 onTrap<44>,
-onTrap<45>
+onTrap<45>,
+onTrap<46>,
+onTrap<47>,
+onTrap<48>,
+onTrap<49>,
+onTrap<50>,
+onTrap<51>,
+onTrap<52>,
+onTrap<53>,
+onTrap<54>,
+onTrap<55>,
+onTrap<56>,
+onTrap<57>,
+onTrap<58>,
+onTrap<59>,
+onTrap<60>,  //CAN1
 };
 
 
@@ -110,6 +125,7 @@ void Demo::tickInit() //see [2] Table B3-30
  TICK.RVR=(1<<24)-1; //the maximal count
  TICK.CSR=(1<<2)| //CLKSOURCE SysTick
           (1<<0); //enable
+ TICK.IER=0xff; //enable all 
 }
 
 Demo Demo::demo;
@@ -122,10 +138,17 @@ Demo::Demo()
  sys::msg<<"VTOR before = "<<(void*)VTOR<<"\n";
  VTOR=vectorTable;	  
  sys::msg<<"VTOR  after = "<<(void*)VTOR<<"\n";
-//calling traps manually via VTOR
- for(unsigned i=0;i<46;++i)
+ tickInit();
+ //checking bit 27 in 
+ unsigned ispr0= sys::reg::NVIC.ISPR[0]; 
+ sys::msg<<io::ascii::hex()<<ispr0<<"\n";
+ while(true)
  {
-  //call 
-  VTOR[i]();
- } 
+  unsigned ispr= sys::reg::NVIC.ISPR[0]; 
+  if (ispr0!=ispr)
+     {
+      ispr0=ispr;
+      sys::msg<<io::ascii::hex()<<ispr0<<"\n";
+     }
+ }
 }
