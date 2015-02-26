@@ -15,14 +15,10 @@ IMPLEMENTATION(interrupt_demo,$Id$)
 #include "sys/reg/tc.h" 
 #include "sys/soc.h"
 /*--------------------------------------  objective
- The VectorTable
-  an array of call-backs
+ The TimerCounter TC counts
+   understanding the registers
 */  
 
-
-
-typedef void (*Trap)(); //the callback 
-                        //called by hardware
 
 class Demo
 {
@@ -32,19 +28,7 @@ class Demo
                                      //see [1] Chapter 37
  
  Demo();
- 
- static const unsigned CPCS=(1<<4); //bit 4
  static void initTC();
- static void onTick();
- static const unsigned TRAPN=61;  //the number of traps
-
- template<unsigned N>  //using a template
- static void onTrap()
- {
-  sys::msg<<"Trap# "<<N<<"\n";
- }
- 
- static Trap vectorTable[TRAPN];
 };
 
 void Demo::initTC()
@@ -60,28 +44,17 @@ void Demo::initTC()
                                    0;
 }
 
-void Demo::onTick()
-{
- static unsigned cnt=0;
- sys::msg<<"tick "<<cnt<<"\n";
- ++cnt; 
-}
-
-Trap Demo::vectorTable[TRAPN]=
-{
-};
-
 Demo Demo::demo;
 
 Demo::Demo()
 {
- sys::msg<<"interrupt-demo\n";
+ sys::msg<<__FILE__ "\n";
  initTC();
  while(true)
  {
-  if (sys::reg::TC0.channel[CH].SR&CPCS)
+  if (sys::deb::get()=='v')
      {
-      onTick();
+      sys::msg<<"CV="<<sys::reg::TC0.channel[CH].CV<<"\n";
      }
  }
 }
