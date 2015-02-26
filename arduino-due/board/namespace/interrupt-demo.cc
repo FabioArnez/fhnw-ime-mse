@@ -15,6 +15,8 @@ IMPLEMENTATION(interrupt_demo,$Id$)
 /*--------------------------------------  objective
  VectorTable as an array of call-backs
   check proper position
+  with dummy traps
+  call traps 'manually'
 */  
 
 //our interrupt source:
@@ -36,9 +38,67 @@ class Demo
  static alignas(1<<8) Trap vectorTable[46]; //see [1] Table 12-3
                                             //        12.21.5
 					    //an array of call-backs
+ template<unsigned N>  //using a template
+ static void onTrap()
+ {
+  sys::msg<<"Trap# "<<N<<"\n";
+ }
 };
 
-alignas(1<<8) Trap Demo::vectorTable[46]; //empty for 
+alignas(1<<8) Trap Demo::vectorTable[46]=
+{
+onTrap<0>,    //not used 
+onTrap<1>,
+onTrap<2>,
+onTrap<3>,
+onTrap<4>,
+onTrap<5>,
+onTrap<6>,
+onTrap<7>,
+onTrap<8>,
+onTrap<9>,
+onTrap<10>,
+onTrap<11>,
+onTrap<12>,
+onTrap<13>,
+onTrap<14>,
+onTrap<15>,
+
+onTrap<16>,  //numbering see [1] Table 11-1.
+onTrap<17>,
+onTrap<18>,
+onTrap<19>,
+
+onTrap<20>,
+onTrap<21>,
+onTrap<22>,
+onTrap<23>,
+onTrap<24>,
+onTrap<25>,
+onTrap<26>,
+onTrap<27>,
+onTrap<28>,
+onTrap<29>,
+
+onTrap<30>,
+onTrap<31>,
+onTrap<32>,
+onTrap<33>,
+onTrap<34>,
+onTrap<35>,
+onTrap<36>,
+onTrap<37>,
+onTrap<38>,
+onTrap<39>,
+
+onTrap<40>,
+onTrap<41>,
+onTrap<42>,
+onTrap<43>,
+onTrap<44>,
+onTrap<45>
+};
+
 
 void Demo::tickInit() //see [2] Table B3-30
 {
@@ -54,4 +114,10 @@ Demo::Demo()
  sys::msg<<"interrupt-demo\n"
          <<(void*)vectorTable<<"\n"; //show address of vectorTable
 	  //check alignement|bit 29 see [1] 12.21.5
+//calling traps manually
+ for(unsigned i=0;i<46;++i)
+ {
+  //call 
+  vectorTable[i]();
+ } 
 }
