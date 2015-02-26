@@ -83,6 +83,23 @@
   <mod name="interrupt-demo-1"/>
  </prj>
  
+ <prj name="interrupt-demo-2">
+  <ref id="minimum"/>
+  <mod name="interrupt-demo-2"/>
+ </prj>
+
+ <prj name="interrupt-demo-3">
+  <ref id="minimum"/>
+  <mod name="interrupt-demo-3"/>
+ </prj>
+
+
+ <prj name="interrupt-demo-4">
+  <ref id="minimum"/>
+  <mod name="interrupt-demo-4"/>
+ </prj>
+
+
  <makefile>
   <pre>
 #uncomment EARLY_INIT 
