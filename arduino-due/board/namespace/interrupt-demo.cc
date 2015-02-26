@@ -16,7 +16,8 @@ IMPLEMENTATION(interrupt_demo,$Id$)
  VectorTable as an array of call-backs
   check proper position
   with dummy traps
-  call traps 'manually'
+  setting VTOR
+  calling manually via VTOR
 */  
 
 //our interrupt source:
@@ -27,8 +28,11 @@ extern volatile struct {  //see [2] B3.3.2
 		 unsigned CALIB;
 		} TICK;
 
+
 typedef void (*Trap)(); //the callback 
                         //called by hardware
+
+extern volatile Trap* VTOR; //its a hardwareregister
 
 class Demo
 {
@@ -43,6 +47,7 @@ class Demo
  {
   sys::msg<<"Trap# "<<N<<"\n";
  }
+ 
 };
 
 alignas(1<<8) Trap Demo::vectorTable[46]=
@@ -114,10 +119,13 @@ Demo::Demo()
  sys::msg<<"interrupt-demo\n"
          <<(void*)vectorTable<<"\n"; //show address of vectorTable
 	  //check alignement|bit 29 see [1] 12.21.5
-//calling traps manually
+ sys::msg<<"VTOR before = "<<(void*)VTOR<<"\n";
+ VTOR=vectorTable;	  
+ sys::msg<<"VTOR  after = "<<(void*)VTOR<<"\n";
+//calling traps manually via VTOR
  for(unsigned i=0;i<46;++i)
  {
   //call 
-  vectorTable[i]();
+  VTOR[i]();
  } 
 }
