@@ -18,6 +18,8 @@ IMPLEMENTATION(interrupt_demo,$Id$)
  Timer Counter 
   how it works
   the counter counts
+  reading status register
+  calling onTick
 */  
 
 
@@ -30,8 +32,9 @@ class Demo
                                      //see [1] Chapter 37
  
  Demo();
- 
+ static const unsigned CPCS=(1<<4); //bit 4
  static void initTC();
+ static void onTick();
 };
 
 void Demo::initTC()
@@ -47,9 +50,14 @@ void Demo::initTC()
                                    0;
 }
 
+void Demo::onTick()
+{
+ static unsigned cnt=0;
+ sys::msg<<"tick "<<cnt<<"\n";
+ ++cnt; 
+}
+
 Demo Demo::demo;
-
-
 
 Demo::Demo()
 {
@@ -57,9 +65,9 @@ Demo::Demo()
  initTC();
  while(true)
  {
-  if (sys::deb::get()=='v')
+  if (sys::reg::TC0.channel[CH].SR&CPCS)
      {
-      sys::msg<<sys::reg::TC0.channel[CH].CV<<"\n";
+      onTick();
      }
  }
 }
