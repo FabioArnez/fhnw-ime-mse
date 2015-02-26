@@ -77,6 +77,11 @@
   <ref id="minimum"/>
   <mod name="interrupt-demo"/>
  </prj>
+
+ <prj name="interrupt-demo-1">
+  <ref id="minimum"/>
+  <mod name="interrupt-demo-1"/>
+ </prj>
  
  <makefile>
   <pre>
