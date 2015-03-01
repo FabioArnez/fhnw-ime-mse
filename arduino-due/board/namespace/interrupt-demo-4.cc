@@ -5,9 +5,6 @@
 //     at91sam3x.pdf
 // [2] ARMv7-M Architecture Reference Manual
 //     DDI0403D_arm_architecture_v7m_reference_manual_errata_markup_1_0.pdf
-// step by step see git 
-// interrupt source:
-//  SysTick [2] B3.3
 //----------------------------
 IMPLEMENTATION(interrupt_demo,$Id$)
 #include "sys/deb/deb.h"
@@ -15,13 +12,13 @@ IMPLEMENTATION(interrupt_demo,$Id$)
 #include "sys/reg/tc.h" 
 #include "sys/soc.h"
 /*--------------------------------------  objective
- the call-back
-  made as template
- the vectorTable
- saving in VTOR
+ vectorTable saved in VTOR
  proper alignment
  calling the call-backs manually via VTOR
 */  
+
+/*--------------------------------------- your notes
+*/
 
 
 typedef void (*Trap)(); //the call-back
