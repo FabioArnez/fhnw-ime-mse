@@ -58,14 +58,29 @@
   <mod name="cpu-demo-ops"/>
  </prj>
  
- <prj name="memory-mapped-pointer">
+ <prj name="memory-mapped-pointer-1">
   <ref id="minimum"/>
-  <mod name="memory-mapped-pointer"/>
+  <mod name="memory-mapped-pointer-1"/>
  </prj>
 
- <prj name="memory-mapped-extern">
+ <prj name="memory-mapped-pointer-2">
   <ref id="minimum"/>
-  <mod name="memory-mapped-extern"/>
+  <mod name="memory-mapped-pointer-2"/>
+ </prj>
+
+ <prj name="memory-mapped-pointer-3">
+  <ref id="minimum"/>
+  <mod name="memory-mapped-pointer-3"/>
+ </prj>
+
+ <prj name="memory-mapped-pointer-4">
+  <ref id="minimum"/>
+  <mod name="memory-mapped-pointer-4"/>
+ </prj>
+
+ <prj name="memory-mapped-extern-1">
+  <ref id="minimum"/>
+  <mod name="memory-mapped-extern-1"/>
  </prj>
  
  <prj name="simple-uart">
