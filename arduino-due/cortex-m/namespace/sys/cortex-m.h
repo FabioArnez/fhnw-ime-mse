@@ -6,9 +6,11 @@
 //-----------------------------
 INTERFACE(sys_cortex_m,$Id$)
 #include "sys/reg/scs.h"
-#include "sys/trap.h"
+#include "sys/msg.h"
+
 namespace sys
 {
+ template<unsigned TRAPN>
  class CortexM        //it is a singleton
  {
   public:
@@ -29,15 +31,58 @@ namespace sys
     EXTERNAL      =16
    };
    
-   static void arm(unsigned id);  
-   static void disarm(unsigned id);
-   static void trigger(unsigned id);
-   static void install(unsigned id,Trap* t);
+   static void arm(unsigned id)
+   {if (inRange(id))reg::SCS.NVIC.ISER[id/32]=(1<<(id%32));}
    
-   static void cpsIE_i();
-   static void cpsID_i();
-   static void cpsIE_f();
-   static void cpsID_f();
+   static void disarm(unsigned id)
+   {if (inRange(id))reg::SCS.NVIC.ICER[id/32]=(1<<(id%32));}
+   
+   static void trigger(unsigned id); //TODO 
+   static void install(unsigned id,VTable::Entry t)
+   {if (inRange(id)){disarm(id);vTable[id]=t;}}
+
+
+   static void cpsIE_i()
+   {
+    asm volatile
+    (
+     "cpsie i\n\t"
+     :
+     :
+    );
+   }
+
+   static void cpsID_i()
+   {
+    asm volatile
+    (
+     "cpsid i\n\t"
+     :
+     :
+    );
+   }
+
+   static void cpsIE_f()
+   {
+    asm volatile
+    (
+     "cpsie f\n\t"
+     :
+     :
+    );
+   }
+
+   static void cpsID_f()
+   {
+    asm volatile
+    (
+     "cpsid f\n\t"
+     :
+     :
+    );
+   }
+
+
    static void svc()
    {
     asm volatile
@@ -91,16 +136,25 @@ namespace sys
    }
 #endif  
   protected:
-   static void trapIt();
+   CortexM()
+   {
+    for(unsigned i=0;i<TRAPN;++i) vTable[i]=trap;
+    sys::msg<<"vTable="<<(void*)vTable<<"\n";
+    sys::reg::SCS.SCB.VTOR=vTable;
+   }
    
-   CortexM(VTable::Entry*const table[],unsigned size,
-           Trap** trap);
-         
   private:
-   const unsigned     size;
-         Trap**       trap; 
-   static CortexM*    cortexM;
+   static void trap() //always the same 
+   {
+    sys::msg<<"unexpected trap\n";
+   }
    
-   static bool inRange(unsigned id);
+   static bool inRange(unsigned id){return id<TRAPN;}
+
+   static VTable::Entry vTable[TRAPN] alignas(256);
+                                  //TRAPN
  };
+ 
+ template<unsigned TRAPN>
+ typename VTable::Entry CortexM<TRAPN>::vTable[TRAPN];
 }

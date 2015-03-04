@@ -8,6 +8,7 @@ IMPLEMENTATION(sys_soc,$Id$)
 #include "sys/reg/pmc.h"
 namespace sys
 {
+#if 0
  decltype(SOC::TheVector) SOC::TheVector=
  {
    0,               	//stack pointer
@@ -70,6 +71,7 @@ namespace sys
    trapIt, //CAN0   =43, // CAN Controller 0 =CAN0, 
    trapIt, //CAN1   =44, // CAN Controller 1 =CAN1, 
  };
+#endif
 
  void SOC::clockEnable(PID id)
  {

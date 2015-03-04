@@ -11,7 +11,7 @@ INTERFACE(sys_soc,$Id$)
 
 namespace sys
 {
- class SOC:public CortexM
+ class SOC:public CortexM<61>
  {
   public:
    enum PID  //peripherals identifiers [1] 11
@@ -88,7 +88,7 @@ namespace sys
    static void arm();    //the interrupt system
    static void disarm(); //the interrupt system
    static bool isArmed();
-   static void install(PID id,sys::Trap*const trap){CortexM::install(id+16,trap);}
+   static void install(PID id,VTable::Entry trap){CortexM::install(id+16,trap);}
                          
    static void arm(PID id){CortexM::arm(id);}
    static void disarm(PID id){CortexM::disarm(id);}
@@ -103,14 +103,10 @@ namespace sys
    static volatile reg::PIO PIO_F;
    
   protected:
-   SOC():CortexM(TheVector.trap,TheVector.SIZE,trap) 
+   SOC() 
    {
     arm();
    } 
-
-  private:
-   static const VTable::Vector<PID_COUNT>  TheVector;
-   sys::Trap* trap[TheVector.SIZE];
  };
 }
 

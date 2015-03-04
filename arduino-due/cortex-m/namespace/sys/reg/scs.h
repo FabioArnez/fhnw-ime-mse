@@ -50,7 +50,7 @@ namespace sys
    {
     const unsigned CPUID;  // 0xe000ed00 RO IMPLEMENTATION CPUID Base Register on page B3-713.
 	  unsigned ICSR;   // 0xe000ed04 RW 0x00000000 Interrupt Control and State Register, ICSR on
-    const VTable::Entry** VTOR;   // 0xe000ed08 RW 0x00000000 a Vector Table Offset Register, VTOR on page B3-716.
+          VTable::Entry*  VTOR;   // 0xe000ed08 RW 0x00000000 a Vector Table Offset Register, VTOR on page B3-716.
 	  unsigned AIRCR;  // 0xe000ed0c RW Application Interrupt and Reset Control Register,
 	  unsigned SCR;    // 0xe000ed10 RW 0x00000000 System Control Register, SCR on page B3-718.
 	  unsigned CCR;    // 0xe000ed14 RW 0x00000000 Configuration and Control Register, CCR on

@@ -9,13 +9,7 @@ namespace sys
 {
  struct VTable
  {
-  typedef void (Entry)(); //for trap
-  template<unsigned N>
-  struct Vector
-  {
-   static const unsigned SIZE=16+N;
-   Entry* trap[SIZE];
-  }__attribute__((aligned(128)));
+  typedef void (*Entry)(); //for trap
  };
 }
 
