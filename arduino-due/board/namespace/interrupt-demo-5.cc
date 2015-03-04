@@ -5,9 +5,6 @@
 //     at91sam3x.pdf
 // [2] ARMv7-M Architecture Reference Manual
 //     DDI0403D_arm_architecture_v7m_reference_manual_errata_markup_1_0.pdf
-// step by step see git 
-// interrupt source:
-//  SysTick [2] B3.3
 //----------------------------
 IMPLEMENTATION(interrupt_demo,$Id$)
 #include "sys/deb/deb.h"
@@ -16,12 +13,15 @@ IMPLEMENTATION(interrupt_demo,$Id$)
 #include "sys/soc.h"
 #include "sys/reg/nvic.h"
 /*--------------------------------------  objective
- examing the Nested Vectored Interrupt Controller NVIC
+ the Nested Vectored Interrupt Controller NVIC
  reading the Interrupt Set-Pending Registers ISPR see[2] B3.4.5
  writing Interrupt Clear-Pending Registers   ICPR see[2] B3.4.6
  DeviceID TC0=27 [1] Table 11.1
  clear the interrupt
 */  
+
+/*--------------------------------------- your notes
+*/
 
 
 typedef void (*Trap)(); //the call-back

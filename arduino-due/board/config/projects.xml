@@ -73,16 +73,14 @@
   <mod name="memory-mapped-pointer-3"/>
  </prj>
 
-
  <prj name="memory-mapped-pointer-4">
   <ref id="minimum"/>
   <mod name="memory-mapped-pointer-4"/>
  </prj>
 
-
- <prj name="memory-mapped-extern">
+ <prj name="memory-mapped-extern-1">
   <ref id="minimum"/>
-  <mod name="memory-mapped-extern"/>
+  <mod name="memory-mapped-extern-1"/>
  </prj>
  
  <prj name="simple-uart">

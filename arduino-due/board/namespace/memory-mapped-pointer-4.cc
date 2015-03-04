@@ -10,6 +10,15 @@ IMPLEMENTATION(memory_mapped_pointer,$Id$)
 #include "sys/deb/deb.h"
 #include "sys/msg.h"
 #include "sys/soc.h"
+/*---------------------------------- objectives
+ how the PIO works output pin
+  optimized hardware treated as hardware
+  the keyword volatile
+*/
+
+/*---------------------------------- your notes
+
+*/
 
 struct PIO       //see [1] 32.7
 {
@@ -43,17 +52,20 @@ struct PIO       //see [1] 32.7
   unsigned RES4; // 0x006C Reserved
 };
 
-extern volatile PIO pioA; //defined elsewhere see layout.ld
-extern volatile PIO pioB; //defined elsewhere
 
 class Demo
 {
  static Demo demo;
  static const unsigned TX_LED=1<<21; //bit number 21 of PIOA
+ static volatile PIO*const pioA;              //declaration  
  static const unsigned INPUT =1<<25; //Due Pin2 see [2] PIOB
+ static volatile PIO*const pioB;
  
+//#pragma GCC optimize ("-O0")
  void init();
+//#pragma GCC optimize ("-O0")
  void menu();
+//#pragma GCC optimize ("-O0")
  void read();
  Demo();  //the constructor
 };
@@ -61,25 +73,29 @@ class Demo
 
 Demo Demo::demo;  //instance created constructor called
 
+volatile PIO*const Demo::pioA=(volatile PIO*const)0x400e0e00u; 
+                    //cast      see [1] Fig 8.1
+volatile PIO*const Demo::pioB=(volatile PIO*const)0x400e1000;
+                    //cast      see [1] Fig 8.1
+
 void Demo::init()
 {
  //enable pin TX_LED as output see [1] 32.7.1
- pioA.PER=TX_LED; //setting as in|output
- pioA.OER=TX_LED; //setting as output
+ pioA->PER=TX_LED; //setting as in|output
+ pioA->OER=TX_LED; //setting as output
 //clock must be enabled for input [1] 32.4.2
  sys::SOC::clockEnable(sys::SOC::PIOB);
- pioB.PER=INPUT;  //setting as in|output
- pioB.ODR=INPUT;  //setting as input
- /* TODD use pull ups */
+ pioB->PER=INPUT;  //setting as in|output
+ pioB->ODR=INPUT;  //setting as input
 }
 
 void Demo::read()
 {
- unsigned inp=pioB.PDSR & INPUT;
+ unsigned inp=pioB->PDSR & INPUT;
  sys::msg<<io::ascii::hex()<<inp<<"\n";
  while(true)
  {
-  unsigned inp1=pioB.PDSR & INPUT;
+  unsigned inp1=pioB->PDSR & INPUT;
   if (inp1!=inp)
      {
       inp=inp1;
@@ -102,11 +118,11 @@ void Demo::menu()
   switch(sys::deb::get()) //read a character
   {
    case '0':
-    pioA.SODR=TX_LED;  //set bit
+    pioA->SODR=TX_LED;  //set bit
    break;
    
    case '1':
-    pioA.CODR=TX_LED;  //clear bit
+    pioA->CODR=TX_LED;  //clear bit
    break;
    
    case '2':
