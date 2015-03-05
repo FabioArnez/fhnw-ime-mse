@@ -131,6 +131,17 @@
   <mod name="interrupt-demo-7"/>
  </prj>
 
+ <prj name="mpu-demo-1">
+  <ref id="minimum"/>
+  <mod name="mpu-demo-1"/>
+ </prj>
+
+ <prj name="mpu-demo-2">
+  <ref id="minimum"/>
+  <mod name="mpu-demo-2"/>
+ </prj>
+ 
+ 
  <makefile>
   <pre>
 #uncomment EARLY_INIT 
@@ -208,7 +219,6 @@ GRAPH=@${NM}  ${^} | \
    -DNO_LONG_DIV \
    -DNO_FLOATS \
    -D'ATTRIBUTE_TEXT_STARTUP=__attribute((section(".text")))' \
-
 
   </pre>
 

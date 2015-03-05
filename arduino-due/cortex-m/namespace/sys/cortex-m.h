@@ -105,6 +105,30 @@ namespace sys
     return id;
    }
 
+   static unsigned control()
+   {
+    unsigned reg;
+    asm volatile
+    (
+     "@----------------------------------- control\n\t"
+     "mrs %[reg],control\n\t"
+     :[reg] "=r" (reg) //output
+     :
+    );
+    return reg;
+   }
+   
+   static void control(unsigned val)
+   {
+    asm volatile
+    (
+     "@----------------------------------- control\n\t"
+     "msr control,%[val]\n\t"
+     :
+     :[val] "r" (val)
+    );
+   }
+   
 #if 0   
    template<typename T>
    static T ldx(const T*const addr) //exclusive
@@ -146,7 +170,8 @@ namespace sys
   private:
    static void trap() //always the same 
    {
-    sys::msg<<"unexpected trap\n";
+    sys::msg<<"unexpected trap id "<<io::ascii::hex()<<ipsr()<<"\n";
+    while(true){}
    }
    
    static bool inRange(unsigned id){return id<TRAPN;}
