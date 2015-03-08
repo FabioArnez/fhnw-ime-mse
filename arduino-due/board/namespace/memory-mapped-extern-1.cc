@@ -6,7 +6,7 @@
 // see section 32 Parallel Input/Output
 // [2] http://arduino.cc/en/Hacking/PinMappingSAM3X
 //----------------------
-IMPLEMENTATION(memory_mapped_pointer,$Id$)
+IMPLEMENTATION(memory_mapped_extern,$Id$)
 #include "sys/deb/deb.h"
 #include "sys/msg.h"
 #include "sys/soc.h"

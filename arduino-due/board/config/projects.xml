@@ -140,6 +140,11 @@
   <ref id="minimum"/>
   <mod name="mpu-demo-2"/>
  </prj>
+
+ <prj name="pio-demo">
+  <ref id="minimum"/>
+  <mod name="pio-demo"/>
+ </prj>
  
  
  <makefile>
