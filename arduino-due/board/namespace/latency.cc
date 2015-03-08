@@ -16,34 +16,9 @@ class Latency
 
 Latency Latency::latency;
 
-void Latency::onSysTick()
-{
- static const unsigned IDX=10;
- static unsigned cnt[IDX];
- static unsigned idx=0;
- cnt[idx++]=sys::reg::SCS.SYSTICK.CVR;
- if (idx==IDX)
-    {
-     for(unsigned i=0;i<IDX;++i)
-     {
-      sys::msg<<(RVR-cnt[i])<<"\n";
-     }
-     while(true)
-     {
-     }
-    }
-}
 
 Latency::Latency()
 {
- sys::msg<<"Latency\n";
- sys::SOC::install(sys::SOC::SYS_TICK,onSysTick);
- sys::reg::SCS.SYSTICK.RVR=RVR;
- sys::reg::SCS.SYSTICK.CSR=(1<<0) | //enable
-                            (1<<1) | //interrupt
-			    (1<<2) |
-			         0;  //processor clock
-
  while(true)
  {
  }
