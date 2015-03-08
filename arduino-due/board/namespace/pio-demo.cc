@@ -9,31 +9,33 @@
 IMPLEMENTATION(pio_demo,$Id$)
 #include "sys/soc.h"
 #include "sys/msg.h"
-
+#include "sys/deb/deb.h"
 class Demo
 {
  static Demo demo;
  static const unsigned INPUT=(1<<25); //Due Pin2 see [2] PIOB
+ static void onPin();
  Demo();
 };
 
 Demo Demo::demo;
+
+void Demo::onPin()
+{
+ sys::msg<<"pin\n";
+}
 
 Demo::Demo()
 {
  sys::msg<<"PIO-Demo\n";
  sys::SOC::clockEnable(sys::SOC::PIOB);
  sys::SOC::PIO_B.set(sys::reg::PIO::IN,INPUT);
-
- unsigned inp=sys::SOC::PIO_B.PDSR&INPUT;
- sys::msg<<io::ascii::hex()<<inp<<"\n";
+ sys::SOC::install(sys::SOC::PIOB,onPin);
+ sys::SOC::arm(sys::SOC::PIOB); 
+ sys::SOC::PIO_B.IER=INPUT;
+ 
  while(true)
  {
-  unsigned inp1=sys::SOC::PIO_B.PDSR&INPUT;
-  if (inp!=inp1)
-     {
-      inp=inp1;
-      sys::msg<<io::ascii::hex()<<inp<<"\n";
-     }
+  sys::deb::out(sys::deb::get());
  }
 }
