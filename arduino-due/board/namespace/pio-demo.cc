@@ -22,7 +22,7 @@ Demo Demo::demo;
 
 void Demo::onPin()
 {
- sys::msg<<"pin\n";
+ sys::msg<<"pin "<<io::ascii::hex()<<sys::SOC::PIO_B.ISR<<"\n"; //clears interrupt
 }
 
 Demo::Demo()
