@@ -146,7 +146,11 @@
   <mod name="pio-demo"/>
  </prj>
  
- 
+ <prj name="latency">
+  <ref id="minimum"/>
+  <mod name="latency"/>
+ </prj>
+
  <makefile>
   <pre>
 #uncomment EARLY_INIT 

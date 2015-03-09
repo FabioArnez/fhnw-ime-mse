@@ -14,8 +14,22 @@ namespace sys
  class SOC:public CortexM<61>
  {
   public:
-   enum PID  //peripherals identifiers [1] 11
+   enum PID
    {
+//------------------------------------ mapped from CortexM 
+    RESET         = 1-16,
+    NMI           = 2-16,
+    HARD_FAULT    = 3-16,
+    MEM_MANAGE    = 4-16,
+    BUS_FAULT     = 5-16,
+    USAGE_FAULT   = 6-16,
+    //reserved    (7-16)-(10-16)
+    SV_CALL       =11-16,
+    DEBUG_MONITOR =12-16,
+    //reserved     13-16,
+    PEND_SV       =14-16,
+    SYS_TICK      =15-16,
+//----------------------------------   peripherals identifiers [1] 11
     SUPC   = 0, // Supply Controller =SUPC, 
     RSTC   = 1, // Reset Controller =RSTC, 
     RTC    = 2, // Real Time Clock =RTC, 

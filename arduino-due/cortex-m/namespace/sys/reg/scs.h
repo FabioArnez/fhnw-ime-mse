@@ -26,10 +26,10 @@ namespace sys
            unsigned RVR;
            unsigned CVR;
      const unsigned CALIB;
-   } TICK; 
+   } SYSTICK; 
    
 
-   const Res<unsigned,0xe000e010+sizeof(TICK),0xe000e100> Res1;
+   const Res<unsigned,0xe000e010+sizeof(SYSTICK),0xe000e100> Res1;
    
    struct                  			//0xe000e100
    {
