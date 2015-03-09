@@ -23,7 +23,7 @@ IMPLEMENTATION(interrupt_demo,$Id$)
 
 typedef void (*Trap)(); //the call-back
 
-extern Trap* VTOR; //an array of Trap's  see [1] 12.21.5
+extern volatile Trap* VTOR; //an array of Trap's  see [1] 12.21.5
 
 class Demo
 {
@@ -38,7 +38,8 @@ class Demo
  static void onTick(); 
  static void initTC();
  static const unsigned TRAPN=16+45; 
- static alignas (1<<8) Trap vectorTable[TRAPN];
+ static alignas (1<<8) Trap vectorTable[TRAPN]; //TODO try to locate vetorTable in flash
+                                                // const
  template<unsigned ID>
  static void onTrap(); //template
 };

@@ -63,7 +63,7 @@ Demo::Demo()
  initTC();
  while(true)
  {
-  if (sys::reg::TC0.channel[CH].SR&CPCS)
+  if (sys::reg::TC0.channel[CH].SR&CPCS) //poll
      {
       onTick();
      }

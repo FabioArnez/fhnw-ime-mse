@@ -120,7 +120,7 @@ onTrap<39>,
 onTrap<40>,
 onTrap<41>,
 onTrap<42>,
-onTick,        //onTrap<43>, 
+onTick,   //onTrap<43>,  16+TC0_ID
 onTrap<44>,
 onTrap<45>,
 onTrap<46>,
@@ -155,6 +155,6 @@ Demo::Demo()
  sys::reg::NVIC.ISER[0]=(1<<TC0_ID);
  while(true)
  {
-  //wait until interrupt
+  sys::deb::out(sys::deb::get());
  }
 }

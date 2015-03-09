@@ -32,7 +32,7 @@ class Demo
 {
  static Demo demo;
  static const unsigned CPCS=(1<<4); //bit 4 in SR [1] 37.7.17
- static const unsigned TC0_ID=27;
+ static const unsigned TC0_ID=27;   //see  [1]  Chapter 11
  static const sys::reg::TC::Channel CH=sys::reg::TC::CH0;  
                                      //our channel of TC0 
                                      //see [1] Chapter 37
@@ -67,7 +67,7 @@ void Demo::onTick()
  sys::msg<<"tick="<<count<<"\n";
  ++count;
 //read status register for clearing the interrupt
-// sys::reg::TC0.channel[CH].SR;
+ sys::reg::TC0.channel[CH].SR;
 }
 
 template<unsigned ID>
@@ -160,7 +160,7 @@ Demo::Demo()
   if (sys::reg::NVIC.ISPR[0]&(1<<TC0_ID))
      {
       onTick();
-//      sys::reg::NVIC.ICPR[0]=(1<<TC0_ID); //clear bit
+      sys::reg::NVIC.ICPR[0]=(1<<TC0_ID); //clear bit
      }
  }
 }

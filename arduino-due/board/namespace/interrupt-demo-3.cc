@@ -69,7 +69,7 @@ void Demo::onTrap()
 }
 
 Trap Demo::vectorTable[]={
-onTrap<0>,
+0,    //init sp onTrap<0>,
 onTrap<1>,
 onTrap<2>,
 onTrap<3>,
@@ -145,7 +145,7 @@ Demo::Demo()
  sys::msg<<__FILE__ "\n";
  initTC();
  //calling manually
- for(unsigned i=0;i<TRAPN;++i)
+ for(unsigned i=1;i<TRAPN;++i)
  {
   vectorTable[i](); 
  }
