@@ -6,25 +6,27 @@
 #include "sys/msg.h"
 namespace co
 {
- struct Coroutine
+ class Coroutine
  {
-  typedef void (*Run)(Coroutine*);
-  struct Status
-  {
-   Coroutine* reg0;
-   unsigned reg1_12[12];
-   Run lr;  
-  };
-  Status* s;
-  Coroutine(unsigned char ws[],unsigned size);
-  Coroutine():s(0){}
-  virtual void run()=0;
-  static void start(Coroutine*);
-  static void transfer(Coroutine& to);
-  static void transfer(Status** from,Status* to);
+  public:
+   static void transfer(Coroutine& to);
+  protected:
+   Coroutine(unsigned char ws[],unsigned size);
+   virtual void run()=0;
+  private:
+   struct Status
+   {
+    Coroutine* reg0;
+    unsigned reg1_12[12];
+    void (*lr)(Coroutine*);  
+   };
+   Status* s;
+   Coroutine():s(0){}
+   static void start(Coroutine*);
+   static void transfer(Status** from,Status* to);
 
-  static Coroutine* cur;
-  struct Main;
+   static Coroutine* cur;
+   struct Main;
  };
 
  struct Coroutine::Main:Coroutine

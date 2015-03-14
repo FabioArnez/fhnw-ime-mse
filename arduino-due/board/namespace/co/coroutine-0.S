@@ -4,15 +4,24 @@
  -------------------------*/
 	.syntax unified
 	.cpu cortex-m3
-
 /*------------------------ stack
- r0
- r1
- ..
- r12
- lr 
-   <--sp
-    _ZN3sys3deb3hexEj
+ from         to  before
+ ---------------
+ r0           r0 <--sp
+ r1           r1
+ ..           ..
+ r12          r12
+ lr           lr
+     <--sp
+     
+      from
+ r0  <--sp    r0
+ r1           r1
+ ..           ..
+ r12          r12
+ lr           lr
+                 <--sp
+
 */
 .global _ZN2co9Coroutine8transferEPPNS0_6StatusES2_
 _ZN2co9Coroutine8transferEPPNS0_6StatusES2_:
