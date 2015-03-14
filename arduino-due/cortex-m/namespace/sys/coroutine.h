@@ -3,6 +3,7 @@
 //coroutine test
 //(c) H.Buchmann FHNW 2015
 //--------------------------
+INTERFACE(sys_coroutine,$Id$)
 #include "sys/msg.h"
 namespace sys
 {
@@ -25,7 +26,7 @@ namespace sys
    Status* s;
    Coroutine():s(0){}
    static void start(Coroutine*);
-   static void transfer(Status** from,Status* to);
+   static void transfer(Status** from,Status* to) __attribute__((naked));
    static Coroutine* cur;
    struct Main;
  };

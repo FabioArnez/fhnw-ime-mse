@@ -1,7 +1,8 @@
 //--------------------------
-//coroutine test
+//coroutine
 //(c) H.Buchmann FHNW 2015
 //--------------------------
+IMPLEMENTATION(sys_coroutine,$Id$)
 #include "sys/coroutine.h"
 
 namespace sys
@@ -28,5 +29,19 @@ namespace sys
   Coroutine* c=cur;
   cur=&to;
   transfer(&(c->s),cur->s);
+ }
+ 
+ void Coroutine::transfer(Status** from,Status* to)
+ {
+ asm volatile
+ (
+  "@------------------------------------- transfer\n" 
+  "     push {r0-r12,lr}\n"
+  "	str sp,[r0]\n"
+  "	mov sp,r1\n"
+  "	pop {r0-r12,pc}\n"
+   :
+   :
+  );
  }
 }

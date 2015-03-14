@@ -39,6 +39,7 @@ class Demo
 {
  Coroutine c0;
  Coroutine c1;
+ Coroutine c2;
  Demo();
  static Demo demo;
 };
@@ -47,7 +48,8 @@ Demo Demo::demo;
 
 Demo::Demo()
 :c0("c0",c1)
-,c1("c1",c0)
+,c1("c1",c2)
+,c2("c2",c0)
 {
  sys::deb::out("\n\n\nCoroutine Demo\n");
  sys::Coroutine::transfer(c0);
