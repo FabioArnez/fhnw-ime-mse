@@ -20,7 +20,6 @@
 */
 _ZN3sys10Coroutine08transferEPPNS0_6StatusES2_:
 	push {r0-r12,lr}
-	ldr r0,[r0]
 	str sp,[r0]
 	mov sp,r1
 	pop {r0-r12,pc}
