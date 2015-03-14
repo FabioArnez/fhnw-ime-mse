@@ -21,6 +21,7 @@
 -->
   <spec mod="sys/boot/big-bang" type="S"/>
   <spec mod="sys/deb/deblow0" type="S"/>
+  <spec mod="sys/coroutine-0" type="S"/>
   <spec mod="test/svc-handler" type="S"/>
   <spec mod="cpu-demo-ops" type="S"/>
 
@@ -151,6 +152,12 @@
   <mod name="latency"/>
  </prj>
 
+ <prj name="coroutine-demo">
+  <ref id="minimum"/>
+  <mod name="sys/coroutine-0"/>
+  <mod name="coroutine-demo"/>
+ </prj>
+ 
  <makefile>
   <pre>
 #uncomment EARLY_INIT 

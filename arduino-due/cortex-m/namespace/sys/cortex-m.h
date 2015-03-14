@@ -129,6 +129,19 @@ namespace sys
     );
    }
    
+   
+   static unsigned sp() //stackpointer
+   {
+    unsigned val;
+    asm volatile
+    (
+     "@----------------------------------- sp\n\t"
+     "mov %[val],sp\n\t"
+     :[val] "=r" (val) //output
+     :
+    );
+    return val;
+   }
 #if 0   
    template<typename T>
    static T ldx(const T*const addr) //exclusive
