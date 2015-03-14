@@ -3,39 +3,34 @@
 //(c) H.Buchmann FHNW 2015
 //--------------------------
 IMPLEMENTATION(coroutine_demo,$Id$)
-#include "sys/coroutine.h"
+#include "co/coroutine.h"
 #include "sys/msg.h"
 #include "sys/deb/deb.h"
 #include "sys/soc.h"
 
-class Coroutine:public sys::Coroutine
+class Coroutine:public co::Coroutine
 {
  public:
   Coroutine(const char name[],Coroutine& next)
-  :sys::Coroutine(workspace,WORKSPACE)
+  :co::Coroutine(workspace,WORKSPACE)
   ,name(name)
   ,next(next)
   {}
   
  private:
   const char*const name;
-  static const unsigned WORKSPACE=0x100;
-  unsigned workspace[WORKSPACE];
-  Coroutine& next;
+  static const unsigned WORKSPACE=0x400;
+  unsigned char workspace[WORKSPACE];
+  co::Coroutine& next;
   void run();
 };
 
 
 void Coroutine::run()
 {
- sys::msg<<"----------A run sp="<<io::ascii::hex()<<sys::SOC::sp()
-         <<"  "<<name<<" -> "<<next.name<<"\n";
  while(true)
  {
-  sys::msg<<"----------B run sp="<<io::ascii::hex()<<sys::SOC::sp()
-          <<"  "<<name<<" -> "<<next.name<<"\n";
-  sys::Coroutine::transfer(next);
-  sys::deb::signal0();
+  co::Coroutine::transfer(next);
   sys::msg<<"--------------- "<<name<<"\n";
  }
 }
@@ -55,6 +50,6 @@ Demo::Demo()
 ,c1("c1",c0)
 {
  sys::deb::out("\n\n\nCoroutine Demo\n");
- sys::Coroutine::transfer(c0);
+ co::Coroutine::transfer(c0);
  sys::msg<<"-------done\n";
 }

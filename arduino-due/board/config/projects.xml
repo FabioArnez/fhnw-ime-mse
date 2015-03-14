@@ -155,7 +155,7 @@
 
  <prj name="coroutine-demo">
   <ref id="minimum"/>
-  <mod name="sys/coroutine-0"/>
+  <mod name="co/coroutine-0"/>
   <mod name="coroutine-demo"/>
  </prj>
  

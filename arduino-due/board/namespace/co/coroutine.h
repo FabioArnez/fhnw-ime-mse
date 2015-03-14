@@ -3,15 +3,37 @@
 //coroutine test
 //(c) H.Buchmann FHNW 2015
 //--------------------------
-
-struct co_Status
+#include "sys/msg.h"
+namespace co
 {
- unsigned reg0_12[13];
- void (*lr)();  
-};
-extern void co_show(const char msg[],co_Status* s);
+ struct Coroutine
+ {
+  typedef void (*Run)(Coroutine*);
+  struct Status
+  {
+   Coroutine* reg0;
+   unsigned reg1_12[12];
+   Run lr;  
+  };
+  Status* s;
+  Coroutine(unsigned char ws[],unsigned size);
+  Coroutine():s(0){}
+  virtual void run()=0;
+  static void start(Coroutine*);
+  static void transfer(Coroutine& to);
+  static void transfer(Status** from,Status* to);
 
-typedef void (*Run)();
+  static Coroutine* cur;
+  struct Main;
+ };
 
-extern void co_init(Run run,co_Status* s);
-extern void co_transfer(co_Status** from,co_Status* to);
+ struct Coroutine::Main:Coroutine
+ {
+  void run(){}
+  static Main main;
+  Main()
+  {
+   sys::msg<<"Main="<<(void*)cur<<"\n";  
+  }
+ };
+}
