@@ -4,15 +4,17 @@
 //(c) H.Buchmann FHNW 2015
 //--------------------------
 #include "sys/msg.h"
-namespace co
+namespace sys
 {
  class Coroutine
  {
   public:
    static void transfer(Coroutine& to);
+
   protected:
    Coroutine(unsigned char ws[],unsigned size);
    virtual void run()=0;
+
   private:
    struct Status
    {
@@ -24,7 +26,6 @@ namespace co
    Coroutine():s(0){}
    static void start(Coroutine*);
    static void transfer(Status** from,Status* to);
-
    static Coroutine* cur;
    struct Main;
  };

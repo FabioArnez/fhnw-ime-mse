@@ -3,16 +3,16 @@
 //(c) H.Buchmann FHNW 2015
 //--------------------------
 IMPLEMENTATION(coroutine_demo,$Id$)
-#include "co/coroutine.h"
+#include "sys/coroutine.h"
 #include "sys/msg.h"
 #include "sys/deb/deb.h"
 #include "sys/soc.h"
 
-class Coroutine:public co::Coroutine
+class Coroutine:public sys::Coroutine
 {
  public:
   Coroutine(const char name[],Coroutine& next)
-  :co::Coroutine(workspace,WORKSPACE)
+  :sys::Coroutine(workspace,WORKSPACE)
   ,name(name)
   ,next(next)
   {}
@@ -21,7 +21,7 @@ class Coroutine:public co::Coroutine
   const char*const name;
   static const unsigned WORKSPACE=0x400;
   unsigned char workspace[WORKSPACE];
-  co::Coroutine& next;
+  sys::Coroutine& next;
   void run();
 };
 
@@ -30,7 +30,7 @@ void Coroutine::run()
 {
  while(true)
  {
-  co::Coroutine::transfer(next);
+  sys::Coroutine::transfer(next);
   sys::msg<<"--------------- "<<name<<"\n";
  }
 }
@@ -50,6 +50,6 @@ Demo::Demo()
 ,c1("c1",c0)
 {
  sys::deb::out("\n\n\nCoroutine Demo\n");
- co::Coroutine::transfer(c0);
+ sys::Coroutine::transfer(c0);
  sys::msg<<"-------done\n";
 }

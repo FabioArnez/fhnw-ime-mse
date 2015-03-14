@@ -2,9 +2,9 @@
 //coroutine test
 //(c) H.Buchmann FHNW 2015
 //--------------------------
-#include "co/coroutine.h"
+#include "sys/coroutine.h"
 
-namespace co
+namespace sys
 {
  Coroutine::Main Coroutine::Main::main;
 
