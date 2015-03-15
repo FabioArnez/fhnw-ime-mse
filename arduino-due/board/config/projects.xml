@@ -15,7 +15,7 @@
   <dir name="src/generic/namespace"/>
  </search>
 
- <specify prjmake="${LINK}">
+ <specify prjmake="${BUILD}">
 <!--
   <spec mod="sys/table" type="S"/>
 -->
@@ -155,6 +155,27 @@
   <mod name="coroutine-demo"/>
  </prj>
  
+ <prj name="event-demo-1">
+  <ref id="minimum"/>
+  <mod name="event-demo-1"/>
+ </prj>
+
+ <prj name="event-demo-2">
+  <ref id="minimum"/>
+  <mod name="event-demo-2"/>
+ </prj>
+
+ <prj name="event-demo-3">
+  <ref id="minimum"/>
+  <mod name="event-demo-3"/>
+ </prj>
+
+ <prj name="event-demo-4">
+  <ref id="minimum"/>
+  <mod name="event-demo-4"/>
+ </prj>
+
+
  <makefile>
   <pre>
 #uncomment EARLY_INIT 
@@ -232,6 +253,10 @@ GRAPH=@${NM}  ${^} | \
    -DNO_LONG_DIV \
    -DNO_FLOATS \
    -D'ATTRIBUTE_TEXT_STARTUP=__attribute((section(".text")))' \
+
+#call make target ACTION=GRAPH for graph output
+ACTION?=LINK
+BUILD=${${ACTION}} 
 
   </pre>
 

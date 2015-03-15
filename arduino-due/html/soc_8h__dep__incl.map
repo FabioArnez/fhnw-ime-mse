@@ -1,4 +1,5 @@
 <map id="arduino&#45;due/soc/3X/namespace/sys/soc.h" name="arduino&#45;due/soc/3X/namespace/sys/soc.h">
 <area shape="rect" id="node2" href="$interrupt-demo-7_8cc.html" title="arduino&#45;due/board/namespace\l/interrupt&#45;demo&#45;7.cc" alt="" coords="5,95,219,136"/>
 <area shape="rect" id="node3" href="$board_8h.html" title="arduino&#45;due/board/namespace\l/sys/board.h" alt="" coords="243,95,456,136"/>
+<area shape="rect" id="node4" href="$sys-tick-4_8cc.html" title="arduino&#45;due/board/namespace\l/sys&#45;tick&#45;4.cc" alt="" coords="480,95,693,136"/>
 </map>

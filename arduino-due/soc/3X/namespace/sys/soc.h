@@ -28,7 +28,7 @@ namespace sys
     DEBUG_MONITOR =12-16,
     //reserved     13-16,
     PEND_SV       =14-16,
-    SYS_TICK      =15-16,
+    SYS_TICK      =15-16,SYSTICK=15-16,
 //----------------------------------   peripherals identifiers [1] 11
     SUPC   = 0, // Supply Controller =SUPC, 
     RSTC   = 1, // Reset Controller =RSTC, 

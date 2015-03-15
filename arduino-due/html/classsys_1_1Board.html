@@ -190,6 +190,8 @@ Static Private Member Functions</h2></td></tr>
 <tr class="separator:af136229d499733bb0fc4549ddd0e2527 inherit pub_static_methods_classsys_1_1CortexM"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acff39651f46924d92ad01857d16f1b21 inherit pub_static_methods_classsys_1_1CortexM"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsys_1_1CortexM.html#acff39651f46924d92ad01857d16f1b21">control</a> (unsigned val)</td></tr>
 <tr class="separator:acff39651f46924d92ad01857d16f1b21 inherit pub_static_methods_classsys_1_1CortexM"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f7ef849e5a3aaf321a30263cf7dd9b3 inherit pub_static_methods_classsys_1_1CortexM"><td class="memItemLeft" align="right" valign="top">static unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsys_1_1CortexM.html#a8f7ef849e5a3aaf321a30263cf7dd9b3">sp</a> ()</td></tr>
+<tr class="separator:a8f7ef849e5a3aaf321a30263cf7dd9b3 inherit pub_static_methods_classsys_1_1CortexM"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
@@ -213,73 +215,87 @@ Static Private Attributes</h2></td></tr>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_types_classsys_1_1SOC"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classsys_1_1SOC')"><img src="closed.png" alt="-"/>&#160;Private Types inherited from <a class="el" href="classsys_1_1SOC.html">sys::SOC</a></td></tr>
 <tr class="memitem:a0509db58ed16253fed2d9461d242e48b inherit pub_types_classsys_1_1SOC"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48b">PID</a> { <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba534a84a280066a427818dd35ab926f64">SUPC</a> = 0, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bac087f6f9da4c54da61da0728b079e916">RSTC</a> = 1, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba0c8b2956062adb47a7da67af8cf2ea12">RESET</a> = 1-16, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba6068aff2195ec0658e666d15c71207be">NMI</a> = 2-16, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba80bca00d9b2b532809c8ba409e9e7233">HARD_FAULT</a> = 3-16, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bab022eb956875a3e9deced5ba4d49ffee">MEM_MANAGE</a> = 4-16, 
+<br />
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba772d43ce57615539c20a1d6ae3d81449">BUS_FAULT</a> = 5-16, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba21c8c41acd6ca34a80561c319d82a15d">USAGE_FAULT</a> = 6-16, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bab2ce094324b30cbc6212925ee7a90e5a">SV_CALL</a> =11-16, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bacb116e65e6459c27d818d82d96f7205f">DEBUG_MONITOR</a> =12-16, 
+<br />
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba9631743e8811172e2566efe00c150f1e">PEND_SV</a> =14-16, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baa0ac2170da2dda7826fdac16b461e2fb">SYS_TICK</a> =15-16, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba0d1468d63207d66d270e23e3afbe7542">SYSTICK</a> =15-16, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba534a84a280066a427818dd35ab926f64">SUPC</a> = 0, 
+<br />
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bac087f6f9da4c54da61da0728b079e916">RSTC</a> = 1, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baabf3484fb22daf92d5aa264f312b611d">RTC</a> = 2, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba166a337d099b39c18ca595f4a17c4987">RTT</a> = 3, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba7323b330f40bfb8d6f850a1b9f268e7c">WDT</a> = 4, 
 <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba7323b330f40bfb8d6f850a1b9f268e7c">WDT</a> = 4, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bae821b686b0f306b28b6a5d25b9b180a0">PMC</a> = 5, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bae821b686b0f306b28b6a5d25b9b180a0">PMC</a> = 5, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba0b2e594dfe59191bbafa22907c964747">EEFC0</a> = 6, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba889b14642e08e5a118e70053c200e145">EEFC1</a> = 7, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bacb0f6bb289147eb85ee488ca023d05c5">UART</a> = 8, 
 <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bacb0f6bb289147eb85ee488ca023d05c5">UART</a> = 8, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba18136067f6ec6e9b7781a22977fce8f8">SMC</a> = 9, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba18136067f6ec6e9b7781a22977fce8f8">SMC</a> = 9, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baa8a7e89a53e5858b53d515261831feb1">SDRAMC</a> =10, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba0f44cd27ab78ad6f0ceb2e5d651f06f6">PIOA</a> =11, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baf895f4e438d8691fdbe95f73c1824f1d">PIOB</a> =12, 
 <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baf895f4e438d8691fdbe95f73c1824f1d">PIOB</a> =12, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bace3990038d7da2fdbe43c802060d10a3">PIOC</a> =13, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bace3990038d7da2fdbe43c802060d10a3">PIOC</a> =13, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baf56042d265a10cc230b5d2e8a35673f2">PIOD</a> =14, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba10dab6a9c128ac87a42c67c3c3d01e5b">PIOE</a> =15, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baa273685fef05851545a020e5ba0ec755">PIOF</a> =16, 
 <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baa273685fef05851545a020e5ba0ec755">PIOF</a> =16, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba0b81aaded38657ed5668aa8ca0cb9d6b">USART0</a> =17, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba0b81aaded38657ed5668aa8ca0cb9d6b">USART0</a> =17, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba7a603f39a33d91a2994de7ecad064ec2">USART1</a> =18, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba34972d213bbc2ab8e5f11651d49a9b2d">USART2</a> =19, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba7aeea493d6746f61029f690d3242be37">USART3</a> =20, 
 <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba7aeea493d6746f61029f690d3242be37">USART3</a> =20, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bad5c1c77a6d4c70228cc7d67ddf17cc23">HSMCI</a> =21, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bad5c1c77a6d4c70228cc7d67ddf17cc23">HSMCI</a> =21, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba0099a61a537b2d63cfaf94395134a5d9">TWI0</a> =22, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba98a0f52f953778133d2970f0336cbcb9">TWI1</a> =23, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba14b4fced8015aa2c54ecea6f579b03b4">SPI0</a> =24, 
 <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba14b4fced8015aa2c54ecea6f579b03b4">SPI0</a> =24, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba9b354cc284446c8a5d50b94d118c93be">SPI1</a> =25, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba9b354cc284446c8a5d50b94d118c93be">SPI1</a> =25, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba2ab724a8885331c98d98fb7c9f94a3ad">SSC</a> =26, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba99384dc0aeb5b88146bfbc831b6a2822">TC0</a> =27, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba1af81d36a0a5c640c9d8e2e84811ed0f">TC1</a> =28, 
 <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba1af81d36a0a5c640c9d8e2e84811ed0f">TC1</a> =28, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba8917503152848023589dd2efb82237c3">TC2</a> =29, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba8917503152848023589dd2efb82237c3">TC2</a> =29, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba4241dbb7811b0bc41f6928a553848617">TC3</a> =30, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bac5d460417510db4d0072029c1cae2d40">TC4</a> =31, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bacbf0b28dae3f206fabac9641deaec77c">TC5</a> =32, 
 <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bacbf0b28dae3f206fabac9641deaec77c">TC5</a> =32, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba65fe5bb5267e3486a9418f4815e212a7">TC6</a> =33, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba65fe5bb5267e3486a9418f4815e212a7">TC6</a> =33, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baf3d4629e0775c4326754da80d309bd17">TC7</a> =34, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba653622981fbe2e96b09dad586bd3f15c">TC8</a> =35, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba0e379bf053354250c8712f52914e1832">TC0_0</a> =27, 
 <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba0e379bf053354250c8712f52914e1832">TC0_0</a> =27, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bac63d5966ee710b497a3fd2d07d2aec1e">TC0_1</a> =28, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bac63d5966ee710b497a3fd2d07d2aec1e">TC0_1</a> =28, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bae0cacc8dc682863f138e27dc31c4081a">TC0_2</a> =29, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bab7ce0cd1cb2d10bd736d5b25ec1d50bc">TC1_0</a> =30, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba000a27f7ff4f282c95b3bb39c5a248c4">TC1_1</a> =31, 
 <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba000a27f7ff4f282c95b3bb39c5a248c4">TC1_1</a> =31, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bac79fa0139d06ee93a0a9b02bbacf2019">TC1_2</a> =32, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bac79fa0139d06ee93a0a9b02bbacf2019">TC1_2</a> =32, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bac5841da63baac8097ca256ea3b4f1b4f">TC2_0</a> =33, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48badb94c99aaf7a3b01f0153cab545d367f">TC2_1</a> =34, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba821ef498a5de3f4b37744c68e1a62911">TC2_2</a> =35, 
 <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba821ef498a5de3f4b37744c68e1a62911">TC2_2</a> =35, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baedf7bf5383a920477c3669908ad8f2d6">PWM</a> =36, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baedf7bf5383a920477c3669908ad8f2d6">PWM</a> =36, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bab127ebd5e0d39d29efe370ca7ee4434d">ADC</a> =37, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba04d66a8d418e00d80a93d5db79c66add">DACC</a> =38, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba0aa58532a40a79175ec39884209c8674">DMAC</a> =39, 
 <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba0aa58532a40a79175ec39884209c8674">DMAC</a> =39, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba40fe7df5f0f3526f299dd78474b4818d">UOTGHS</a> =40, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba40fe7df5f0f3526f299dd78474b4818d">UOTGHS</a> =40, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bad10f681b78fee48d0a80418457abbc0c">TRNG</a> =41, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba2543d2393ab163397de362b47ebd0d32">EMAC</a> =42, 
+<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bacc9f298c01923440675d36690ed8f023">CAN0</a> =43, 
 <br />
-&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bacc9f298c01923440675d36690ed8f023">CAN0</a> =43, 
-<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baee51952b71a0a31b58a6c49b0bf72e51">CAN1</a> =44, 
+&#160;&#160;<a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baee51952b71a0a31b58a6c49b0bf72e51">CAN1</a> =44, 
 <a class="el" href="classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bacb2807675d5016c36bd36dbac6b2cb50">PID_COUNT</a> =45
 <br />
  }</td></tr>
@@ -495,7 +511,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 8 2015 14:03:16 for MSE 2015 by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 15 2015 17:33:09 for MSE 2015 by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.9.1
 </small></address>

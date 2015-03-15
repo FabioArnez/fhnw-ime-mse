@@ -6,5 +6,5 @@ var searchData=
   ['board',['Board',['../classsys_1_1Board.html',1,'sys']]],
   ['board_2eh',['board.h',['../board_8h.html',1,'']]],
   ['bss',['bss',['../classsys_1_1Board.html#ab0304a89e79140125122aca2e7e37e1a',1,'sys::Board']]],
-  ['bus_5ffault',['BUS_FAULT',['../classsys_1_1CortexM.html#a64d3cab1ed155739eef5efafe7bbc8a0a6efb5aba602020acb66107360b40dd3d',1,'sys::CortexM']]]
+  ['bus_5ffault',['BUS_FAULT',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba772d43ce57615539c20a1d6ae3d81449',1,'sys::SOC::BUS_FAULT()'],['../classsys_1_1CortexM.html#a64d3cab1ed155739eef5efafe7bbc8a0a6efb5aba602020acb66107360b40dd3d',1,'sys::CortexM::BUS_FAULT()']]]
 ];

@@ -1,4 +1,21 @@
 var searchData=
 [
-  ['vtable',['vTable',['../classsys_1_1CortexM.html#a60247acd5c04aefaa484e77f7095071c',1,'sys::CortexM']]]
+  ['sdramc',['SDRAMC',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baa8a7e89a53e5858b53d515261831feb1',1,'sys::SOC']]],
+  ['signal',['signal',['../classsys_1_1Event.html#a67cd3df8deb516ac8ce5badcf2d5d0d9',1,'sys::Event']]],
+  ['smc',['SMC',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba18136067f6ec6e9b7781a22977fce8f8',1,'sys::SOC']]],
+  ['soc',['SOC',['../classsys_1_1SOC.html#a77873a1f023f235c032f3bac43152344',1,'sys::SOC']]],
+  ['soc',['SOC',['../classsys_1_1SOC.html',1,'sys']]],
+  ['soc_2eh',['soc.h',['../soc_8h.html',1,'']]],
+  ['sp',['sp',['../classsys_1_1CortexM.html#a8f7ef849e5a3aaf321a30263cf7dd9b3',1,'sys::CortexM']]],
+  ['spi0',['SPI0',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba14b4fced8015aa2c54ecea6f579b03b4',1,'sys::SOC']]],
+  ['spi1',['SPI1',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba9b354cc284446c8a5d50b94d118c93be',1,'sys::SOC']]],
+  ['ssc',['SSC',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba2ab724a8885331c98d98fb7c9f94a3ad',1,'sys::SOC']]],
+  ['supc',['SUPC',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba534a84a280066a427818dd35ab926f64',1,'sys::SOC']]],
+  ['sv_5fcall',['SV_CALL',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bab2ce094324b30cbc6212925ee7a90e5a',1,'sys::SOC::SV_CALL()'],['../classsys_1_1CortexM.html#a64d3cab1ed155739eef5efafe7bbc8a0a0ffe32024f92c6bea3e5ac5bac2fac2d',1,'sys::CortexM::SV_CALL()']]],
+  ['svc',['svc',['../classsys_1_1CortexM.html#a866cb272954de1ed64e824efc7e77a5b',1,'sys::CortexM']]],
+  ['sys',['sys',['../namespacesys.html',1,'']]],
+  ['sys_2dtick_2d4_2ecc',['sys-tick-4.cc',['../sys-tick-4_8cc.html',1,'']]],
+  ['sys_2dtick_2d4_2eh',['sys-tick-4.h',['../sys-tick-4_8h.html',1,'']]],
+  ['sys_5ftick',['SYS_TICK',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baa0ac2170da2dda7826fdac16b461e2fb',1,'sys::SOC::SYS_TICK()'],['../classsys_1_1CortexM.html#a64d3cab1ed155739eef5efafe7bbc8a0a245c4d4cc5e268e75021deb057a0384e',1,'sys::CortexM::SYS_TICK()']]],
+  ['systick',['SysTick',['../classSysTick.html',1,'SysTick'],['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba0d1468d63207d66d270e23e3afbe7542',1,'sys::SOC::SYSTICK()'],['../classSysTick.html#aa11018714f6d72dd8b153ecd7d6867f6',1,'SysTick::SysTick()'],['../classSysTick.html#ab0ed841d0142bf80b59b843cdc6ac6a5',1,'SysTick::sysTick()']]]
 ];

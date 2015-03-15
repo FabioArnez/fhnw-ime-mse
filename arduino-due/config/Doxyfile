@@ -762,7 +762,13 @@ INPUT                  = \
 arduino-due/soc/3X/namespace/sys/soc.h \
 arduino-due/board/namespace/interrupt-demo-7.cc \
 arduino-due/cortex-m/namespace/sys/cortex-m.h \
-arduino-due/board/namespace/sys/board.h
+arduino-due/board/namespace/sys/board.h \
+arduino-due/namespace/sys/event.h \
+arduino-due/board/namespace/event-demo-1.cc \
+arduino-due/board/namespace/event-demo-2.cc \
+arduino-due/board/namespace/event-demo-3.cc \
+arduino-due/board/namespace/event-demo-4.cc \
+arduino-due/board/namespace//sys-tick-4.cc arduino-due/board/namespace//sys-tick-4.h
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses

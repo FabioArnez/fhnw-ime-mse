@@ -1,16 +1,20 @@
 var searchData=
 [
-  ['sdramc',['SDRAMC',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baa8a7e89a53e5858b53d515261831feb1',1,'sys::SOC']]],
-  ['smc',['SMC',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba18136067f6ec6e9b7781a22977fce8f8',1,'sys::SOC']]],
-  ['soc',['SOC',['../classsys_1_1SOC.html',1,'sys']]],
-  ['soc',['SOC',['../classsys_1_1SOC.html#a77873a1f023f235c032f3bac43152344',1,'sys::SOC']]],
-  ['soc_2eh',['soc.h',['../soc_8h.html',1,'']]],
-  ['spi0',['SPI0',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba14b4fced8015aa2c54ecea6f579b03b4',1,'sys::SOC']]],
-  ['spi1',['SPI1',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba9b354cc284446c8a5d50b94d118c93be',1,'sys::SOC']]],
-  ['ssc',['SSC',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba2ab724a8885331c98d98fb7c9f94a3ad',1,'sys::SOC']]],
-  ['supc',['SUPC',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba534a84a280066a427818dd35ab926f64',1,'sys::SOC']]],
-  ['sv_5fcall',['SV_CALL',['../classsys_1_1CortexM.html#a64d3cab1ed155739eef5efafe7bbc8a0a0ffe32024f92c6bea3e5ac5bac2fac2d',1,'sys::CortexM']]],
-  ['svc',['svc',['../classsys_1_1CortexM.html#a866cb272954de1ed64e824efc7e77a5b',1,'sys::CortexM']]],
-  ['sys',['sys',['../namespacesys.html',1,'']]],
-  ['sys_5ftick',['SYS_TICK',['../classsys_1_1CortexM.html#a64d3cab1ed155739eef5efafe7bbc8a0a245c4d4cc5e268e75021deb057a0384e',1,'sys::CortexM']]]
+  ['pend_5fsv',['PEND_SV',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba9631743e8811172e2566efe00c150f1e',1,'sys::SOC::PEND_SV()'],['../classsys_1_1CortexM.html#a64d3cab1ed155739eef5efafe7bbc8a0a28a2b9d371642a5fa4e69b0ea2424e43',1,'sys::CortexM::PEND_SV()']]],
+  ['pid',['PID',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48b',1,'sys::SOC']]],
+  ['pid_5fcount',['PID_COUNT',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bacb2807675d5016c36bd36dbac6b2cb50',1,'sys::SOC']]],
+  ['pio_5fa',['PIO_A',['../classsys_1_1SOC.html#a8cee28453c5a8f9216cf715658447f77',1,'sys::SOC']]],
+  ['pio_5fb',['PIO_B',['../classsys_1_1SOC.html#aec6c48cddbc4ce5b7f4f07bcb0cabc70',1,'sys::SOC']]],
+  ['pio_5fc',['PIO_C',['../classsys_1_1SOC.html#a524177f16b3fdf22f29aa22c06f319ef',1,'sys::SOC']]],
+  ['pio_5fd',['PIO_D',['../classsys_1_1SOC.html#abc793465f7d38a66b33d1231e01f1816',1,'sys::SOC']]],
+  ['pio_5fe',['PIO_E',['../classsys_1_1SOC.html#aca98b021405658f989c9a09b7ef981d3',1,'sys::SOC']]],
+  ['pio_5ff',['PIO_F',['../classsys_1_1SOC.html#a09d041f61c1d930a683642ed7be5d380',1,'sys::SOC']]],
+  ['pioa',['PIOA',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba0f44cd27ab78ad6f0ceb2e5d651f06f6',1,'sys::SOC']]],
+  ['piob',['PIOB',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baf895f4e438d8691fdbe95f73c1824f1d',1,'sys::SOC']]],
+  ['pioc',['PIOC',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bace3990038d7da2fdbe43c802060d10a3',1,'sys::SOC']]],
+  ['piod',['PIOD',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baf56042d265a10cc230b5d2e8a35673f2',1,'sys::SOC']]],
+  ['pioe',['PIOE',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba10dab6a9c128ac87a42c67c3c3d01e5b',1,'sys::SOC']]],
+  ['piof',['PIOF',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baa273685fef05851545a020e5ba0ec755',1,'sys::SOC']]],
+  ['pmc',['PMC',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bae821b686b0f306b28b6a5d25b9b180a0',1,'sys::SOC::PMC()'],['../classsys_1_1Board.html#a54f7117bdd08d1813bd5abc7b95860ed',1,'sys::Board::pmc()']]],
+  ['pwm',['PWM',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48baedf7bf5383a920477c3669908ad8f2d6',1,'sys::SOC']]]
 ];

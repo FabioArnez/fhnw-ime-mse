@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vtable',['vTable',['../classsys_1_1CortexM.html#a60247acd5c04aefaa484e77f7095071c',1,'sys::CortexM']]]
+  ['mck',['MCK',['../classsys_1_1Board.html#a35f8f740e5ec71ec0912057953d191ba',1,'sys::Board']]]
 ];

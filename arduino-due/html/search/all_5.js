@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['hard_5ffault',['HARD_FAULT',['../classsys_1_1CortexM.html#a64d3cab1ed155739eef5efafe7bbc8a0a6a792601601ea6b0326c93d9db6cf05c',1,'sys::CortexM']]],
-  ['hsmci',['HSMCI',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bad5c1c77a6d4c70228cc7d67ddf17cc23',1,'sys::SOC']]]
+  ['front',['front',['../structsys_1_1Event_1_1Queue.html#a6a4f2ca2a1e037ea60b9718087c6c8dd',1,'sys::Event::Queue']]]
 ];

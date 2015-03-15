@@ -1,5 +1,6 @@
 <map id="arduino&#45;due/cortex&#45;m/namespace/sys/cortex&#45;m.h" name="arduino&#45;due/cortex&#45;m/namespace/sys/cortex&#45;m.h">
-<area shape="rect" id="node2" href="$soc_8h.html" title="arduino&#45;due/soc/3X\l/namespace/sys/soc.h" alt="" coords="150,95,311,136"/>
-<area shape="rect" id="node4" href="$board_8h.html" title="arduino&#45;due/board/namespace\l/sys/board.h" alt="" coords="243,184,456,225"/>
+<area shape="rect" id="node2" href="$soc_8h.html" title="arduino&#45;due/soc/3X\l/namespace/sys/soc.h" alt="" coords="298,95,459,136"/>
+<area shape="rect" id="node4" href="$board_8h.html" title="arduino&#45;due/board/namespace\l/sys/board.h" alt="" coords="480,184,693,225"/>
 <area shape="rect" id="node3" href="$interrupt-demo-7_8cc.html" title="arduino&#45;due/board/namespace\l/interrupt&#45;demo&#45;7.cc" alt="" coords="5,184,219,225"/>
+<area shape="rect" id="node5" href="$sys-tick-4_8cc.html" title="arduino&#45;due/board/namespace\l/sys&#45;tick&#45;4.cc" alt="" coords="243,184,456,225"/>
 </map>

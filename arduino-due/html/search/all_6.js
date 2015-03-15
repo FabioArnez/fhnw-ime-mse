@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['inittc',['initTC',['../classDemo.html#aa07c5fcfd12da60c6a0243d7f565162b',1,'Demo']]],
-  ['inrange',['inRange',['../classsys_1_1CortexM.html#a3a8fbc1f69707fa4a25a610e4fe75381',1,'sys::CortexM']]],
-  ['install',['install',['../classsys_1_1SOC.html#a1669579eb1e6500db3f41a3f61387b58',1,'sys::SOC::install()'],['../classsys_1_1CortexM.html#a52cf68d949eb42b2259f8971a55596ca',1,'sys::CortexM::install()']]],
-  ['interrupt_2ddemo_2d7_2ecc',['interrupt-demo-7.cc',['../interrupt-demo-7_8cc.html',1,'']]],
-  ['ipsr',['ipsr',['../classsys_1_1CortexM.html#a305583a4e2b0ce4ccf795fa869ca7af6',1,'sys::CortexM']]],
-  ['isarmed',['isArmed',['../classsys_1_1SOC.html#a92052f20f1fea5633c0d4f125a206999',1,'sys::SOC']]]
+  ['hard_5ffault',['HARD_FAULT',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48ba80bca00d9b2b532809c8ba409e9e7233',1,'sys::SOC::HARD_FAULT()'],['../classsys_1_1CortexM.html#a64d3cab1ed155739eef5efafe7bbc8a0a6a792601601ea6b0326c93d9db6cf05c',1,'sys::CortexM::HARD_FAULT()']]],
+  ['hsmci',['HSMCI',['../classsys_1_1SOC.html#a0509db58ed16253fed2d9461d242e48bad5c1c77a6d4c70228cc7d67ddf17cc23',1,'sys::SOC']]]
 ];
