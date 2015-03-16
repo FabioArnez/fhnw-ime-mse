@@ -27,7 +27,7 @@ Demo1 Demo1::demo;
 void Demo1::onEvent(sys::Event&)
 {
  sys::msg<<"onEvent\n";
-// event.signal(); //called via sys::Event::loop()
+ event.signal(); //called via sys::Event::loop()
 }
 
 Demo1::Demo1()
