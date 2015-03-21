@@ -29,7 +29,9 @@ namespace sys
       deb::hex("Event already in queue",(void*)this);
       deb::halt();
      }
-  __atomic_exchange_n(&queue.tail,this,__ATOMIC_RELAXED)->next=this;
+ queue.tail->next=this;
+ queue.tail=this;
+//  __atomic_exchange_n(&queue.tail,this,__ATOMIC_RELAXED)->next=this;
  }
  
 }

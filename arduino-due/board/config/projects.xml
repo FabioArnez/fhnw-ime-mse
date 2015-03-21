@@ -176,6 +176,16 @@
  </prj>
 
 
+ <prj name="event-access">
+  <ref id="minimum"/>
+  <mod name="event-access"/>
+ </prj>
+
+ <prj name="echo">
+  <ref id="minimum"/>
+  <mod name="echo"/>
+ </prj>
+
  <makefile>
   <pre>
 #uncomment EARLY_INIT 

@@ -73,6 +73,13 @@ namespace sys
  };
 #endif
 
+ SOC::SOC() 
+ {
+  install(BUS_FAULT,busFault);
+  sys::reg::SCS.SCB.SHCSR=(1<<18)|(1<<17)|(1<<16); //B3.2.13
+  arm();
+ } 
+
  void SOC::clockEnable(PID id)
  {
   if (id<32) reg::PMC.PCER0=(1<<id);
@@ -97,6 +104,7 @@ namespace sys
   CortexM::cpsID_f();
  }
  
+
 
 }
 

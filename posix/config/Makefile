@@ -40,6 +40,9 @@ VPATH=${SRC_PATH}
 #vpath %.h  ${SRC_PATH}
 #---------------------------------------------------<source files>
 SRC= \
+thread-demo-1.cc thread-demo-2.cc thread-demo-3.cc \
+common-access-1.cc common-access-2.cc common-access-3.cc common-access-4.cc \
+thread.cc \
 hello-world.c \
 cpu-demo.c \
 cpu-demo-ops.S \
@@ -64,6 +67,13 @@ pthread-demo.c \
 sys-call.S
 
 #---------------------------------------------------<applications>
+thread-demo-1:	thread-demo-1.o
+thread-demo-2:	thread-demo-2.o
+thread-demo-3:	thread-demo-3.o thread.o
+common-access-1: common-access-1.o thread.o
+common-access-2: common-access-2.o thread.o
+common-access-3: common-access-3.o thread.o
+common-access-4: common-access-4.o thread.o
 hello-world:	hello-world.o
 cpu-demo: 	cpu-demo.o cpu-demo-ops.o
 sound-demo:	sound-demo.o sound/alsa.o sound/samples.o timer.o
@@ -87,7 +97,9 @@ sys-call:	sys-call.o
 include make.rules
 
 #---------------------------------------------------<admin>
+.PHONY projects:
 .PHONY rules:
+projects:	rules
 rules:	${SRC}
 	sh ../../tool/make-rules.sh ${SRC}
 

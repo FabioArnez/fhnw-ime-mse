@@ -7,6 +7,7 @@
 INTERFACE(sys_cortex_m,$Id$)
 #include "sys/reg/scs.h"
 #include "sys/msg.h"
+#include "sys/deb/deb.h"
 
 namespace sys
 {
@@ -130,17 +131,30 @@ namespace sys
    }
    
    
-   static unsigned sp() //stackpointer
+   static unsigned* sp() //stackpointer
    {
-    unsigned val;
+    unsigned* sp;
     asm volatile
     (
      "@----------------------------------- sp\n\t"
-     "mov %[val],sp\n\t"
-     :[val] "=r" (val) //output
+     "mov %[sp],sp\n\t"
+     :[sp] "=r" (sp) //output
      :
     );
-    return val;
+    return sp;
+   }
+   
+   static unsigned lr() //the link register
+   {
+    unsigned lr;
+    asm volatile
+    (
+     "@----------------------------------- lr\n\t"
+     "mov %[lr],lr\n\t"
+     :[lr] "=r" (lr) //output
+     :
+    );
+    return lr;
    }
 #if 0   
    template<typename T>
@@ -180,6 +194,19 @@ namespace sys
     sys::reg::SCS.SCB.VTOR=vTable;
    }
    
+//some Traps
+//#pragma GCC optimize ("-O0")
+   static void busFault()
+   {
+    sys::msg.dump(sp(),0x10);
+    sys::deb::hex("sp",sp());	    
+#if 1  
+    sys::msg<<"BusFault<5> CFSR="<<io::ascii::hex()<<sys::reg::SCS.SCB.CFSR
+            <<" BFAR="<<io::ascii::hex()<<sys::reg::SCS.SCB.BFAR<<"  see B3.2.15, pB3-667(p916)\n";
+#endif
+
+    sys::deb::signal0();
+   }
   private:
    static void trap() //always the same 
    {

@@ -29,7 +29,7 @@ void Demo4::onTick()  //called in normal thread background
 
 Demo4::Demo4()
 {
- sys::msg<<"\n"__FILE__"\n";
- SysTick::listen((1<<24)-1,*this);
+ sys::msg<<"\n" __FILE__ "\n";
+ SysTick::listenFast((1<<24)-1,*this);
  sys::Event::loop();  //must be last call
 }

@@ -8,7 +8,7 @@ INTERFACE(sys_soc,$Id$)
 #include "sys/cortex-m.h"
 #include "sys/trap.h"
 #include "sys/reg/pio.h"
-
+#include "sys/deb/deb.h"
 namespace sys
 {
  class SOC:public CortexM<61>
@@ -117,10 +117,7 @@ namespace sys
    static volatile reg::PIO PIO_F;
    
   protected:
-   SOC() 
-   {
-    arm();
-   } 
+   SOC();
  };
 }
 
