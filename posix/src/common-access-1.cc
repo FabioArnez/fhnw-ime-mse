@@ -77,12 +77,12 @@ class Decrementer:public Agent
 int main(int argc,char**args)
 {
  Pool pool;
- Incrementer inc(pool);
- Decrementer dec(pool);
- inc.start();
+ Incrementer incrementer(pool);
+ Decrementer decrementer(pool);
+ incrementer.start();
 //inc.join(); 
- dec.start();
- dec.join();
- inc.join();
+ decrementer.start();
+ decrementer.join();
+ decrementer.join();
  std::cout<<"value="<<pool.value()<<"\n";
 }

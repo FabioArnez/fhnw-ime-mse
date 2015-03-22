@@ -1,0 +1,72 @@
+00000000: 2000009c fffffff9 00001779 00000000   ... ....y.......                
+00000010: 4f03de2e 20088000 00001ed0 00001ab5   ...O... ........                
+00000020: 00001c6c 61000000 e000e000 00001b65   l......a....e...                
+00000030: 20087fe0 00001b8d 80000000 00001a4f   ... ........O...                
+sp 0x20087f58                                                                   
+BusFault<5> CFSR=0x00008200 BFAR=0x4f03de2e  see B3.2.15, pB3-667(p916)         
+
+
+00001c58 <_ZN3sys5Event5Queue4loopEv>:
+    1c58:       4604            mov     r4, r0
+    1c5a:       b508            push    {r3, lr}
+    1c5c:       4e08            ldr     r6, [pc, #32]   ; (1c80 <_ZN3sys5Event5Q
+    1c5e:       2500            movs    r5, #0
+    1c60:       69a1            ldr     r1, [r4, #24]
+    1c62:       680b            ldr     r3, [r1, #0]
+    1c64:       6848            ldr     r0, [r1, #4]
+    1c66:       681a            ldr     r2, [r3, #0]
+    1c68:       61a0            str     r0, [r4, #24]
+    1c6a:       604d            str     r5, [r1, #4]
+    1c6c:       6812            ldr     r2, [r2, #0]
+    1c6e:       1d18            adds    r0, r3, #4
+    1c70:       42b2            cmp     r2, r6
+    1c72:       d102            bne.n   1c7a <_ZN3sys5Event5Queue4loopEv+0x22>
+    1c74:       f7ff ffde       bl      1c34 <_ZN3sys5Event6signalEv>
+    1c78:       e7f2            b.n     1c60 <_ZN3sys5Event5Queue4loopEv+0x8>
+    1c7a:       4618            mov     r0, r3
+    1c7c:       4790            blx     r2
+    1c7e:       e7ef            b.n     1c60 <_ZN3sys5Event5Queue4loopEv+0x8>
+    1c80:       00001c85        .word   0x00001c85
+
+
+_ZN3sys5Event5Queue4loopEv:
+	@ Volatile: function does not return.
+	@ args = 0, pretend = 0, frame = 0
+	@ frame_needed = 0, uses_anonymous_args = 0
+	mov	r4, r0
+	push	{r3, lr}
+	ldr	r6, .L14
+	movs	r5, #0
+.L10:
+	ldr	r1, [r4, #24]         /* r1=front */
+	ldr	r3, [r1]              /* r3=ev->li */
+	ldr	r0, [r1, #4]          /* r0=ev->next */
+	ldr	r2, [r3]
+	str	r0, [r4, #24]
+	str	r5, [r1, #4]           /* ev->next=0;    */
+	ldr	r2, [r2]               /*<---------------- */
+	adds	r0, r3, #4
+	cmp	r2, r6
+	bne	.L11
+	bl	_ZN3sys5Event6signalEv
+	b	.L10
+.L11:
+	mov	r0, r3
+	blx	r2
+	b	.L10
+.L15:
+	.align	2
+.L14:
+	.word	_ZN3sys5Event3Nil7onEventERS0_
+
+ void Event::Queue::loop()
+ {
+  while(true) //at least two events in queue
+  {
+   Event* ev=front;
+   front=ev->next;
+   ev->next=0;
+   ev->li.onEvent(*ev);
+  } 
+ }
+

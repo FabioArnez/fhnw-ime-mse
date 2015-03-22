@@ -1,7 +1,7 @@
 #-----------------------------
 #loop.sh
 #(c) H.Buchmann FHNW 2012
-#$Id$
+#using simply cpu-time
 #-----------------------------
 COUNT=0
 while [ true ]

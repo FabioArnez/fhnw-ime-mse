@@ -40,6 +40,7 @@ VPATH=${SRC_PATH}
 #vpath %.h  ${SRC_PATH}
 #---------------------------------------------------<source files>
 SRC= \
+primes.cc \
 thread-demo-1.cc thread-demo-2.cc thread-demo-3.cc \
 common-access-1.cc common-access-2.cc common-access-3.cc common-access-4.cc \
 thread.cc \
@@ -67,6 +68,7 @@ pthread-demo.c \
 sys-call.S
 
 #---------------------------------------------------<applications>
+primes: 	primes.o
 thread-demo-1:	thread-demo-1.o
 thread-demo-2:	thread-demo-2.o
 thread-demo-3:	thread-demo-3.o thread.o

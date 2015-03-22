@@ -32,6 +32,7 @@ int main(int argc,char** args)
  std::thread th1(code1);
  std::thread th2(code2);
 //TODO check cpu usage (sysmonitor)
+//     make a lot of threads with the same code
 // th1.join(); //wait here until t1 perhaps finishes
 // th2.join(); //wait here until t1 perhaps finishes
  return 0;

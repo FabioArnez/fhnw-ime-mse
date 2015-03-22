@@ -13,8 +13,7 @@ namespace sys
    {
     virtual void onEvent(Event&)=0;
    };
-   
-   
+
    Event(Listener*const li)
    :li(*li)
    {}
