@@ -83,6 +83,6 @@ int main(int argc,char**args)
 //inc.join(); 
  decrementer.start();
  decrementer.join();
- decrementer.join();
+ incrementer.join();
  std::cout<<"value="<<pool.value()<<"\n";
 }
