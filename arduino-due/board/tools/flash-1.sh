@@ -5,7 +5,7 @@
 #--------------------
 FILE=${1%.bin}.bin
 [[ ! -f ${FILE} ]] && { echo "usage ${0} image"; exit 1; }
-DEV=/dev/ttyACM1
+DEV=/dev/ttyACM0
 stty -F${DEV} 1200
 ARDUINO=../tools/arduino
 ${ARDUINO} dtroff ${DEV}
