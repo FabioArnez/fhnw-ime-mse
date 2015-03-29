@@ -7,6 +7,8 @@ IMPLEMENTATION(uart_demo,$Id$)
 #include "sys/msg.h"
 #include "sys/event.h"
 #include "sys/deb/deb.h"
+#include "sys/led.h"
+
 class Demo:sys::UART::RX::Listener
           ,sys::UART::TX::Listener
 {
@@ -23,7 +25,7 @@ Demo Demo::demo;
 
 void Demo::onRX(char ch)
 {
- sys::msg<<"char "<<ch<<"\n";
+ sys::LED::tgl(sys::LED::L);
 }
 
 void Demo::onTX(const char msg[],unsigned len)
@@ -35,7 +37,7 @@ void Demo::onTX(const char msg[],unsigned len)
 Demo::Demo()
 {
  sys::msg<<"UART Demo\n";
-// sys::UART::RX::listen(*this);
+ sys::UART::RX::listen(*this);
  sys::UART::TX::tx(Msg,*this);
  sys::Event::loop(); 
 }

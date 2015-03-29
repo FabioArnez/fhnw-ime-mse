@@ -51,7 +51,7 @@ namespace sys
      TX();
      bool txIt(const char s[],Listener& li);
      void onEvent(sys::Event&); 
-   };
+   }; //TX
    
   private:
    static UART uart;

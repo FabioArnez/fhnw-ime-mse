@@ -45,7 +45,7 @@ namespace sys
  UART::RX::RX()
  :sys::Event(this)
  {
-//  sys::reg::UART.IER=(1<<0);//RXRDY
+  sys::reg::UART.IER=(1<<0);//RXRDY
  }
 
  void UART::RX::onEvent(Event&)
