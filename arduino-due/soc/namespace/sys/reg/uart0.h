@@ -13,6 +13,17 @@ namespace sys
  {
   struct UART0
   {
+   enum Status {RXRDY  =(1<< 0),
+                TXRDY  =(1<< 1),
+		ENDRX  =(1<< 3),
+		ENDTX  =(1<< 4),
+		OVRE   =(1<< 5),
+		FRAME  =(1<< 6),
+		PARE   =(1<< 7),
+		TXEMPTY=(1<< 9),
+		TXBUFE =(1<<11),
+		RXBUFF =(1<<12)};
+		
    unsigned CR;   // 0x0000 Control Register UART_CR Write-only 
    unsigned MR;   // 0x0004 Mode Register UART_MR Read-write 0x0
    unsigned IER;  // 0x0008 Interrupt Enable Register UART_IER Write-only 

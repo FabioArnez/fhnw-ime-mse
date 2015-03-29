@@ -185,6 +185,11 @@
   <ref id="minimum"/>
   <mod name="echo"/>
  </prj>
+ 
+ <prj name="uart-demo">
+  <ref id="minimum"/>
+  <mod name="uart-demo"/>
+ </prj>
 
  <makefile>
   <pre>
