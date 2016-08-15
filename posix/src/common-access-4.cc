@@ -29,12 +29,12 @@ Pool::Pool()
 }
 void Pool::inc()
 {
- std::atomic_fetch_add(&data,1);
+ std::atomic_fetch_add(&data,1); //++data
 }
 
 void Pool::dec()
 {
- std::atomic_fetch_sub(&data,1);
+ std::atomic_fetch_sub(&data,1); //--data
 }
 
 class Agent:public Thread
@@ -46,7 +46,7 @@ class Agent:public Thread
   virtual void action()=0;
 
  private:
-  static const unsigned COUNT=(1<<20);
+  static const unsigned COUNT=(1<<22);
   void run();
 };
 

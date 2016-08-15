@@ -46,7 +46,7 @@ class Agent:public Thread
   virtual void action()=0;
 
  private:
-  static const unsigned COUNT=(1<<20);
+  static const unsigned COUNT=(1<<22);
   void run();
 };
 
@@ -80,9 +80,10 @@ int main(int argc,char**args)
  Incrementer incrementer(pool);
  Decrementer decrementer(pool);
  incrementer.start();
-//inc.join(); 
+// incrementer.join(); 
+ 
  decrementer.start();
- decrementer.join();
+ decrementer.join(); 
  incrementer.join();
  std::cout<<"value="<<pool.value()<<"\n";
 }

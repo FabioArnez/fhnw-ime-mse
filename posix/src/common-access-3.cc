@@ -47,7 +47,7 @@ class Agent:public Thread
   virtual void action()=0;
 
  private:
-  static const unsigned COUNT=(1<<20);
+  static const unsigned COUNT=(1<<22);
   void run();
 };
 
