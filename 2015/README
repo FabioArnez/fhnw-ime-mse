@@ -1,0 +1,33 @@
+The home the repo 
+-----------------
+
+src 
+  *.c/cc/h files
+
+host:   simulated POSIX
+  config: Makefiles etc.
+  src
+
+arduino-due: 
+  config
+  src: * cc/h files
+  tool: for downloading
+      
+arm:   qemu minimal arm realview virtual machines
+  config	
+  src
+  tool:     arm/qemu specific tools
+
+intel: minimal BIOS based virtual machine
+  config
+  src
+  iso:      contents of boot CD-ROM used by virtualbox
+  sos.iso:  the boot CD-ROM 
+  tool:     intel specific tools
+
+posix: fully equipped posix system
+  config 
+  src *.c/cc/h and *.java Files
+  
+tool: scripts
+

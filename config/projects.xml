@@ -1,0 +1,129 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE projects PUBLIC "3e37ecfe693b31a44c434b6193405efa" 
+                        "http:eo3s.hst.fhso.ch/eo3s/depend.dtd">
+
+<projects name="Arduino-M0">
+ 
+ <search>
+  <dir name="src"/>
+  <dir name="src/board/namespace"/>
+  <dir name="src/soc/namespace"/>
+  <dir name="src/namespace"/>
+ </search>
+
+ <specify prjmake="${GRAPH}">
+  <spec mod="sys/boot/big-bang" type="S"/>
+  <spec mod="sys/deb/deblow0" type="S"/>
+ </specify>
+
+ <prj name="startup-1">
+  <mod name="sys/mem/ram0"/>
+  <mod name="sys/boot/big-bang"/>
+  <mod name="sys/board"/>
+  <mod name="sys/deb/deblow"/>
+  <mod name="sys/deb/deblow0"/>
+  <mod name="startup-1"/>
+  <mod name="sys/sys"/>
+  <mod name="sys/msg-1"/>
+ </prj>
+
+ <makefile>
+  <pre>
+
+#---------------------------------- the locations
+TOOLS=${_dp_HOME}/tools
+TC=../tc/bin/arm-none-eabi-
+CC=${TC}gcc
+CXX=${TC}g++
+
+#---------------------------------- the tools
+CLANG_OPTIONS=-std=c++11 -target armv7m--eabi -integrated-as
+#CC=clang++ ${CLANG_OPTIONS}
+#CXX=${CC}
+
+AS=${TC}as
+LD=${TC}ld
+NM=${TC}nm
+OBJCOPY=${TC}objcopy
+
+LIBGCC_DIR:=$(dir $(shell ${CXX} --print-libgcc-file-name))
+#see TODO.txt
+LIBGCC:= -L${LIBGCC_DIR} -lgcc
+ 
+INTERFACE=
+IMPLEMENTATION= 
+#for more detailed include dependencies use
+INTERFACE=extern const unsigned name __attribute__((used))=0;
+IMPLEMENTATION=extern const unsigned name; static const unsigned _##name=name;
+ 
+CPPFLAGS= \
+ -include "sys/sys.h"\
+ $(foreach d,$(_dp_SRC_DIRS),-I $(d)) \
+ -DEARLY_INIT \
+ -DNO_LONG_DIV \
+ -DNO_FLOATS \
+ -DSYS_SYS_SHOW_STARTUP \
+ -D'INTERFACE(name,info)=' \
+ -D'IMPLEMENTATION(name,info)='
+
+CPU=cortex-m0
+CFLAGS=-O2 -std=c++14 -mcpu=${CPU} -mthumb \
+         -fomit-frame-pointer\
+	 -fpermissive \
+	 -fcheck-new \
+	 -fsized-deallocation \
+         -fno-exceptions \
+	 -fuse-cxa-atexit \
+	 -nostdinc\
+	 -fno-builtin\
+	 -Wreturn-type\
+	 -fno-rtti\
+	 -Wall\
+	 -fno-unwind-tables \
+
+
+# -Werror\
+
+CXXFLAGS=${CFLAGS}
+#----------------- rule patterns
+%.o:	%.S; ${CC} ${CPPFLAGS} -E ${&lt;} | ${AS} -mcpu=${CPU} -o ${@}
+
+SHOW_NM=@${NM} ${^}
+SHOW_INIT_SEQUENCE=${NM} ${^} | ${_dp_HOME}/posix/bin/early-initialize.sh
+
+INIT_SEQUENCE=${NM} ${^} | \
+	${TOOLS}/early-init.py init | \
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c -x c++ -o init-sequence.o -
+
+LINK=${INIT_SEQUENCE} &amp;&amp; \
+	${LD} -o ${@} init-sequence.o ${^}  \
+	-Map=$@.map \
+	--build-id \
+	--script=../config/layout.ld \
+	${LIBGCC} \
+	 &amp;&amp; \
+	${OBJCOPY} -O binary ${@} ${@}.bin
+
+#use GRAPH for creating a dependency graph
+GRAPH=@${NM}  ${^} | \
+ ${TOOLS}/early-init.py graph  | dot -Tpdf > ${@}.pdf
+
+  </pre>
+
+  <post>
+files:
+	@java -jar ${TOOLS}/projects.jar files ${_dp_PROJECTS_XML} ${_dp_HOME} | sort
+all:	${_dp_PRJ_LIST}
+clean:	
+	rm -f ${_dp_MOD_LIST} ${_dp_PRJ_LIST}
+namespace:
+	mkdir -p ${_dp_NAMESPACE}
+
+#general rules
+# all depends on sys/sys.h
+   ${_dp_MOD_LIST}: sys/sys.h
+  </post>
+ </makefile>
+
+</projects>
