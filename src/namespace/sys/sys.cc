@@ -373,8 +373,23 @@ namespace sys
 //EARLY_INIT
 extern const sys::Mod::Entry __InitSequence[];
 extern "C" sys::Mod::Global __GLOBAL__CONSTRUCTORS[];
+extern "C" sys::Mod::Global __GLOBAL__DESTRUCTORS[];
 namespace sys
 {
+ void Mod::Entry::show(Global g) const
+ {
+#ifdef SYS_SYS_SHOW_STARTUP   
+  deb::out((void*)g);deb::out("\t");
+  if (ctorI<0) deb::out("-");
+     else      deb::out(ctorI);
+  deb::out("\t");
+  if (dtorI<0) deb::out("-");
+     else      deb::out(dtorI);
+  deb::out("\t");deb::out(name);
+  deb::newln();
+#endif   
+ }
+ 
  void Mod::start()
  {
   unsigned i=0;
@@ -382,12 +397,18 @@ namespace sys
   {
    const Mod::Entry& e=__InitSequence[i++];
    if (e.name==0) break;
-   Global g=__GLOBAL__CONSTRUCTORS[e.index];
-#ifdef SYS_SYS_SHOW_STARTUP   
-   deb::out((void*)g);deb::out("\t");
-   deb::out(e.index);deb::out("\t");deb::out(e.name);
-   deb::newln();
-#endif   
+   if (e.ctorI<0) continue;
+   Global g=__GLOBAL__CONSTRUCTORS[e.ctorI];
+   e.show(g);
+   g();
+  }
+  --i;
+  while(i>0)
+  {
+   const Mod::Entry& e=__InitSequence[--i];
+   if (e.dtorI<0) continue;
+   Global g=__GLOBAL__DESTRUCTORS[e.dtorI];
+   e.show(g);
    g();
   }
  }

@@ -12,7 +12,7 @@
   <dir name="src/namespace"/>
  </search>
 
- <specify prjmake="${GRAPH}">
+ <specify prjmake="${LINK}">
   <spec mod="sys/boot/big-bang" type="S"/>
   <spec mod="sys/deb/deblow0" type="S"/>
  </specify>
@@ -74,7 +74,7 @@ CFLAGS=-O2 -std=c++14 -mcpu=${CPU} -mthumb \
 	 -fcheck-new \
 	 -fsized-deallocation \
          -fno-exceptions \
-	 -fuse-cxa-atexit \
+	 -fno-use-cxa-atexit \
 	 -nostdinc\
 	 -fno-builtin\
 	 -Wreturn-type\
@@ -91,6 +91,10 @@ CXXFLAGS=${CFLAGS}
 
 SHOW_NM=@${NM} ${^}
 SHOW_INIT_SEQUENCE=${NM} ${^} | ${_dp_HOME}/posix/bin/early-initialize.sh
+
+
+INIT_SEQU=${NM} ${^} | \
+	${TOOLS}/early-init.py init 
 
 INIT_SEQUENCE=${NM} ${^} | \
 	${TOOLS}/early-init.py init | \

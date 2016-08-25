@@ -12,24 +12,26 @@ class Symbol:
 	list={}	#name module
 	
 class Module(graph.Node):
-	Global=re.compile('_GLOBAL__(sub_)?I_\\S+')
+	GlobalConstructor=re.compile('_GLOBAL__(sub_)?I_\\S+')
+	GlobalDestructor =re.compile('_GLOBAL__(sub_)?D_\\S+')
 	list=collections.OrderedDict()
 	init=[]
-	gcount=0
-	
+	gConstructorC=0
+	gDestructorC=0
 	def __init__(self,name):
 		self.name=name
 		self.use=set()
 		self.references=set() 
 		self.undefined=set()
-		self.gindex=-1     # gindex>=0 position in elf file init_array
+		self.gConstructorI=-1     # gConstructorI>=0 position in elf file init_array
+		self.gDestructorI=-1      # gDestructorI >=0 position in elf file fini_array
 		self.visited=False
 		self.onStack=False # for circular import
 		Module.list[name]=self
 
 	def _name(self):
-		if self.gindex>=0:
-			return self.name+'('+str(self.gindex)+')'
+		if (self.gConstructorI>=0) or (self.gDestructorI>=0):
+			return self.name+'(C'+str(self.gConstructorI)+',D'+str(self.gDestructorI)+')'
 		return self.name
 
 	def _adjList(self):
@@ -47,10 +49,12 @@ class Module(graph.Node):
 				print('\t?',sym)
 
 	def symbol(self,typ,name):
-		if Module.Global.match(name):
-			self.gindex=Module.gcount
-			Module.gcount+=1
-			return
+		if Module.GlobalConstructor.match(name):
+			self.gConstructorI=Module.gConstructorC
+			Module.gConstructorC+=1
+		if Module.GlobalDestructor.match(name):
+			self.gDestructorI=Module.gDestructorC
+			Module.gDestructorC+=1
 		if typ.isupper():
 			Symbol.list[name]=self
 		
@@ -73,7 +77,7 @@ class Module(graph.Node):
 		for m in self.use:
 			m.tsort()
 		self.onStack=False
-		if self.gindex>=0:
+		if (self.gConstructorI>=0) or (self.gDestructorI>=0):
 			Module.init.append(self)
 		
 class Reader:
@@ -126,8 +130,8 @@ class Initializer:
 	def initlist():
 		print('extern const sys::Mod::Entry __InitSequence[]={')
 		for m in Module.init:
-			print('{'+str(m.gindex)+',"'+str(m.name)+'"},')		
-		print('{0,0}};')
+			print('{%3d'%m.gConstructorI+',%3d'%m.gDestructorI+',"'+str(m.name)+'"},')		
+		print('{  0,  0, 0}};')
 
 	def usage():
 		print('usage: ',sys.argv[0],'init|graph'
@@ -138,6 +142,7 @@ class Initializer:
 	def __init__(self):
 		Reader()
 		Initializer.__resolve()
+#		Module.show()
 		Initializer.__tsort()
 		sys.argv.append('') # for index [1]
 		{

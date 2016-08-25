@@ -22,7 +22,13 @@ __GLOBAL__CONSTRUCTORS = .;
 __GLOBAL__CONSTRUCTORS_BEG = . ;
           *(.init_array)
 __GLOBAL__CONSTRUCTORS_END = . ;
-	  LONG(0)    /* terminates global constructor list */  
+	  LONG(0)    /* terminates global constructor list */
+__GLOBAL__DESTRUCTORS = .;
+__GLOBAL__DESTRUCTORS_BEG = . ;
+	  *(.fini_array)
+__GLOBAL__DESTRUCTORS_END = . ;
+	  LONG(0)    /* terminates global constructor list */
+
  . = ALIGN(4);
  
 __BUILD_ID = . ;

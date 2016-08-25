@@ -3,7 +3,9 @@
 //--------------------------
 //sys startup 
 //(c) H.Buchmann FHSO 2003
-//$Id: sys.h 13 2011-04-10 09:15:55Z hans.buchmann@ADM.DS.FHNW.CH $
+//$Id$
+//set compiler option 
+// 	-fno-use-cxa-atexit 
 //--------------------------
 #ifndef __INCLUDE_LEVEL__
 #define __INCLUDE_LEVEL__ 1
@@ -124,29 +126,29 @@ namespace sys
 #else
 //-----------------------------------------------------------
 //)EARLY_INIT
-#if 0
-//see file projects.xml
-#ifndef IMPLEMENTATION
 #define IMPLEMENTATION(name,info) \
 //extern const unsigned name __attribute__((used))=0;
 //uncomment for include dependencies
-#endif
-#ifndef INTERFACE
+
 #define INTERFACE(name,info) \
 //extern const unsigned name; static const unsigned _##name=name;
 //uncomment for include dependencies
-#endif
-#endif
+
 namespace sys
 {
  struct Mod
  {
   typedef void (*Global)();
   
-  struct Entry
+  class Entry
   {
-   unsigned         index; //in init section
+   public:
+   const int        ctorI; //in init_array section
+   const int        dtorI; //in fini_array section
    const char*const name;
+   private:
+    friend class Mod;
+    void show(Global g) const;
   };
 //------------------------------------------ class methods
   static void start();
