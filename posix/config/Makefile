@@ -13,8 +13,8 @@
 CC=gcc
 CXX=g++
 #-------------------- uncomment if you are using clang
-CC=clang
-CXX=clang++
+#CC=clang
+#CXX=clang++
 
 OPTIMIZE=2
 CFLAGS=-O${OPTIMIZE} -g -std=c99 
@@ -40,32 +40,34 @@ VPATH=${SRC_PATH}
 #vpath %.h  ${SRC_PATH}
 #---------------------------------------------------<source files>
 SRC= \
-primes.cc \
-thread-demo-1.cc thread-demo-2.cc thread-demo-3.cc \
-common-access-1.cc common-access-2.cc common-access-3.cc common-access-4.cc \
-thread.cc \
-hello-world.c \
-cpu-demo.c \
-cpu-demo-ops.S \
-stdio-test.c \
-sound-demo.cc \
-sound/samples.cc  sound/alsa.cc \
-timer.cc \
-function-parameter.c \
-pointer.c \
-mmap.c \
-primes.c \
-critical-section-0.c \
-critical-section-2.c \
-critical-section-3.c \
-critical-section-4.c \
-pthread-mutex.c \
-pthread-semaphore.c \
-pthread-trigger.c \
-ioport.c \
-atomic.c \
-pthread-demo.c \
-sys-call.S
+sound-demo.cc sound/samples.cc  sound/sine.cc sound/noise.cc sound/alsa.cc sound/stream.cc 
+
+#primes.cc \
+#thread-demo-1.cc thread-demo-2.cc thread-demo-3.cc \
+#common-access-1.cc common-access-2.cc common-access-3.cc common-access-4.cc \
+#thread.cc \
+#hello-world.c \
+#cpu-demo-ops.S \
+#stdio-test.c \
+#sound-demo.cc \
+#sound/samples.cc  sound/alsa.cc sound/stream.cc \
+#timer.cc \
+#function-parameter.c \
+#pointer.c \
+#mmap.c \
+#primes.c \
+#critical-section-0.c \
+#critical-section-2.c \
+#critical-section-3.c \
+#critical-section-4.c \
+#pthread-mutex.c \
+#pthread-semaphore.c \
+#pthread-trigger.c \
+#ioport.c \
+#atomic.c \
+#pthread-demo.c \
+#sys-call.S \
+#cpu-demo.c \
 
 #---------------------------------------------------<applications>
 primes: 	primes.o
@@ -78,7 +80,7 @@ common-access-3: common-access-3.o thread.o
 common-access-4: common-access-4.o thread.o
 hello-world:	hello-world.o
 cpu-demo: 	cpu-demo.o cpu-demo-ops.o
-sound-demo:	sound-demo.o sound/alsa.o sound/samples.o timer.o
+sound-demo:	sound-demo.o sound/samples.o sound/alsa.o sound/stream.o sound/sine.o sound/noise.o timer.o
 sound:		sound.o
 function-parameter:	function-parameter.o
 pointer:	pointer.o
@@ -103,7 +105,7 @@ include make.rules
 .PHONY rules:
 projects:	rules
 rules:	${SRC}
-	sh ../../tool/make-rules.sh ${SRC}
+	sh ../../tools/make-rules.sh ${SRC}
 
 .PHONY clean:
 clean:

@@ -5,6 +5,8 @@
 //----------------------
 #include "sound/alsa.h"
 #include "sound/samples.h"
+#include "sound/stream.h"
+#include "sound/noise.h"
 #include "timer.h"
 #include <thread>
 #include <chrono>
@@ -56,8 +58,8 @@ int main(int argc,char** args)
  Timer t;
  sound::Alsa   pl0(44000,4*4096);
  Wait pl(pl0,0);//1<<20);
- sound::Noise(pl,2);
-// noise2stdout(); 
+// sound::Noise(pl,2);
+ noise2stdout(); 
 //<--------------------------- destructor of Timer 
  return 0;
 }
