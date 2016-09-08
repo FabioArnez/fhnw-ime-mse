@@ -12,7 +12,7 @@
   <dir name="src/namespace"/>
  </search>
 
- <specify prjmake="${LINK}">
+ <specify prjmake="${GRAPH}">
   <spec mod="sys/boot/big-bang" type="S"/>
   <spec mod="sys/deb/deblow0" type="S"/>
  </specify>
@@ -116,6 +116,9 @@ GRAPH=@${NM}  ${^} | \
   </pre>
 
   <post>
+.PHONY: makefile
+makefile:
+	../tools/makefile.sh  
 files:
 	@java -jar ${TOOLS}/projects.jar files ${_dp_PROJECTS_XML} ${_dp_HOME} | sort
 all:	${_dp_PRJ_LIST}

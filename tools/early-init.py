@@ -38,7 +38,7 @@ class Module(graph.Node):
 		return self.use
 
 	def _nodecolor(self):
-		if self.gindex>=0:return 'red'
+		if self.gConstructorI>=0:return 'red'
 
 	def show():
 		for m in Module.list.values():

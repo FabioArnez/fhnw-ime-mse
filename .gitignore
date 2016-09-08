@@ -1,4 +1,6 @@
 *.o
 work
 tc
+*.class
 bossac-build
+resources/*

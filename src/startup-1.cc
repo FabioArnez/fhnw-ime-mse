@@ -14,14 +14,13 @@ namespace test
  {
   private:
    static Startup startup;
-//   Startup();
+   Startup();
    ~Startup();
  };
  
  
  Startup Startup::startup;
  
-#if 0 
  Startup::Startup()
  {
   sys::msg<<"\n"<<__PRETTY_FUNCTION__<<"\n";
@@ -34,11 +33,9 @@ namespace test
   sys::msg<<"good bye\n";
 //  sys::exit(1);
  }
-#endif
-#if 1
+
  Startup::~Startup()
  {
   sys::msg<<__PRETTY_FUNCTION__<<"\n";
  }
-#endif
 }
