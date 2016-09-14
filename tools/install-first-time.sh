@@ -13,7 +13,7 @@ TOOLCHAIN=gcc-6.2.0-arm-64bit
 
 #extract
 [[ ! -d resources/${TOOLCHAIN} ]] && tar -xvzf resources/${TOOLCHAIN}.tar.gz  -C resources/
-#link
+#link to tc
 [[ ! -e tc ]] && ln -s resources/${TOOLCHAIN} tc
 
 #create work

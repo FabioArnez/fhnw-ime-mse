@@ -49,7 +49,7 @@ OBJCOPY=${TC}objcopy
 
 LIBGCC_DIR:=$(dir $(shell ${CXX} --print-libgcc-file-name))
 #see TODO.txt
-LIBGCC_DIR=../lib
+#LIBGCC_DIR=../lib
 LIBGCC:= -L${LIBGCC_DIR} -lgcc
  
 INTERFACE=

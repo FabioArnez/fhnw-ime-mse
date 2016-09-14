@@ -5,4 +5,4 @@
 #--------------------------
 #we are in repo
 TOOLCHAIN=gcc-6.2.0-arm-64bit
-tar --transform "s,^.,${TOOLCHAIN}," -czvf ${TOOLCHAIN}.tar.gz -C tc .
+tar --transform "s,^.,${TOOLCHAIN}," -czvf resources/${TOOLCHAIN}.tar.gz -C tc .
