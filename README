@@ -1,4 +1,7 @@
 What you need:
+ -graphviz
+ - git
  - java/jre
  - python 3.5
+ - minicom: a terminal program
  
