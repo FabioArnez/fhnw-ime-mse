@@ -1,6 +1,0 @@
-<map id="Demo2" name="Demo2">
-<area shape="rect" id="node2" href="$structsys_1_1Event_1_1Listener.html" title="sys::Event::Listener" alt="" coords="137,5,279,32"/>
-<area shape="rect" id="node3" href="$classsys_1_1Event.html" title="sys::Event" alt="" coords="165,95,251,121"/>
-<area shape="rect" id="node5" href="$structsys_1_1Event_1_1Nil.html" title="sys::Event::Nil" alt="" coords="328,185,435,212"/>
-<area shape="rect" id="node4" href="$structsys_1_1Event_1_1Queue.html" title="sys::Event::Queue" alt="" coords="195,291,327,317"/>
-</map>

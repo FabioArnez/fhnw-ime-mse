@@ -1,6 +1,0 @@
-<map id="arduino&#45;due/board/namespace/sys&#45;tick&#45;4.cc" name="arduino&#45;due/board/namespace/sys&#45;tick&#45;4.cc">
-<area shape="rect" id="node2" href="$sys-tick-4_8h.html" title="sys&#45;tick&#45;4.h" alt="" coords="511,95,601,121"/>
-<area shape="rect" id="node4" href="$soc_8h.html" title="sys/soc.h" alt="" coords="1028,95,1108,121"/>
-<area shape="rect" id="node3" href="$event_8h.html" title="sys/event.h" alt="" coords="5,191,99,218"/>
-<area shape="rect" id="node5" href="$cortex-m_8h.html" title="sys/cortex&#45;m.h" alt="" coords="123,191,235,218"/>
-</map>

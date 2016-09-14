@@ -1,7 +1,0 @@
-<map id="SysTick" name="SysTick">
-<area shape="rect" id="node2" href="$classsys_1_1Event.html" title="sys::Event" alt="" coords="219,95,305,121"/>
-<area shape="rect" id="node4" href="$structsys_1_1Event_1_1Queue.html" title="sys::Event::Queue" alt="" coords="225,291,357,317"/>
-<area shape="rect" id="node5" href="$structsys_1_1Event_1_1Nil.html" title="sys::Event::Nil" alt="" coords="345,185,451,212"/>
-<area shape="rect" id="node3" href="$structsys_1_1Event_1_1Listener.html" title="sys::Event::Listener" alt="" coords="191,5,333,32"/>
-<area shape="rect" id="node6" href="$classSysTick_1_1Listener.html" title="SysTick::Listener" alt="" coords="67,95,195,121"/>
-</map>

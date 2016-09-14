@@ -1,9 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classsys_1_1Event.html" title="sys::Event" alt="" coords="34,56,119,83"/>
-<area shape="rect" id="node2" href="$classDemo3.html" title="Demo3" alt="" coords="216,5,283,32"/>
-<area shape="rect" id="node3" href="$structsys_1_1Event_1_1Nil.html" title="sys::Event::Nil" alt="" coords="196,56,303,83"/>
-<area shape="rect" id="node4" href="$classSysTick.html" title="SysTick" alt="" coords="214,107,285,133"/>
-<area shape="rect" id="node5" href="$structsys_1_1Event_1_1Listener.html" title="sys::Event::Listener" alt="" coords="5,107,148,133"/>
-<area shape="rect" id="node6" href="$classDemo1.html" title="Demo1" alt="" coords="216,208,283,235"/>
-<area shape="rect" id="node7" href="$classDemo2.html" title="Demo2" alt="" coords="216,157,283,184"/>
-</map>
