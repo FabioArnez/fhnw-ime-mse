@@ -1,7 +1,16 @@
 What you need:
- -graphviz
+ - graphviz
  - git
  - java/jre
  - python 3.5
  - minicom: a terminal program
- 
+ - libhidapi-hidraw0
+
+How to install:
+ - clone this repository 
+ - copy from moodle resources.tar.gz into the repository
+ - step into repository and execute:
+     ./tools/install-first.time.sh
+ - step into work and execute:
+     make startup-1
+ - connect  
