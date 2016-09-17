@@ -10,11 +10,8 @@
 
 
 #---------------------------------------------------<setup>
-CC=gcc
 CXX=g++
-#-------------------- uncomment if you are using clang
-#CC=clang
-#CXX=clang++
+CC=${CXX}
 
 OPTIMIZE=2
 CFLAGS=-O${OPTIMIZE} -g -std=c99 
@@ -22,27 +19,24 @@ CXXFLAGS=-O${OPTIMIZE} -std=c++11
 LDLIBS=-lm -lpthread -lasound
 
 #posix files will be searched normally
-export CPPFLAGS:=-I../src -I ../../src 
-
+CPPFLAGS:=-I../src -I ../../src 
+export CPPFLAGS
 #-------------------------- how to link
-%:	%.o;${CXX} ${LDFLAGS} ${^} ${LOADLIBES} ${LDLIBS} -o${@}
+#%:	%.o;${CXX} ${LDFLAGS} ${^} ${LOADLIBES} ${LDLIBS} -o${@}
 
 #-------------------------- how to assemble
 %.o:	%.S ;${CC} -c -o${@} ${^}
-%.o:	%.cc;${CXX} ${CXXFLAGS} -c -o${@} ${<}
-%.o:	%.c ;${CC}  ${CFLAGS}   -c -o${@} ${<}
+#%.o:	%.cc;${CXX} ${CXXFLAGS} -c -o${@} ${<}
+#%.o:	%.c ;${CC}  ${CFLAGS}   -c -o${@} ${<}
 #-------------------------- where to look for the files
 SRC_PATH=../src:../../src
 VPATH=${SRC_PATH}
-#vpath %.c  ${SRC_PATH}
-#vpath %.cc ${SRC_PATH}
-#vpath %.S  ${SRC_PATH}
-#vpath %.h  ${SRC_PATH}
 
 #---------------------------------------------------<source files>
 SRC= \
 hello-world.cc \
-sound-demo.cc sound/samples.cc  sound/sine.cc sound/noise.cc sound/alsa.cc sound/stream.cc 
+sound-demo.cc sound/samples.cc  sound/sine.cc sound/noise.cc sound/alsa.cc sound/stream.cc \
+cpu-demo.S cpu-demo-app.cc
 
 #primes.cc \
 #thread-demo-1.cc thread-demo-2.cc thread-demo-3.cc \
@@ -74,6 +68,8 @@ sound-demo.cc sound/samples.cc  sound/sine.cc sound/noise.cc sound/alsa.cc sound
 #---------------------------------------------------<applications>
 sound-demo:	sound-demo.o sound/samples.o sound/alsa.o sound/stream.o sound/sine.o sound/noise.o timer.o
 hello-world:	hello-world.o
+cpu-demo-app:	cpu-demo-app.o cpu-demo.o 
+
 #primes: 	primes.o
 #thread-demo-1:	thread-demo-1.o
 #thread-demo-2:	thread-demo-2.o

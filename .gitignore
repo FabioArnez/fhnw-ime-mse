@@ -2,5 +2,6 @@
 work
 tc
 *.class
-bossac-build
 resources/*
+openocd
+resources.tar.gz

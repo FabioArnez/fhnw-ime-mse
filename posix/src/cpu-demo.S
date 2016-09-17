@@ -42,8 +42,10 @@ unsigned op(unsigned x,unsigned y);
 rax         edi        esi
 
 */
-.global op
-op:
+
+
+.global _ZN3Ops2opEjj
+_ZN3Ops2opEjj:
    /* your work */
 
 /*
@@ -55,7 +57,7 @@ TODO
 */
 
 /*
-void copy(unsigned* dst,unsigned* src)
+void copy(unsigned* dst,unsigned src)
           arg1          arg2
 	  edi           esi
 
@@ -67,8 +69,8 @@ edi---------->|        |
 esi---------->|        |  
               +--------+
 */
-.global copy
-copy: 
+.global _ZN3Ops4copyEPjj
+_ZN3Ops4copyEPjj:
 /* your work */
         
 /*
@@ -85,7 +87,8 @@ rsi---------->|        |
               +--------+
 */
 
-.global swap
-swap:   
+.global _ZN3Ops4swapEPjS0_
+
+_ZN3Ops4swapEPjS0_: 
 /* your work */
 	ret

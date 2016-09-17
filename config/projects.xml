@@ -7,27 +7,39 @@
  
  <search>
   <dir name="src"/>
+  <dir name="src/board/"/>
   <dir name="src/board/namespace"/>
   <dir name="src/soc/namespace"/>
   <dir name="src/namespace"/>
  </search>
 
- <specify prjmake="${LINK}">
+ <specify prjmake="${ACTION}">
   <spec mod="sys/boot/big-bang" type="S"/>
   <spec mod="sys/deb/deblow0" type="S"/>
+  <spec mod="cpu-demo" type="S"/>
  </specify>
 
- <prj name="startup-1">
+ <list name="minimal">
   <mod name="sys/mem/ram0"/>
   <mod name="sys/boot/big-bang"/>
   <mod name="sys/board"/>
   <mod name="sys/deb/deblow"/>
   <mod name="sys/deb/deblow0"/>
-  <mod name="startup-1"/>
   <mod name="sys/sys"/>
   <mod name="sys/msg-1"/>
+ </list>
+
+<!-- **************************  the projects -->
+ <prj name="startup-1">
+  <ref id="minimal"/>
+  <mod name="startup-1"/>
  </prj>
 
+ <prj name="cpu-demo-app">
+  <ref id="minimal"/>
+  <mod name="cpu-demo-app"/>
+ </prj>
+ 
  <makefile>
   <pre>
 
@@ -37,19 +49,12 @@ TC=../tc/bin/arm-none-eabi-
 CC=${TC}gcc
 CXX=${TC}g++
 
-#---------------------------------- the tools
-CLANG_OPTIONS=-std=c++11 -target armv7m--eabi -integrated-as
-#CC=clang++ ${CLANG_OPTIONS}
-#CXX=${CC}
-
 AS=${TC}as
 LD=${TC}ld
 NM=${TC}nm
 OBJCOPY=${TC}objcopy
 
 LIBGCC_DIR:=$(dir $(shell ${CXX} --print-libgcc-file-name))
-#see TODO.txt
-#LIBGCC_DIR=../lib
 LIBGCC:= -L${LIBGCC_DIR} -lgcc
  
 INTERFACE=
@@ -57,7 +62,12 @@ IMPLEMENTATION=
 #for more detailed include dependencies use
 INTERFACE=extern const unsigned name __attribute__((used))=0;
 IMPLEMENTATION=extern const unsigned name; static const unsigned _##name=name;
- 
+
+
+#------------------------------- rules
+%.o:	%.S;${CXX} ${CXXFLAGS} -c -o${@} ${&lt;}
+
+#------------------------------- flags
 CPPFLAGS= \
  -include "sys/sys.h"\
  $(foreach d,$(_dp_SRC_DIRS),-I $(d)) \
@@ -68,8 +78,7 @@ CPPFLAGS= \
  -D'INTERFACE(name,info)=' \
  -D'IMPLEMENTATION(name,info)='
 
-CPU=cortex-m0
-CFLAGS=-O2 -std=c++14 -mcpu=${CPU} -mthumb \
+CFLAGS=-O2 -std=c++14 -mcpu='cortex-m0' -mthumb \
          -fomit-frame-pointer\
 	 -fpermissive \
 	 -fcheck-new \
@@ -86,9 +95,11 @@ CFLAGS=-O2 -std=c++14 -mcpu=${CPU} -mthumb \
 
 # -Werror\
 
+#--------------------
+# call make with ACTION=${GRAPH} for generating dependency graph
+#make app ACTION=${GRAPH}
+ ACTION?=${LINK}
 CXXFLAGS=${CFLAGS}
-#----------------- rule patterns
-%.o:	%.S; ${CC} ${CPPFLAGS} -E ${&lt;} | ${AS} -mcpu=${CPU} -o ${@}
 
 SHOW_NM=@${NM} ${^}
 SHOW_INIT_SEQUENCE=${NM} ${^} | ${_dp_HOME}/posix/bin/early-initialize.sh
@@ -130,7 +141,7 @@ namespace:
 
 #general rules
 # all depends on sys/sys.h
-   ${_dp_MOD_LIST}: sys/sys.h
+${_dp_MOD_LIST}: sys/sys.h
   </post>
  </makefile>
 

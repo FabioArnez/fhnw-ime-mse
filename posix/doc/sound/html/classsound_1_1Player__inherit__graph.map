@@ -1,0 +1,4 @@
+<map id="sound::Player" name="sound::Player">
+<area shape="rect" id="node2" href="$classsound_1_1Alsa.html" title="sound::Alsa" alt="" coords="5,80,101,107"/>
+<area shape="rect" id="node3" href="$classsound_1_1Stream.html" title="sound::Stream" alt="" coords="125,80,243,107"/>
+</map>
