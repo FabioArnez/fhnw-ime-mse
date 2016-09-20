@@ -11,6 +11,7 @@
   <dir name="src/board/namespace"/>
   <dir name="src/soc/namespace"/>
   <dir name="src/namespace"/>
+  <dir name="src/talks"/>
  </search>
 
  <specify prjmake="${ACTION}">
@@ -38,6 +39,11 @@
  <prj name="cpu-demo-app">
   <ref id="minimal"/>
   <mod name="cpu-demo-app"/>
+ </prj>
+ 
+ <prj name="uart-demo">
+  <ref id="minimal"/>
+  <mod name="uart-demo"/>
  </prj>
  
  <makefile>
