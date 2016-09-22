@@ -39,11 +39,9 @@
 /*
 unsigned op(unsigned x,unsigned y);
             arg1       arg2
-rax         edi        esi
+eax         edi        esi
 
 */
-
-
 .global _ZN3Ops2opEjj
 _ZN3Ops2opEjj:
    /* your work */
@@ -55,14 +53,13 @@ TODO
   - other return strategy
     void op(unsigned x,unsigned y,unsigned* res);
 */
-
 /*
 void copy(unsigned* dst,unsigned src)
           arg1          arg2
-	  edi           esi
+	  rdi           esi
 
               +--------+
-edi---------->|        |
+rdi---------->|        |
               +--------+
 
               +--------+

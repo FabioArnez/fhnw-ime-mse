@@ -16,6 +16,13 @@ IMPLEMENTATION(app,$Id$)
   4: ORANGE  TXD
   5: YELLOW  RXD
   6: GREEN   RTS
+  
+ Cable Pins https://www.adafruit.com/products/954
+    BLACK    GND
+    RED      3.3 V
+    GREEN    TXD
+    WHITE    RXD
+    
 */
 class App
 {

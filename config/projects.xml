@@ -46,6 +46,16 @@
   <mod name="uart-demo"/>
  </prj>
  
+ <prj name="hardware-register-pointer">
+  <ref id="minimal"/>
+  <mod name="hardware-register-pointer"/>
+ </prj>
+
+ <prj name="hardware-register-extern">
+  <ref id="minimal"/>
+  <mod name="hardware-register-extern"/>
+ </prj>
+ 
  <makefile>
   <pre>
 
