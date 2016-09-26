@@ -14,7 +14,7 @@
   <dir name="src/talks"/>
  </search>
 
- <specify prjmake="${ACTION}">
+ <specify prjmake="${${ACTION}}">
   <spec mod="sys/boot/big-bang" type="S"/>
   <spec mod="sys/deb/deblow0" type="S"/>
   <spec mod="cpu-demo" type="S"/>
@@ -113,8 +113,8 @@ CFLAGS=-O2 -std=c++14 -mcpu='cortex-m0' -mthumb \
 
 #--------------------
 # call make with ACTION=${GRAPH} for generating dependency graph
-#make app ACTION=${GRAPH}
- ACTION?=${LINK}
+#make app ACTION=GRAPH
+ACTION?=LINK
 CXXFLAGS=${CFLAGS}
 
 SHOW_NM=@${NM} ${^}
