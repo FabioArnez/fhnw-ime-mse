@@ -56,6 +56,11 @@
   <mod name="hardware-register-extern"/>
  </prj>
  
+ <prj name="adc-random">
+  <ref id="minimal"/>
+  <mod name="adc-random"/>
+ </prj>
+
  <makefile>
   <pre>
 
