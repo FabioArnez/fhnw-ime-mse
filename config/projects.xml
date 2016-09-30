@@ -11,7 +11,8 @@
   <dir name="src/board/namespace"/>
   <dir name="src/soc/namespace"/>
   <dir name="src/namespace"/>
-  <dir name="src/talks"/>
+  <dir name="talks/uart"/>
+  <dir name="talks/i2c-spi"/>
  </search>
 
  <specify prjmake="${${ACTION}}">
@@ -61,6 +62,47 @@
   <mod name="adc-random"/>
  </prj>
 
+ <prj name="adc-demo">
+  <ref id="minimal"/>
+  <mod name="adc-demo"/>
+ </prj>
+
+ <prj name="interrupt-demo-1">
+   <ref id="minimal"/>
+   <mod name="interrupt-demo-1"/>
+ </prj>
+
+ <prj name="interrupt-demo-2">
+   <ref id="minimal"/>
+   <mod name="interrupt-demo-2"/>
+ </prj>
+
+ <prj name="interrupt-demo-3">
+   <ref id="minimal"/>
+   <mod name="interrupt-demo-3"/>
+ </prj>
+
+ <prj name="interrupt-demo-4">
+   <ref id="minimal"/>
+   <mod name="interrupt-demo-4"/>
+ </prj>
+
+ <prj name="interrupt-demo-5">
+   <ref id="minimal"/>
+   <mod name="interrupt-demo-5"/>
+ </prj>
+ 
+ <prj name="interrupt-demo-6">
+   <ref id="minimal"/>
+   <mod name="interrupt-demo-6"/>
+ </prj>
+ 
+ 
+ <prj name="i2c-demo">
+   <ref id="minimal"/>
+   <mod name="i2c-demo"/>
+ </prj>
+ 
  <makefile>
   <pre>
 
