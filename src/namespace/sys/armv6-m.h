@@ -22,7 +22,6 @@ namespace sys
    static const VTable& vtor(){return *VTOR;}
    static volatile const NVIC& nvic(){return NVIC_;}
    static const unsigned StackTop[];
-
    static void CPSIE(); //Interrupt Enable
    static void CPSID(); //Interrupt Disable
    
@@ -39,7 +38,6 @@ namespace sys
     deb::hex("defaultTrap ICSR=",reg::SCB.ICSR);
 	deb::signal1();
    }
-   
    static void arm(unsigned id){NVIC_.arm(id);}
    static void disarm(unsigned id){NVIC_.disarm(id);}
 

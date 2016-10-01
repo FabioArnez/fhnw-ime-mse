@@ -13,13 +13,13 @@
 
 class App
 {
- static volatile struct SYST{  //see [1] B3.3.2   
-                       unsigned CSR;
-                       unsigned RVR;
-                       unsigned CVR;
-                       unsigned CALIB;
-		       void regs() const volatile;
-                      } SYST;
+ static volatile struct {  //see [1] B3.3.2   
+                         unsigned CSR;
+                         unsigned RVR;
+                         unsigned CVR;
+                         unsigned CALIB;
+		         void regs() const volatile;
+                        } SYST;
 
  static App app;
  App();

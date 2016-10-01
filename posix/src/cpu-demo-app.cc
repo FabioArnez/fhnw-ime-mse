@@ -8,4 +8,5 @@
 int main(int argc,char** args)
 {
  OpsTest<std::ostream> opsTest(std::cout);
+ return 0;
 }

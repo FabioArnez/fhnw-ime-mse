@@ -124,11 +124,14 @@ _ZN3sys3reg3WDTE            = 0x40001000;
 _ZN3sys3NVM13SerialNumber0E = 0x0080a00c;
 _ZN3sys3NVM12SerialNumberE  = 0x0080a040;
 
+_ZN3App5usartE    = 0x42000800;
 
 _ZN3App3rowE = (128<<10);
 
-
-
-
+_ZN3App4SYSTE               = 0xE000E010;
+_ZN7SysTick4SYSTE           = 0xE000E010;
+_ZN3App4VTORE               = 0xE000ED08;
+_ZN3sys3reg3EICE            = 0x40001800;
+_ZN3App4NVICE               = 0xE000E100;
 }
 

@@ -31,6 +31,11 @@
   <mod name="sys/msg-1"/>
  </list>
 
+ <list name="atomic">
+  <ref id="minimal"/>
+  <mod name="sys/armv6-m"/>
+ </list>
+ 
 <!-- **************************  the projects -->
  <prj name="startup-1">
   <ref id="minimal"/>
@@ -97,12 +102,69 @@
    <mod name="interrupt-demo-6"/>
  </prj>
  
+
+ <prj name="interrupt-nvic-demo-1">
+   <ref id="minimal"/>
+   <mod name="interrupt-nvic-demo-1"/>
+ </prj>
  
+ <prj name="interrupt-nvic-demo-2">
+   <ref id="minimal"/>
+   <mod name="interrupt-nvic-demo-2"/>
+ </prj>
+
+ <prj name="interrupt-nvic-demo-3">
+   <ref id="minimal"/>
+   <mod name="interrupt-nvic-demo-3"/>
+ </prj>
+
+ <prj name="interrupt-nvic-demo-4">
+   <ref id="minimal"/>
+   <mod name="interrupt-nvic-demo-4"/>
+ </prj>
+
+ <prj name="interrupt-nvic-demo-5">
+   <ref id="minimal"/>
+   <mod name="interrupt-nvic-demo-5"/>
+ </prj>
+
+ 
+ <prj name="interrupt-framework-demo">
+  <ref id="minimal"/>
+  <mod name="interrupt-framework-demo"/>
+ </prj>
+
+ <prj name="event-demo-1">
+  <ref id="atomic"/>
+  <mod name="event-demo-1"/>
+ </prj>
+
+ <prj name="event-demo-2">
+  <ref id="atomic"/>
+  <mod name="event-demo-2"/>
+ </prj>
+
+ <prj name="event-demo-3">
+  <ref id="atomic"/>
+  <mod name="event-demo-3"/>
+ </prj>
+
+ <prj name="event-framework-demo">
+  <ref id="atomic"/>
+  <mod name="event-framework-demo"/>
+ </prj>
+  
+  
  <prj name="i2c-demo">
    <ref id="minimal"/>
    <mod name="i2c-demo"/>
  </prj>
  
+ <prj name="i2c-app">
+   <ref id="minimal"/>
+   <mod name="i2c-app"/>
+ </prj>
+
  <makefile>
   <pre>
 

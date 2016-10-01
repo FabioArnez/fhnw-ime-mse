@@ -11,17 +11,17 @@ namespace sys
  struct VTable
  {
   static const unsigned SIZ=N;
-  typedef void (Entry)(); //for trap
+  typedef void (*Entry)(); //for trap
   const unsigned*const sp;
-  Entry*    reset;
-  Entry*    nmi;
-  Entry*    hardFault;
-  Entry*    reserved0[7];
-  Entry*    svCall;
-  Entry*    reserved1[2];
-  Entry*    pendSV;
-  Entry*    sysTick;
-  Entry*    external[N];
+  Entry    reset;
+  Entry    nmi;
+  Entry    hardFault;
+  Entry    reserved0[7];
+  Entry    svCall;
+  Entry    reserved1[2];
+  Entry    pendSV;
+  Entry    sysTick;
+  Entry    external[N];
  }__attribute__((aligned(align)));
 }
 

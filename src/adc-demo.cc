@@ -17,11 +17,6 @@ class App
  App();
  void init();
  unsigned read();
- void sample(unsigned cnt);
- void show();
- unsigned count=0;
- static const unsigned HISTO=1<<12;
- unsigned short histo[HISTO];
 };
 
 App App::app;
@@ -38,9 +33,6 @@ void App::init()
  sys::reg::ADC.CTRLA=1;
  while(sys::reg::ADC.CTRLA==1){}
 //enable
- sys::reg::ADC.CALIB=(sys::NVM::Calib.ADC_BIASCAL<<8)|
-                     (sys::NVM::Calib.ADC_LINEARITY);
-		     
  sys::reg::ADC.CTRLA=(1<<1); //enable 
 }
 
@@ -52,40 +44,15 @@ unsigned App::read()
 }
 
 
-void App::sample(unsigned cnt)
-{
- sys::msg<<"sampling...";
- count=cnt;
- for(unsigned i=0;i<cnt;++i)
- {
-  ++histo[read()&(HISTO-1)];
- }
- sys::msg<<"done\n";
-}
-
-void App::show()
-{
- for(unsigned i=0;i<HISTO;++i)
- {
-  unsigned short v=histo[i];
-  if (v) 
-     {
-      sys::msg<<i<<"\t"<<v<<"\n";
-     }
- }
-}
-
 App::App()
 {
- for(auto& v:histo)v=0;
  init();
  while(true)
  {
   sys::msg<<"ADC-Random\n"
             " 0:regs\n"
 	    " 1:trigger\n"
-	    " 2:read\n"
-	    " 3:sample\n";
+	    " 2:read\n";
 	    
   switch(sys::deb::get())
   {
@@ -100,10 +67,6 @@ App::App()
    break;
    case '2':
     sys::msg<<read()<<"\n";
-   break;
-   case '3':
-    sample(1<<22);
-    show();
    break;
   }
  }

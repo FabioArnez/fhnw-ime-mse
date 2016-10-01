@@ -25,7 +25,7 @@
 class App
 {
  typedef void (*Trap)(); //the call back
- struct VTable  //see [1] B1.5.2/3
+ struct VTable  //see [1] B1.5.2/3 [2] 11.2.2
         {
 	 unsigned SP_main; 
 	 Trap Reset;  
@@ -36,7 +36,12 @@ class App
 	 Trap Reserved[2];
 	 Trap PendSV;
 	 Trap SysTick;
-	 Trap External[0];
+	 Trap PM;
+	 Trap SYSCTRL;
+	 Trap WDT;
+	 Trap RTC;
+	 Trap EIC;
+	 //more and more
 	} ;
 
  static const VTable VectorTable;
@@ -61,6 +66,10 @@ class App
  static void svCall();
  static void pendSV();
  static void onTick();
+ static void eic();
+ static void unexpected();
+ 
+ 
  static void CPSIE();
  sys::Pin::Output out;
  sys::Pin::Input  in;
@@ -102,6 +111,18 @@ void App::onTick()
  sys::msg<<"x";
 }
 
+void App::unexpected()
+{
+ sys::msg<<__PRETTY_FUNCTION__<<"\n";
+}
+
+void App::eic()
+{
+ sys::msg<<__PRETTY_FUNCTION__<<"\n";
+ sys::reg::EIC.INTFLAG|=sys::reg::EIC.INTFLAG;
+// sys::reg::EIC.regs();
+}
+
 void App::CPSIE() //inline assembler
 {
   asm volatile
@@ -121,11 +142,16 @@ alignas(256) const App::VTable App::VectorTable=
 reset,
 nmi,
 hardFault,
-{reserved,reserved,reserved,reserved,reserved,reserved,reserved},
+{reserved,reserved,reserved,reserved,reserved,reserved},
 svCall,
 {reserved,reserved},
 pendSV,
-onTick
+onTick,
+unexpected,
+unexpected,
+unexpected,
+unexpected,
+eic
 };
 
 App App::app;
@@ -142,7 +168,8 @@ App::App()
  sys::reg::EIC.init();
  sys::reg::EIC.enable(sys::reg::EIC::P06);
  sys::reg::EIC.sense(sys::reg::EIC::P06,sys::reg::EIC::HIGH);
-// sys::reg::EIC.filter(sys::reg::EIC::P06,true);
+// sys::reg::EIC.filter(sys::reg::EIC::P06,true); //dont works with filter why
+                                                  //[2] 21.6.1
  sys::reg::EIC.enable(sys::reg::EIC::P06);
  
 
