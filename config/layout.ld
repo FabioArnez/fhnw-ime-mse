@@ -133,5 +133,8 @@ _ZN7SysTick4SYSTE           = 0xE000E010;
 _ZN3App4VTORE               = 0xE000ED08;
 _ZN3sys3reg3EICE            = 0x40001800;
 _ZN3App4NVICE               = 0xE000E100;
+
+_ZN3App4PORT1AE             = 0x41004400;
+
 }
 
