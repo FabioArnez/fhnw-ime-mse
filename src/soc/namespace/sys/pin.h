@@ -2,7 +2,6 @@
 //------------------------------
 //pin
 //(c) H.Buchmann FHNW 2016
-//TODO  transfer to SOC ?
 //------------------------------
 INTERFACE(sys_pin,$Id$)
 #include "sys/reg/port.h"
@@ -70,9 +69,13 @@ namespace sys
    }
    
    operator bool()const {return val();}
-   
    void operator()(bool v){val(v);}
    void tgl(){Port[port]->OUTTGL=(1<<pin);}
+
+//logical operators
+   void operator&=(bool v){if(!v) val(false);}
+   void operator|=(bool v){if(v) val(true);}
+   void operator^=(bool v){if (v) tgl();}
  };
  
  class Pin::Input:public Pin
