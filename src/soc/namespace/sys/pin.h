@@ -72,6 +72,7 @@ namespace sys
    void operator()(bool v){val(v);}
    void tgl(){Port[port]->OUTTGL=(1<<pin);}
 
+   void operator=(bool v){val(v);}
 //logical operators
    void operator&=(bool v){if(!v) val(false);}
    void operator|=(bool v){if(v) val(true);}

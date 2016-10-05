@@ -26,10 +26,10 @@ void App::menu()
   switch(sys::deb::get())
   {
    case 'c':
-    led&=false;
+    led=false;
    break;
    case 's':
-    led|=true;
+    led=true;
    break;
    case 't':
     led^=true;
