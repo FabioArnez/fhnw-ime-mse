@@ -11,7 +11,7 @@ namespace sys
 {
  namespace reg
  {
-  struct PORT
+  extern volatile struct PORT
   {
    enum PIN  {
               P_00,P_01,P_02,P_03,
@@ -47,8 +47,11 @@ namespace sys
    unsigned PINCFG[PINCFGN]; //0x40
    ResW<0x60,0x80> RES1;     //0x60
                              //0x80
+#if 1
    void cfg(PIN p,unsigned val) volatile;
    void mux(PIN p,FUNC f) volatile;
+#endif
+
    static volatile PORT A;
    static volatile PORT B;
    static volatile PORT C;
@@ -73,6 +76,6 @@ namespace sys
     };          
    static void mux(MUX_PIN,FUNC);
    static void mux(const PAD& p){mux(p.pin,p.func);}
-  };
+  } PRT[3];
  }
 }

@@ -33,8 +33,10 @@ class OpsTest:Ops
    unsigned y=2;
    out<<"x="<<x<<" y="<<y<<"\n";
    out<<"op("<<x<<","<<y<<")="<<op(x,y)<<"\n";
-   swap(&x,&y);
-   out<<"x="<<x<<" y="<<y<<"\n";
+   out<<"swap not yet done\n";
+//   swap(&x,&y);
+//   out<<"x="<<x<<" y="<<y<<"\n";
+   out<<"copy "<<x<<"\n";
    copy(&y,x);
    out<<"x="<<x<<" y="<<y<<"\n";
   }

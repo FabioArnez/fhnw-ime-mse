@@ -28,6 +28,7 @@ class App:sys::SOC
  void menu();
 };
  
+//TODO move VTable to a better location 
 decltype(App::VTable) App::VTable=
 {
   StackTop,                                              //unsigned* sp;
@@ -89,9 +90,9 @@ decltype(App::VTable) App::VTable=
 
 void App::eic()  //static 
 {
+ app.out(false);
  sys::msg<<__PRETTY_FUNCTION__<<"\n";
  sys::reg::EIC.INTFLAG|=sys::reg::EIC.INTFLAG;  //clear flag
- app.out(false);
 }
 
 void App::initEIC()

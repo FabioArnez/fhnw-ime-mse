@@ -20,7 +20,7 @@
        mov reg,reg
 
       reg->memory
-       str reg,[reg)
+       str reg,[reg]
 
       memory->reg
        ldr reg,[reg]
@@ -55,7 +55,8 @@ TODO
 .global _ZN3Ops2opEjj
 _ZN3Ops2opEjj:
     /* your work */
-
+	add r0,r0,r1
+	mov pc,lr
 
 /*--------------------------------- 
   void copy(unsigned* dst,unsigned* src)
@@ -69,13 +70,13 @@ _ZN3Ops2opEjj:
          +---------+
 
          unsigned 
-	 +---------+
-  r1---->|         |
-         +---------+
+  r1=y
   	 
 -----------------------------------*/  
 .global  _ZN3Ops4copyEPjj
 _ZN3Ops4copyEPjj: 
+	str r1,[r0]
+	mov pc,lr
     /* your work */
  
 

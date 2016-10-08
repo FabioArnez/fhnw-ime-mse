@@ -44,6 +44,9 @@ eax         edi        esi
 */
 .global _ZN3Ops2opEjj
 _ZN3Ops2opEjj:
+	mov %edi,%eax
+	add %esi,%eax  //eax=eax+esi
+	ret
    /* your work */
 
 /*
@@ -62,12 +65,12 @@ void copy(unsigned* dst,unsigned src)
 rdi---------->|        |
               +--------+
 
-              +--------+
-esi---------->|        |  
-              +--------+
+esi=src        
 */
 .global _ZN3Ops4copyEPjj
 _ZN3Ops4copyEPjj:
+	mov %esi,(%rdi)
+	ret
 /* your work */
         
 /*

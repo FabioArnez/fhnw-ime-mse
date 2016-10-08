@@ -53,7 +53,7 @@ App::App()
             " 0:regs\n"
 	    " 1:trigger\n"
 	    " 2:read\n";
-	    
+
   switch(sys::deb::get())
   {
    case '0':

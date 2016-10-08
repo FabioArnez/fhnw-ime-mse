@@ -13,6 +13,7 @@
   <dir name="src/namespace"/>
   <dir name="talks/uart"/>
   <dir name="talks/i2c-spi"/>
+  <dir name="talks/port"/>
  </search>
 
  <specify prjmake="${${ACTION}}">
@@ -165,6 +166,21 @@
    <mod name="i2c-app"/>
  </prj>
 
+ <prj name="port-demo">
+   <ref id="minimal"/>
+   <mod name="port-demo"/>
+ </prj>
+
+ <prj name="port-framework-demo">
+   <ref id="minimal"/>
+   <mod name="port-framework-demo"/>
+ </prj>
+
+ <prj name="adc-event">
+  <ref id="atomic"/>
+  <mod name="adc-event"/>
+ </prj>
+ 
  <makefile>
   <pre>
 

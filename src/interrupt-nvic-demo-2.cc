@@ -38,8 +38,8 @@ void App::onPin()
 
 void App::menu()
 {
- if (sys::deb::avail()) return;
- switch(sys::deb::get())
+ if (!sys::deb::avail()) return;
+  switch(sys::deb::get())
  {
   case 'h':
   case '?':

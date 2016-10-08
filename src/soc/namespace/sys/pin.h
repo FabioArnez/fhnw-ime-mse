@@ -25,7 +25,7 @@ namespace sys
     PB30,PB31,
    };
 
-   void mux(reg::PORT::FUNC f){Port[port]->mux(pin,f);}
+   void mux(reg::PORT::FUNC f){reg::PRT[port].mux(pin,f);}
    class Output;
    class Input;
    
@@ -53,24 +53,29 @@ namespace sys
    Output(ID p,bool v)
    :Pin(p)
    {
-    Port[port]->DIRSET=(1<<pin);
+    reg::PRT[port].DIRSET=(1<<pin);
+//    reg::PRT[port].DIRSET=(1<<pin);
     val(v);
    }
    
    void val(bool v)
    {
-    if (v)  Port[port]->OUTSET=(1<<pin);
-       else Port[port]->OUTCLR=(1<<pin);
+    if (v)  reg::PRT[port].OUTSET=(1<<pin);
+       else reg::PRT[port].OUTCLR=(1<<pin);
+#if 0
+    if (v)  reg::PRT[port].OUTSET=(1<<pin);
+       else reg::PRT[port].OUTCLR=(1<<pin);
+#endif
    }
 
    bool val() const
    {
-    return (Port[port]->OUT&(1<<pin))!=0;
+    return (reg::PRT[port].OUT&(1<<pin))!=0;
    }
    
    operator bool()const {return val();}
    void operator()(bool v){val(v);}
-   void tgl(){Port[port]->OUTTGL=(1<<pin);}
+   void tgl(){reg::PRT[port].OUTTGL=(1<<pin);}
 
    void operator=(bool v){val(v);}
 //logical operators
@@ -84,7 +89,7 @@ namespace sys
   public:
    bool val() const
    {
-    return (Port[port]->IN&(1<<pin))!=0;
+    return (reg::PRT[port].IN&(1<<pin))!=0;
    }
    
    operator bool()const {return val();}
@@ -93,9 +98,9 @@ namespace sys
    :Pin(p)
    {
 //     deb::hex("pin=",pin);
-     Port[port]->DIRCLR=(1<<pin);
-//     Port[port]->CTRL=(1<<pin);
-     Port[port]->cfg(pin,(1<<1)); //INEN
+     reg::PRT[port].DIRCLR=(1<<pin);
+//     reg::PRT[port].CTRL=(1<<pin);
+     reg::PRT[port].cfg(pin,(1<<1)); //INEN
    }
  };
 }

@@ -11,6 +11,7 @@ namespace sys
 {
  namespace reg
  {
+#if 1
   void PORT::cfg(PIN p,unsigned val) volatile
   {
    static const unsigned  MASK=0xff;
@@ -45,6 +46,6 @@ namespace sys
       }
    B.mux((PIN)((unsigned)mp-(unsigned)PA_END),f);    
   } 
-  
+#endif  
  }
 }

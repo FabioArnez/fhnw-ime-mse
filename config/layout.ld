@@ -78,6 +78,7 @@ STACK_TOP=0x20008000;
 
 StackTop                    = 0x20008000;
 _ZN3sys7ARMv6_M8StackTopE   =0x20008000;
+_ZN3sys3reg3PRTE            = 0x41004400;
 _ZN3sys3reg4PORT1AE         = 0x41004400;
 _ZN3sys3reg4PORT1BE         = 0x41004480;
 _ZN3sys3reg7SYSCTRLE        = 0x40000800;

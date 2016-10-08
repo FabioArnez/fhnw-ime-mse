@@ -40,7 +40,7 @@ void App::menu()
 }
 
 App::App()
-:led(sys::Pin::PA17,false)
+:led(sys::Pin::PB03,false)
 {
  sys::msg<<"Port Demo\n";
  menu();

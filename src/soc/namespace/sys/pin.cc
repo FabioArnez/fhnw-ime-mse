@@ -7,14 +7,14 @@ IMPLEMENTATION(sys_pin,$Id$)
 #include "sys/deb/deb.h"
 namespace sys
 {
- volatile reg::PORT*const Pin::Port[]={&reg::PORT::A,&reg::PORT::B};
+// volatile reg::PORT*const Pin::Port[]={&reg::PORT::A,&reg::PORT::B};
 
  void Pin::regs()
  {
   sys::deb::out("Port A\n");
-  regs(*Port[0]);
+  regs(reg::PRT[0]);
   sys::deb::out("Port B\n");
-  regs(*Port[1]);
+  regs(reg::PRT[1]);
  }
  
  void Pin::regs(const volatile reg::PORT& p)

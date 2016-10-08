@@ -38,7 +38,7 @@ class App
 
  static App app;
 //the callbacks
-//TODO try to myke them as templates 
+//TODO try to make them as templates 
  static void reset();
  static void nmi();
  static void hardFault();

@@ -41,10 +41,10 @@ App::App()
   switch(sys::deb::get())
   {
    case 'c':
-    out.val(false);
+    out(false);
    break;
    case 's':
-    out.val(true);
+    out(true);
    break;
    case 'i':
     sys::msg<<in.val()<<"\n";
