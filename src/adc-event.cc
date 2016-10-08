@@ -78,7 +78,7 @@ decltype(App::VTable) App::VTable=
    defaultTrap,      //0x14
    defaultTrap,      //0x15
    defaultTrap,      //0x16
-   ADC::onADC,       //0x17
+   defaultTrap,      //0x17
    defaultTrap,      //0x18
    defaultTrap,      //0x19
    defaultTrap,      //0x1a
@@ -98,7 +98,6 @@ void App::onEvent(sys::Event& ev)
 
 void App::onValue(unsigned v)
 {
- sys::msg<<v<<"\n";
 }
 
 void App::menu()

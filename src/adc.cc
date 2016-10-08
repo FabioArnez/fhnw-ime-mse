@@ -16,32 +16,9 @@ ADC ADC::adc;  //call constructor
 
 ADC::ADC()
 {
- sys::reg::PM.APBCMASK|=(1<<16); //normally already enabled
- sys::reg::PORT::mux(sys::reg::PORT::PA02,sys::reg::PORT::F_B); //Arduino Pin A0
- sys::reg::GCLK.gen2dev(sys::reg::GCLK::G8,sys::reg::GCLK::ADC);
- sys::reg::GCLK.gendiv(sys::reg::GCLK::G8,0x1);    //8MHz
- sys::reg::GCLK.src2gen(sys::reg::GCLK::OSC8M,sys::reg::GCLK::G8,(1<<0));
-
- sys::reg::ADC.CTRLA=1;
- while(sys::reg::ADC.CTRLA==1){}
-//enable
- sys::reg::ADC.CTRLA=(1<<1); //enable 
- sys::reg::ADC.INTENSET=1;   //RESRDY result ready
- sys::SOC::arm(sys::SOC::ADC);  
+//see adc-demo.cc
+//enable interrupt on ADC
+//enable interrupt on SOC
 }
 
-void ADC::start(Listener& li) //static method
-{
- adc.li=&li;
-}
 
-void ADC::trigger()  //static method
-{
- sys::reg::ADC.SWTRIG=(1<<1);
-}
-
-void ADC::onADC() //the interrupt handler
-{
- unsigned res=sys::reg::ADC.RESULT;
- if (adc.li) adc.li->onValue(res);
-}

@@ -21,7 +21,7 @@ class ADC
   
   static void onADC(); //the interrupt hander
  private:
-  static ADC adc; //the singelton
-  ADC();          //private constructor singelton
-  Listener*  li=0;
+  static ADC adc;    //the singelton
+  ADC();             //private constructor singelton
+  Listener*  li=0;   //called if value availabe
 };
