@@ -90,9 +90,9 @@ decltype(App::VTable) App::VTable=
 
 void App::eic()  //static 
 {
- app.out(false);
  sys::msg<<__PRETTY_FUNCTION__<<"\n";
  sys::reg::EIC.INTFLAG|=sys::reg::EIC.INTFLAG;  //clear flag
+ app.out=false; //called twice why
 }
 
 void App::initEIC()
@@ -117,7 +117,7 @@ void App::menu()
              "s:set out\n";
   break;
   case 's':
-   out(true);
+   out=true;
   break;
  }
 }
