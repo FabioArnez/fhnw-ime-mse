@@ -13,7 +13,7 @@ IMPLEMENTATION(event_demo,$Id$)
  -onEvent(...)
 */
 
-class App:sys::Event::Listener
+class App:sys::Event::Listener //java interface
 {
  static App app;
  sys::Event event;
