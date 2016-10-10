@@ -25,6 +25,7 @@ class App:sys::SOC
  void initEIC();   //TODO make EIC as a class the code in initEIC will be moved into the
                    //     the constructor
  static void eic();
+ static volatile unsigned count; 
  void menu();
 };
  
@@ -88,9 +89,13 @@ decltype(App::VTable) App::VTable=
   }
 };
 
+volatile unsigned App::count=0; 
+//^---------------------------- because it will be accessed in interrupt
+
 void App::eic()  //static 
 {
  sys::msg<<__PRETTY_FUNCTION__<<"\n";
+// ++count;
  sys::reg::EIC.INTFLAG|=sys::reg::EIC.INTFLAG;  //clear flag
  app.out=false; //called twice why
 }
@@ -114,10 +119,15 @@ void App::menu()
   case 'h':
   case '?':
    sys::msg<<"h|?:help\n"
-             "s:set out\n";
+             "s:set out\n"
+	     "c:count\n";
   break;
   case 's':
+   count=0;
    out=true;
+  break;
+  case 'c':
+   sys::msg<<"count="<<count<<"\n";
   break;
  }
 }

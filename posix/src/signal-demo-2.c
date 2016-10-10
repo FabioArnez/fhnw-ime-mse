@@ -19,7 +19,7 @@ void onSignal(int sig)
 int main(int argc,char** args)
 {
  printf("pid=%d\n",getpid());
- signal(SIGUSR1,onSignal);
+ signal(SIGUSR1,onSignal); /* register handler (call-back) for SIGUSR1 */
  while(1)
  {
   printf("wait\n");
