@@ -2,20 +2,21 @@
 //common-access-1
 //(c) H.Buchmann FHNW 2015
 //---------------------
-#include "thread.h"
+#include <thread>
 #include <iostream>
 #include <atomic>
 /*------------------------------- objectives
  - common access 
-   made with Lock
-    using constructor/destructor pair
+   mutex
    now nearly sequentially
+   atomic
 */
+
 
 class Pool
 {
  public:
-  Pool();
+  Pool():data(0){}
   void inc();
   void dec();
   int value() const{return data;}
@@ -23,29 +24,32 @@ class Pool
   std::atomic<int> data;
 };
 
-Pool::Pool()
-:data(0)
-{
-}
 void Pool::inc()
 {
- std::atomic_fetch_add(&data,1); //++data
+ ++data;           
 }
 
 void Pool::dec()
 {
- std::atomic_fetch_sub(&data,1); //--data
+ --data;
 }
 
-class Agent:public Thread
-           ,private Thread::Runnable
+
+class Agent
 {
+ public:
+  void join();
+  
  protected:
-  Agent(Pool& pool):Thread((Thread::Runnable&)*this),pool(pool){}
+  Agent(Pool& pool)
+  :pool(pool)
+  ,th(&Agent::run,this){}
   Pool& pool;
+  
   virtual void action()=0;
 
  private:
+  std::thread th;
   static const unsigned COUNT=(1<<22);
   void run();
 };
@@ -56,6 +60,11 @@ void Agent::run()
  {
   action();
  }
+}
+
+void Agent::join()
+{
+ th.join();
 }
 
 class Incrementer:public Agent
@@ -77,11 +86,12 @@ class Decrementer:public Agent
 int main(int argc,char**args)
 {
  Pool pool;
- Incrementer inc(pool);
- Decrementer dec(pool);
- inc.start();
- dec.start();
- inc.join();
- dec.join();
+ Incrementer incrementer(pool);
+ Decrementer decrementer(pool);
+
+ incrementer.join();
+ decrementer.join(); 
+
+ 
  std::cout<<"value="<<pool.value()<<"\n";
 }

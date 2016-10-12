@@ -36,11 +36,11 @@ VPATH=${SRC_PATH}
 SRC= \
 hello-world.cc \
 sound-demo.cc sound/samples.cc  sound/sine.cc sound/noise.cc sound/alsa.cc sound/stream.cc \
-cpu-demo.S cpu-demo-app.cc
-
-#primes.cc \
-#thread-demo-1.cc thread-demo-2.cc thread-demo-3.cc \
-#common-access-1.cc common-access-2.cc common-access-3.cc common-access-4.cc \
+cpu-demo.S cpu-demo-app.cc \
+primes.cc \
+thread-demo-1.cc thread-demo-2.cc thread-demo-3.cc \
+common-access-1.cc 
+#common-access-2.cc common-access-3.cc common-access-4.cc \
 #thread.cc \
 #hello-world.c \
 #cpu-demo-ops.S \
@@ -70,11 +70,11 @@ sound-demo:	sound-demo.o sound/samples.o sound/alsa.o sound/stream.o sound/sine.
 hello-world:	hello-world.o
 cpu-demo-app:	cpu-demo-app.o cpu-demo.o 
 
-#primes: 	primes.o
-#thread-demo-1:	thread-demo-1.o
-#thread-demo-2:	thread-demo-2.o
-#thread-demo-3:	thread-demo-3.o thread.o
-#common-access-1: common-access-1.o thread.o
+primes: 	primes.o
+thread-demo-1:	thread-demo-1.o
+thread-demo-2:	thread-demo-2.o
+thread-demo-3:	thread-demo-3.o thread.o
+common-access-1: common-access-1.o 
 #common-access-2: common-access-2.o thread.o
 #common-access-3: common-access-3.o thread.o
 #common-access-4: common-access-4.o thread.o
