@@ -1,5 +1,5 @@
 //-----------------------
-//adc-random
+//adc-demo
 //(c) H.Buchmann FHNW 2016
 //-----------------------
 IMPLEMENTATION(adc_random,$Id$)
@@ -23,7 +23,7 @@ App App::app;
 
 void App::init()
 {
- sys::reg::PM.APBCMASK|=(1<<16); //normally already enabled
+ sys::reg::PM.APBCMASK|=(1<<16);     //normally already enabled
  sys::reg::PORT::mux(sys::reg::PORT::PA02,sys::reg::PORT::F_B); //Arduino Pin A0
 
  sys::reg::GCLK.gen2dev(sys::reg::GCLK::G8,sys::reg::GCLK::ADC);

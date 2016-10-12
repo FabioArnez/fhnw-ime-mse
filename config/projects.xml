@@ -14,6 +14,7 @@
   <dir name="talks/uart"/>
   <dir name="talks/i2c-spi"/>
   <dir name="talks/port"/>
+  <dir name="talks/adc"/>
  </search>
 
  <specify prjmake="${${ACTION}}">
