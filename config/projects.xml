@@ -182,6 +182,20 @@
   <mod name="adc-event"/>
  </prj>
  
+<!--
+ for testing led
+ uncomment line #7/8 in file sys/led.cc
+--> 
+ <prj name="led-demo">
+  <ref id="atomic"/>
+  <mod name="sys/led"/>
+ </prj>
+
+ <prj name="tc-demo">
+  <ref id="minimal"/>
+  <mod name="tc-demo"/>
+ </prj>
+ 
  <makefile>
   <pre>
 
