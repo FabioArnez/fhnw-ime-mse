@@ -41,5 +41,18 @@ deb::out(") "#name);sys::deb::newln()
    REG(CC32[0]);    // 0x18 
    REG(CC32[1]);    // 0x1c   
   }
+  
+  void TC::reset() volatile
+  {
+   CTRLA=0x1; //reset
+   while((CTRLA&1) && (STATUS&(1<<31)))
+   {
+   }
+  }
+
+  void TC::enable() volatile
+  {
+   CTRLA|=(1<<1);             //enable
+  }
  }
 }

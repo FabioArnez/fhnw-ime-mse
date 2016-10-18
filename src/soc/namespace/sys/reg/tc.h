@@ -41,8 +41,10 @@ namespace sys
     unsigned short CC16[2];   // 0x18
     unsigned       CC32[2];
    }; 
-   void regs() const volatile;               //for debugging   
-  };// __attribute__((packed));
+   void regs() const volatile;               //for debugging 
+   void reset() volatile; 
+   void enable() volatile;  
+  };
 
   extern volatile TC TC3;
   extern volatile TC TC4;

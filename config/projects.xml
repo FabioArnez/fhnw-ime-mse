@@ -192,7 +192,7 @@
  </prj>
 
  <prj name="tc-demo">
-  <ref id="minimal"/>
+  <ref id="atomic"/>
   <mod name="tc-demo"/>
  </prj>
  
