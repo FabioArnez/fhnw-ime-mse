@@ -88,13 +88,10 @@ class Decrementer:public Agent
 int main(int argc,char**args)
 {
  Pool pool;
-//runs in sequence
  Incrementer incrementer(pool);
-
  Decrementer decrementer(pool);
- decrementer.join(); 
- incrementer.join();
 
- 
+ incrementer.join();
+ decrementer.join(); 
  std::cout<<"value="<<pool.value()<<"\n";
 }
