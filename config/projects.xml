@@ -195,6 +195,16 @@
   <ref id="atomic"/>
   <mod name="tc-demo"/>
  </prj>
+
+ <prj name="debug">
+  <ref id="minimal"/>
+  <mod name="debug"/>
+ </prj>
+ 
+ <prj name="gdb-demo">
+  <ref id="minimal"/>
+  <mod name="gdb-demo"/>
+ </prj>
  
  <makefile>
   <pre>
@@ -234,7 +244,8 @@ CPPFLAGS= \
  -D'INTERFACE(name,info)=' \
  -D'IMPLEMENTATION(name,info)='
 
-CFLAGS=-O2 -std=c++14 -mcpu='cortex-m0' -mthumb \
+CFLAGS=-g \
+	 -O2 -std=c++14 -mcpu='cortex-m0' -mthumb \
          -fomit-frame-pointer\
 	 -fpermissive \
 	 -fcheck-new \

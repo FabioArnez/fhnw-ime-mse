@@ -5,7 +5,6 @@
 #------------------
 SIGNATURE=.fbea039d-9be0-40a3-97df-d613a339aa98
 #we are somewhere below SIGNATURE
-
 #find HOME_BASE
 BIN_HOME=$(dirname ${0})
 pushd ${BIN_HOME} > /dev/null
@@ -25,4 +24,6 @@ do
  cd ..
 done
 popd > /dev/null
-#echo ${HOME_BASE}
+TARGET=arm-none-eabi
+echo ---------------- ${HOME_BASE}
+TOOLCHAIN=${HOME_BASE}/tc/bin/${TARGET}

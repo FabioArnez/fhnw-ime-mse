@@ -1,0 +1,5 @@
+#----------------------
+#gdb.init
+#(c) H.Buchmann FHNW 2016
+#----------------------
+target extended-remote localhost:3333
