@@ -29,12 +29,12 @@ bool Primes::isPrime(unsigned z)
 {
  for(auto p:primes)
  {
-  unsigned q=z/p;
-  unsigned r=z%p;
+  auto q=z/p;
+  auto r=z%p;
   if (r==0) return false;
   if (q<p) return true;
  }
- return true; //for the compiles
+ return true; //for the compiler
 }
 
 void Primes::show()

@@ -137,5 +137,6 @@ _ZN3App4NVICE               = 0xE000E100;
 
 _ZN3App4PORT1AE             = 0x41004400;
 _ZN3App5DEBUGE              = 0xe000edf0;
+_ZN3App3DWTE                = 0xe0001000;
 }
 
